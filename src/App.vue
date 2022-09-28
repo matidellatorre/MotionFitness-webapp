@@ -1,9 +1,8 @@
 <template>
   <v-app>
     <CustomHeader />
-
     <v-main>
-      <HelloWorld />
+      <img src="../src/assets/bg.png" />
     </v-main>
   </v-app>
 </template>

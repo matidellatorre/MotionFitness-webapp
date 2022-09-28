@@ -1,9 +1,7 @@
 <template>
   <nav>
     <v-toolbar flat app dark color="primary">
-      <v-toolbar-title>
-        <TopLeftlogo />
-      </v-toolbar-title>
+      <TopLeftlogo />
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text> Routines </v-btn>
