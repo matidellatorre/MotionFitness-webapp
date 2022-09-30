@@ -5,7 +5,7 @@
     contain
     src="../assets/motion-logo.png"
     transition="scale-transition"
-    width="100"
+    width="125px"
   />
 </template>
 
