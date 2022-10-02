@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="secondary" class="px-5 py-3 elevation-3" dark height="25%">
+  <v-sheet color="secondary" class="px-5 py-1 elevation-3" dark height="auto">
     <h1 class="my-2">{{ title }}</h1>
     <div class="d-flex">
       <h3>{{ subtitle }}</h3>
