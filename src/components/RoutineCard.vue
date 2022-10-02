@@ -1,12 +1,6 @@
 <template>
-<!--  <v-sheet class="rounded-xl pl-3 pr-3 pb-3" color="primary" dark height="250px" width="300px">-->
-<!--    <img src="@/assets/workout_placeholder.png" />-->
-<!--    <h3>{{ routineName }}</h3>-->
-<!--    <p>{{ cycles }} cycles - {{ exercises }} exercises</p>-->
-<!--    <p>{{ duration }}</p>-->
-<!--  </v-sheet>-->
-  <v-card dark rounded
-      class="mx-auto"
+  <v-card dark
+      class="mx-auto rounded-xl"
       max-width="344"
   >
     <v-img
