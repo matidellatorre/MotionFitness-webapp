@@ -1,9 +1,6 @@
 <template>
   <v-main>
-    <SubHeaderSearch
-      title="My Routines"
-      subtitle="This are the actual routines"
-    />
+    <SubHeaderSearch title="Explore" subtitle="Top routines by the community" />
   </v-main>
 </template>
 
