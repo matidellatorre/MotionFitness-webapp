@@ -14,7 +14,7 @@
       have your routines on the go.
     </h3>
     <v-spacer></v-spacer>
-    <v-btn color="secondary" elevation="10" rounded>
+    <v-btn color="secondary" elevation="10" rounded @click="$router.push('/routines')">
       Start creating your own routines</v-btn
     >
   </v-sheet>
