@@ -1,6 +1,6 @@
 <template>
   <v-card dark
-      class="mx-auto rounded-xl"
+      class="mx-auto rounded-xl ma-3"
       max-width="344"
   >
     <v-img

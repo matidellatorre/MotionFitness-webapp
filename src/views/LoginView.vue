@@ -1,11 +1,21 @@
 <template>
-  <h1>Login</h1>
+  <v-main id="main-content">
+    <LoginForm />
+  </v-main>
 </template>
 
 <script>
+import LoginForm from "@/components/LoginForm";
 export default {
   name: "LoginView",
+  components: { LoginForm },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#main-content {
+  background: url("@/assets/bg2.jpg");
+  background-size: cover;
+  align-items: center;
+}
+</style>

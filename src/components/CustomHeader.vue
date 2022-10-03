@@ -11,6 +11,10 @@
         <v-btn text @click="$router.push('/faq')"> FAQ </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
+      <!--
+      <CustomButton @click="$router.push('/login')" color="secondary">
+        Holaa
+      </CustomButton> -->
       <v-btn
         color="secondary"
         elevation="10"
