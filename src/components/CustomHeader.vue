@@ -1,7 +1,9 @@
 <template>
   <nav>
     <v-toolbar flat app dark color="primary">
-      <TopLeftlogo @click="$router.push('/routines')" />
+      <router-link to="/">
+        <TopLeftlogo />
+      </router-link>
       <v-spacer></v-spacer>
       <v-toolbar-items class="pa-3">
         <v-btn text @click="$router.push('/routines')"> Routines </v-btn>
