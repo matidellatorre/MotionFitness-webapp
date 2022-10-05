@@ -13,7 +13,7 @@
           clearable
           light
           background-color="white"
-          append-icon="mdi-magnify"
+          prepend-inner-icon="mdi-magnify"
           class="mr-5"
           v-model="searchQuery"
           @keyup="$emit('searched', searchQuery)"
