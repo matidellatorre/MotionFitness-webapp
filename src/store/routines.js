@@ -5,7 +5,7 @@ export default {
       name: "Hombros Lunes",
       cycles:4,
       exercises: 10,
-      duration:"2hs" },
+      duration:"2hs"},
     { id: 1,
       name: "Piernas Jueves",
       cycles:5,
