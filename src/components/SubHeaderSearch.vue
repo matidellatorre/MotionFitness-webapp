@@ -15,6 +15,8 @@
           background-color="white"
           append-icon="mdi-magnify"
           class="mr-5"
+          v-model="searchQuery"
+          @keyup="$emit('searched', searchQuery)"
         />
       </div>
     </div>
@@ -34,6 +36,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      searchQuery: ''
+    }
+  }
 };
 </script>
 
