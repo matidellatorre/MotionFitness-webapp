@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <SubHeaderSearch title="FAQ" subtitle="Frequently Asked Questions" />
+    <SubHeaderSearch title="FAQ" subtitle="Frequently Asked Questions" has-search-bar="false" />
   </v-main>
 </template>
 

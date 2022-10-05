@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <SubHeaderSearch title="Explore" subtitle="Top routines by the community" />
+    <SubHeaderSearch title="Explore" subtitle="Top routines by the community" has-search-bar="true" />
   </v-main>
 </template>
 
