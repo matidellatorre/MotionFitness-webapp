@@ -17,6 +17,7 @@
           class="mr-5"
           v-model="searchQuery"
           @keyup="$emit('searched', searchQuery)"
+          @click:clear="$emit('searched', '')"
           v-if="hasSearchBar == 'true'"
         />
       </div>
