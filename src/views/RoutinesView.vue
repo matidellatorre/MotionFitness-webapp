@@ -7,13 +7,15 @@
     <v-container>
       <v-row justify="start">
         <v-col cols="4" v-for="routine in filteredRoutines" :key="routine.id">
-          <RoutineCard
-            img-src="@/assets/workout_placeholder.png"
-            :routine-name=routine.name
-            :cycles=routine.cycles
-            :exercises=routine.exercises
-            :duration=routine.duration
-          />
+          <router-link :to="{ name: 'details', params: { id: routine.id }}">
+            <RoutineCard
+              img-src="@/assets/workout_placeholder.png"
+              :routine-name=routine.name
+              :cycles=routine.cycles
+              :exercises=routine.exercises
+              :duration=routine.duration
+            />
+          </router-link>
         </v-col>
       </v-row>
     </v-container >
@@ -23,20 +25,16 @@
 <script>
 import SubHeaderSearch from "@/components/SubHeaderSearch";
 import RoutineCard from "@/components/RoutineCard";
+import store from "@/store/routines"
+
 export default {
   name: "RoutinesView",
   components: { RoutineCard, SubHeaderSearch },
   data() {
     return {
       searchQuery: '',
-      routines: [
-        { id: 0, name: "Hombros Lunes", cycles:4, exercises: 10, duration:"2hs" },
-        { id: 1, name: "Piernas Jueves", cycles:5, exercises: 12, duration:"1h 30min" },
-        { id: 2, name: "Rutina 3", cycles:3, exercises: 10, duration:"1h" },
-        { id: 3, name: "Rutina 3", cycles:3, exercises: 10, duration:"1h" },
-        { id: 4, name: "Rutina 3", cycles:3, exercises: 10, duration:"1h" },
-      ],
-    };
+      routines: store.routines,
+    }
   },
   computed: {
     filteredRoutines() {

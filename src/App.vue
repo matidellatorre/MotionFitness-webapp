@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <CustomHeader />
-    <router-view />
+    <router-view :key="$route.path"/>
   </v-app>
 </template>
 <script>

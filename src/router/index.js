@@ -5,6 +5,7 @@ import ExploreView from "@/views/ExploreView";
 import FAQView from "@/views/FAQView";
 import RoutinesView from "@/views/RoutinesView";
 import LoginView from "@/views/LoginView";
+import RoutineDetails from "@/views/RoutineDetails";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     path: "/routines",
     name: "routines",
     component: RoutinesView,
+  },
+  {
+    path: "/routines/details/:id",
+    name: "details",
+    component: RoutineDetails,
   },
   {
     path: "/login",
