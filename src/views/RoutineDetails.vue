@@ -1,15 +1,16 @@
 <template>
-  <section>
-    <h1>{{ routine.name }}</h1>
-    <h2>Hola</h2>
-  </section>
+  <v-main>
+    <SubHeaderSearch :title=routine.name has-search-bar="false" />
+  </v-main>
 </template>
 
 <script>
 import store from "@/store/routines"
+import SubHeaderSearch from "@/components/SubHeaderSearch";
 
 export default {
   name: "RoutineDetails",
+  components: {SubHeaderSearch},
   data(){
     return {
       routineId: this.$route.params.id
