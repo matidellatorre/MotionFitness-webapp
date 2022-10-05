@@ -31,7 +31,7 @@ const routes = [
     component: RoutinesView,
   },
   {
-    path: "/routines/details/:id",
+    path: "/routines/:id",
     name: "details",
     component: RoutineDetails,
   },
