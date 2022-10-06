@@ -2,11 +2,12 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center >
       <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
+        <v-sheet class="elevation-12" rounded>
           <v-toolbar dark color="primary">
             <v-toolbar-title>Motion Fitness Log in</v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
+          <p v-if="userVerificated" class="color = red--text mx-6 mt-3 mb-0">Usuario o contraseña incorrecta</p>
+          <v-card-text class="pt-0">
             <v-form>
               <v-text-field
                 prepend-icon="mdi-account"
@@ -27,7 +28,7 @@
             <v-spacer></v-spacer>
             <v-btn color="secondary" to="/routines">Log in</v-btn>
           </v-card-actions>
-        </v-card>
+        </v-sheet>
       </v-flex>
     </v-layout>
   </v-container>
@@ -39,6 +40,11 @@ export default {
   props: {
     source: String,
   },
+  data() {
+    return {
+      userVerificated: false,
+    }
+  }
 };
 </script>
 
