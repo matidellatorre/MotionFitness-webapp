@@ -29,18 +29,22 @@ export default {
   ],
 
   exercises: [
-    {id: 0,
+    {
+      id: 0,
       routineId: 0,
       name: "Press plano",
-      repetitions: 10,
+      reps: 10,
       time: 10,
-      weight: 10},
-    {id: 1,
+      weight: 10,
+      unit: "lb"},
+    {
+      id: 1,
       routineId: 0,
       name: "Press plano 2",
-      repetitions: 20,
+      reps: 20,
       time: 30,
-      weight: 20}
+      weight: 20,
+      unit: "kg"}
   ]
 }
 
