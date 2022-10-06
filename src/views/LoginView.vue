@@ -8,7 +8,15 @@
 import LoginForm from "@/components/LoginForm";
 export default {
   name: "LoginView",
-  components: { LoginForm },
+  components: {LoginForm },
+  data() {
+    return {
+      step: 1
+    }
+  },
+  props: {
+    source: String
+  }
 };
 </script>
 
