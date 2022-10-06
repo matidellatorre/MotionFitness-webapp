@@ -27,4 +27,21 @@ export default {
       exercises: 10,
       duration:"1h" },
   ],
+
+  exercises: [
+    {id: 0,
+      routineId: 0,
+      name: "Press plano",
+      repetitions: 10,
+      time: 10,
+      weight: 10},
+    {id: 1,
+      routineId: 0,
+      name: "Press plano 2",
+      repetitions: 20,
+      time: 30,
+      weight: 20}
+  ]
 }
+
+

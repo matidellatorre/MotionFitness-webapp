@@ -4,6 +4,10 @@
       title="My Routines"
       subtitle="This are the actual routines"
       has-search-bar="true"/>
+    <v-btn large color="secondary" fixed right bottom rounded>
+      New routine
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
     <v-container>
       <v-row justify="start">
         <v-col cols="4" v-for="routine in filteredRoutines" :key="routine.id">

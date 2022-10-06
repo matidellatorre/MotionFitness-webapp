@@ -1,6 +1,5 @@
 <template>
   <v-list height="100%" width="300" elevation="3" color="grey1">
-    <v-subheader>Cycles</v-subheader>
     <v-list-item-group
         v-model="selectedItem"
         color="secondary"
