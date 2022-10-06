@@ -1,18 +1,18 @@
 <template>
   <v-main>
     <SubHeaderSearch :title=routine.name has-search-bar="false" />
-    <ExerciseCard name="Ejercicio 1" reps="10" time="30" weight="5" unit="kg"/>
+    <LateralList/>
   </v-main>
 </template>
 
 <script>
 import store from "@/store/routines"
 import SubHeaderSearch from "@/components/SubHeaderSearch";
-import ExerciseCard from "@/components/ExerciseCard";
+import LateralList from "@/components/LateralList";
 
 export default {
   name: "RoutineDetails",
-  components: {ExerciseCard, SubHeaderSearch},
+  components: {LateralList, SubHeaderSearch},
   data(){
     return {
       routineId: this.$route.params.id
