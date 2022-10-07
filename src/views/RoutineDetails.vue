@@ -4,35 +4,144 @@
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
       <LateralList />
-      <v-list three-line>
-        <template v-for="(item, index) in items">
-          <v-subheader
-            v-if="item.header"
-            :key="item.header"
-            v-text="item.header"
-          ></v-subheader>
+      <template>
+        <v-data-table
+          :headers="headers"
+          :items="desserts"
+          sort-by="calories"
+          class="elevation-1 flex-fill"
+          disable-sort
+          disable-pagination
+        >
+          <template v-slot:top>
+            <v-toolbar
+              flat
+            >
+              <v-spacer></v-spacer>
+              <v-dialog
+                v-model="dialog"
+                max-width="500px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    New Item
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">{{ formTitle }}</span>
+                  </v-card-title>
 
-          <v-divider
-            v-else-if="item.divider"
-            :key="index"
-            :inset="item.inset"
-          ></v-divider>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="editedItem.name"
+                            label="Exercise"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="editedItem.calories"
+                            label="Reps"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="editedItem.fat"
+                            label="Fat (g)"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="editedItem.carbs"
+                            label="Carbs (g)"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
 
-          <v-list-item
-            v-else
-            :key="item.title"
-          >
-            <v-list-item-avatar>
-              <v-img :src="item.avatar"></v-img>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title v-html="item.title"></v-list-item-title>
-              <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="save"
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog v-model="dialogDelete" max-width="500px">
+                <v-card>
+                  <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              small
+              @click="deleteItem(item)"
+            >
+              mdi-delete
+            </v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-btn
+              color="primary"
+              @click="initialize"
+            >
+              Reset
+            </v-btn>
+          </template>
+        </v-data-table>
+      </template>
     </div>
   </v-main>
 </template>
@@ -42,23 +151,186 @@ import store from "@/store/routines"
 import SubHeaderSearch from "@/components/SubHeaderSearch";
 import LateralList from "@/components/LateralList";
 import ThirdHeader from "@/components/ThirdHeader";
-// import ExerciseCard from "@/components/ExerciseCard";
 
 export default {
   name: "RoutineDetails",
-  components: { ThirdHeader, LateralList, SubHeaderSearch},
-  data(){
+  components: { ThirdHeader, LateralList, SubHeaderSearch },
+  data() {
     return {
       routineId: this.$route.params.id,
       exercises: store.exercises,
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        {
+          text: 'Exercise',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Reps', value: 'calories' },
+        { text: 'Time', value: 'fat' },
+        { text: 'Weight', value: 'carbs' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+      defaultItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
     }
   },
   computed: {
     routine() {
       return store.routines.find(routine => routine.id === this.routineId) //Basicamente filtramos por id
-    }
-  }
-};
+    },
+    formTitle() {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
+  watch: {
+    dialog(val) {
+      val || this.close()
+    },
+    dialogDelete(val) {
+      val || this.closeDelete()
+    },
+  },
+
+  created() {
+    this.initialize()
+  },
+
+  methods: {
+    initialize() {
+      this.desserts = [
+        {
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+        },
+        {
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+        },
+        {
+          name: 'Eclair',
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+        },
+        {
+          name: 'Cupcake',
+          calories: 305,
+          fat: 3.7,
+          carbs: 67,
+          protein: 4.3,
+        },
+        {
+          name: 'Gingerbread',
+          calories: 356,
+          fat: 16.0,
+          carbs: 49,
+          protein: 3.9,
+        },
+        {
+          name: 'Jelly bean',
+          calories: 375,
+          fat: 0.0,
+          carbs: 94,
+          protein: 0.0,
+        },
+        {
+          name: 'Lollipop',
+          calories: 392,
+          fat: 0.2,
+          carbs: 98,
+          protein: 0,
+        },
+        {
+          name: 'Honeycomb',
+          calories: 408,
+          fat: 3.2,
+          carbs: 87,
+          protein: 6.5,
+        },
+        {
+          name: 'Donut',
+          calories: 452,
+          fat: 25.0,
+          carbs: 51,
+          protein: 4.9,
+        },
+        {
+          name: 'KitKat',
+          calories: 518,
+          fat: 26.0,
+          carbs: 65,
+          protein: 7,
+        },
+      ]
+    },
+
+    editItem(item) {
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    deleteItemConfirm() {
+      this.desserts.splice(this.editedIndex, 1)
+      this.closeDelete()
+    },
+
+    close() {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete() {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+      } else {
+        this.desserts.push(this.editedItem)
+      }
+      this.close()
+    },
+  },
+}
 </script>
 
 <style scoped>

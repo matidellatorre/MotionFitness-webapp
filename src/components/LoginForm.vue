@@ -2,7 +2,7 @@
   <v-container class="fill-height flex-fill justify-center">
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="8">
-        <v-card class="elevation-12" >
+        <v-card class="elevation-12 rounded-xl">
           <v-window v-model="step">
             <v-window-item :value="1">
               <v-row>

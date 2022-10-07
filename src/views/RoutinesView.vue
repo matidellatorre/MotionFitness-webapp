@@ -1,8 +1,8 @@
 <template >
   <v-main >
     <SubHeaderSearch @searched="(val) => searchQuery=val"
-      title="My Routines"
-      subtitle="This are the actual routines"
+      title="Routines"
+      subtitle="This are your routines"
       has-search-bar="true"/>
     <v-btn large color="secondary" fixed right bottom rounded>
       New routine

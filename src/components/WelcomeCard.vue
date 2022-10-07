@@ -6,7 +6,7 @@
     class="rounded-xl text-center pa-9 d-flex flex-column justify-space-around mb-6"
     id="sheet-container"
   >
-    <h1>Welcome to Motion!</h1>
+    <h1 class="secondary--text">Welcome to Motion!</h1>
     <v-spacer></v-spacer>
     <h3>Your only Training App & Web</h3>
     <h3>
@@ -14,9 +14,9 @@
       have your routines on the go.
     </h3>
     <v-spacer></v-spacer>
-    <v-btn color="secondary" elevation="10" rounded @click="$router.push('/routines')">
-      Start creating your own routines</v-btn
-    >
+    <div class="text-center mt-3 mb-12">
+      <v-btn rounded color="secondary" dark @click="$router.push('/routines')">Start training</v-btn>
+    </div>
   </v-sheet>
 </template>
 
