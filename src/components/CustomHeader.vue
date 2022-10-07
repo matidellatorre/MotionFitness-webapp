@@ -9,8 +9,6 @@
         <v-btn text @click="$router.push('/routines')"> Routines </v-btn>
         <v-divider vertical></v-divider>
         <v-btn text @click="$router.push('/explore')">Explore</v-btn>
-        <v-divider vertical></v-divider>
-        <v-btn text @click="$router.push('/faq')"> FAQ </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <!--
