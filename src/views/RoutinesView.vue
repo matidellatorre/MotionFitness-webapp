@@ -5,7 +5,7 @@
       subtitle="This are your routines"
       has-search-bar="true"/>
     <v-btn large color="secondary" fixed right bottom rounded>
-      New routine
+      Add routine
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-container>
