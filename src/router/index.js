@@ -2,10 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ExploreView from "@/views/ExploreView";
-import FAQView from "@/views/FAQView";
 import RoutinesView from "@/views/RoutinesView";
 import LoginView from "@/views/LoginView";
 import RoutineDetails from "@/views/RoutineDetails";
+import UserView from "@/views/UserView";
 
 Vue.use(VueRouter);
 
@@ -21,9 +21,9 @@ const routes = [
     component: ExploreView,
   },
   {
-    path: "/faq",
-    name: "faq",
-    component: FAQView,
+    path: "/user",
+    name: "user",
+    component: UserView,
   },
   {
     path: "/routines",
