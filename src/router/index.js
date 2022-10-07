@@ -6,6 +6,7 @@ import RoutinesView from "@/views/RoutinesView";
 import LoginView from "@/views/LoginView";
 import RoutineDetails from "@/views/RoutineDetails";
 import UserView from "@/views/UserView";
+import FAQView from "@/views/FAQView";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
+  },
+  {
+    path: "/faq",
+    name: "faq",
+    component: FAQView,
   },
 ];
 

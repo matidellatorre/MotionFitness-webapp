@@ -8,9 +8,9 @@
         <v-data-table
           :headers="headers"
           :items="desserts"
-          sort-by="calories"
           class="elevation-1 flex-fill"
           disable-sort
+          disable-filtering
           disable-pagination
         >
           <template v-slot:top>
@@ -24,13 +24,14 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    color="primary"
+                    color="secondary"
                     dark
+                    rounded
                     class="mb-2"
                     v-bind="attrs"
                     v-on="on"
                   >
-                    New Item
+                    New Exercise
                   </v-btn>
                 </template>
                 <v-card>

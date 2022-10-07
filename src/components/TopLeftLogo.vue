@@ -1,6 +1,5 @@
 <template>
   <v-img
-    alt="Vuetify Logo"
     class="shrink mr-2"
     contain
     src="../assets/motion-logo.png"

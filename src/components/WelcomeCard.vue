@@ -9,10 +9,11 @@
     <h1 class="secondary--text">Welcome to Motion!</h1>
     <v-spacer></v-spacer>
     <h3>Your only Training App & Web</h3>
-    <h3>
+    <v-spacer></v-spacer>
+    <p class="font-weight-light text--accent-2 body-1">
       Create and edit custom routines, sync them with your mobile device and
       have your routines on the go.
-    </h3>
+    </p>
     <v-spacer></v-spacer>
     <div class="text-center mt-3 mb-12">
       <v-btn rounded color="secondary" dark @click="$router.push('/routines')">Start training</v-btn>
