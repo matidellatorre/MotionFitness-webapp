@@ -12,14 +12,16 @@
                     <h4 class="text-center mlt-4">Please enter your email and password</h4>
                     <v-form>
                       <v-text-field
-                          label="Email"
-                          name="Email"
-                          prepend-icon="mdi-email"
-                          type="text"
-                          color="secondary" />
+                        label="UserName"
+                        v-model.trim="credentials.username"
+                        name="UserName"
+                        prepend-icon="mdi-account"
+                        type="text"
+                        color="secondary"/>
                       <v-text-field
                           id="password"
                           label="Password"
+                          v-model.trim="credentials.password"
                           name="Password"
                           prepend-icon="mdi-lock"
                           color="secondary"
@@ -28,7 +30,7 @@
                     <h3 class="text-center mt-3">Forgot your password?</h3>
                   </v-card-text>
                   <div class="text-center mt-3 mb-12">
-                    <v-btn rounded color="secondary" dark>LOG IN</v-btn>
+                    <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
                   </div>
                 </v-col>
                 <v-col cols="12" md="4" class="secondary">
@@ -59,8 +61,8 @@
                     <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
                     <v-form>
                       <v-text-field
-                          label="Name"
-                          name="Name"
+                          label="UserName"
+                          name="UserName"
                           prepend-icon="mdi-account"
                           type="text"
                           color="secondary"/>
@@ -92,6 +94,9 @@
 </template>
 
 <script>
+import { useSecurityStore } from "@/store/SecurityStore";
+import { Credentials } from "@/api/user";
+
 export default {
   name: 'LoginForm',
   props: {
@@ -101,7 +106,13 @@ export default {
     return {
       step: 1,
       userVerificated: false,
+      credentials: new Credentials,
     }
+  },
+  methods: {
+    sendcredentials() {
+      useSecurityStore().login(this.credentials).then(data => data.name);
+    },
   }
 };
 </script>
