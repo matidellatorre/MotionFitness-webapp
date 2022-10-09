@@ -32,6 +32,9 @@
                   <div class="text-center mt-3 mb-12">
                     <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
                   </div>
+                  <div>
+                    <textarea rows="20" cols="100" v-model="result"></textarea><br>
+                  </div>
                 </v-col>
                 <v-col cols="12" md="4" class="secondary">
                   <v-card-text class="white--text mt-12">
@@ -94,7 +97,7 @@
 </template>
 
 <script>
-import { mapStores } from 'pinia'
+import { mapActions, mapState } from "pinia";
 import { useSecurityStore } from "@/store/SecurityStore";
 import { Credentials } from "@/api/user";
 
@@ -108,16 +111,68 @@ export default {
       step: 1,
       userVerificated: false,
       credentials: new Credentials,
+      result: null,
+      controller: null,
     }
   },
   methods: {
-    async sendcredentials () {
-      const response = await useSecurityStore().login(this.credentials, true);
-      console.log(response);
+    async sendcredentials() {
+      await this.login();
+      await this.getCurrentUser();
+      console.log(this.$user);
     },
-    computed: {
-      ...mapStores(useSecurityStore),
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2)
     },
+    clearResult() {
+      this.result = null
+    },
+    async login() {
+      try {
+        const credentials = new Credentials('johndoe', '1234567890')
+        await this.$login(credentials, true)
+        this.clearResult()
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn'
+    }),
+    canCreate() {
+      return this.$isLoggedIn && !this.sport
+    },
+    canOperate() {
+      return this.$isLoggedIn && this.sport
+    },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
+  },
+  async created() {
+    const securityStore = useSecurityStore();
+    await securityStore.initialize();
   }
 };
 </script>

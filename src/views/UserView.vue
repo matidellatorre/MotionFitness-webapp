@@ -8,15 +8,15 @@
         </div>
         <v-text-field
             label="Name"
-            name="Name"
-            :value=user.name
+            :name=name
+            value="Tete"
             type="text"
             color="secondary"
             class="mt-5" />
         <v-text-field
             label="Email"
             name="Email"
-            :value=user.email
+            value="tete@gmail.com"
             type="text"
             color="secondary"
             disabled
@@ -33,15 +33,55 @@
 </template>
 
 <script>
-import store from "@/store/user"
+import { useSecurityStore } from "@/store/SecurityStore";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "UserView",
   data() {
     return {
-      user: store.user
+      name: this.$user.name,
     }
-  }
+  },
+  methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2)
+    },
+    clearResult() {
+      this.result = null
+    },
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn'
+    }),
+    canCreate() {
+      return this.$isLoggedIn && !this.sport
+    },
+    canOperate() {
+      return this.$isLoggedIn && this.sport
+    },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
+  },
 };
 </script>
 
