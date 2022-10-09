@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { mapStores } from 'pinia'
 import { useSecurityStore } from "@/store/SecurityStore";
 import { Credentials } from "@/api/user";
 
@@ -110,8 +111,12 @@ export default {
     }
   },
   methods: {
-    sendcredentials() {
-      useSecurityStore().login(this.credentials).then(data => data.name);
+    async sendcredentials () {
+      const response = await useSecurityStore().login(this.credentials, true);
+      console.log(response);
+    },
+    computed: {
+      ...mapStores(useSecurityStore),
     },
   }
 };
