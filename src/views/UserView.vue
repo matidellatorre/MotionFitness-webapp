@@ -8,21 +8,21 @@
         </div>
         <v-text-field
             label="Name"
-            :name=name
-            value="Tete"
+            name="Name"
+            :value="this.$user.firstName"
             type="text"
             color="secondary"
             class="mt-5" />
         <v-text-field
             label="Email"
             name="Email"
-            value="tete@gmail.com"
+            :value="this.$user.email"
             type="text"
             color="secondary"
             disabled
         />
         <div>
-          <v-btn text rounded color="red" class=" mb-4">Log out</v-btn>
+          <v-btn text rounded color="red" class=" mb-4" @click="logout(); $router.push('/')">Log out</v-btn>
         </div>
         <div>
           <v-btn rounded color="secondary">Save</v-btn>
@@ -33,7 +33,67 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "pinia";
+import { useSecurityStore } from "@/store/SecurityStore";
+import { Credentials } from "@/api/user";
 
+export default {
+  name: 'LoginForm',
+  props: {
+    source: String,
+  },
+  data() {
+    return {
+      step: 1,
+      userVerificated: false,
+      credentials: new Credentials,
+      result: null,
+      controller: null,
+    }
+  },
+  methods: {
+    async sendcredentials() {
+      await this.login();
+      await this.getCurrentUser();
+      console.log(this.$user.username);
+    },
+    async talogueado() {
+      await this.logout();
+      console.log(this.$isLoggedIn);
+      console.log(this.$user);
+    },
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2)
+    },
+    clearResult() {
+      this.result = null
+    },
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn',
+    }),
+  },
+};
 </script>
 
 <style scoped>

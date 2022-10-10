@@ -22,12 +22,12 @@
         elevation="10"
         rounded
         @click="$router.push('/login')"
-        v-if="loggedIn == 'false'"
+        v-if="this.$isLoggedIn == false"
         >Log in</v-btn
       >
       <div class="d-flex align-center" v-else>
         <div class="d-flex flex-column">
-          <p class="mb-0">Abdul Bari</p>
+          <p class="mb-0">{{ `${this.$user.firstName} ${this.$user.lastName}` }}</p>
           <btn @click="$router.push('/user')" id="profileBtn" max-width="10" class="mb-0">View profile</btn>
         </div>
         <img src="@/assets/avatar.png" class="ml-4" width="50" height="50">
@@ -38,18 +38,42 @@
 
 <script>
 import TopLeftlogo from "@/components/TopLeftLogo";
+import { useSecurityStore } from "@/store/SecurityStore";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "CustomHeader",
   components: {
     TopLeftlogo,
-  },
-  props: {
-    loggedIn: {
-      type: Boolean,
-      required: true
+  },methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    abort() {
+      this.controller.abort()
     }
-  }
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn',
+    }),
+  },
+  created() {
+    this.getCurrentUser();
+  },
 };
 </script>
 <style scoped>

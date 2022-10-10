@@ -32,9 +32,6 @@
                   <div class="text-center mt-3 mb-12">
                     <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
                   </div>
-                  <div>
-                    <textarea rows="20" cols="100" v-model="result"></textarea><br>
-                  </div>
                 </v-col>
                 <v-col cols="12" md="4" class="secondary">
                   <v-card-text class="white--text mt-12">
@@ -119,6 +116,12 @@ export default {
     async sendcredentials() {
       await this.login();
       await this.getCurrentUser();
+      console.log(this.$user.username);
+    },
+    async talogueado() {
+      await this.logout();
+      console.log(this.$isLoggedIn);
+      console.log(this.$user);
     },
     ...mapActions(useSecurityStore, {
       $getCurrentUser: 'getCurrentUser',
@@ -157,22 +160,9 @@ export default {
       $user: state => state.user,
     }),
     ...mapState(useSecurityStore, {
-      $isLoggedIn: 'isLoggedIn'
+      $isLoggedIn: 'isLoggedIn',
     }),
-    canCreate() {
-      return this.$isLoggedIn && !this.sport
-    },
-    canOperate() {
-      return this.$isLoggedIn && this.sport
-    },
-    canAbort() {
-      return this.$isLoggedIn && this.controller
-    }
   },
-  async created() {
-    const securityStore = useSecurityStore();
-    await securityStore.initialize();
-  }
 };
 </script>
 

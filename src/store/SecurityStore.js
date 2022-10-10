@@ -13,6 +13,9 @@ export const useSecurityStore = defineStore("security", {
         isLoggedIn() {
             return this.token != null;
         },
+        getUser() {
+           return this.user;
+        },
     },
     actions: {
         initialize() {
@@ -43,6 +46,7 @@ export const useSecurityStore = defineStore("security", {
         },
         async logout() {
             await UserApi.logout();
+            this.setUser(null);
             this.removeToken();
         },
         async getCurrentUser() {
