@@ -7,7 +7,7 @@
             <v-window-item :value="1">
               <v-row>
                 <v-col cols="12" md="8">
-                  <v-card-text class="mt-12" >
+                  <v-card-text class="mt-12 px-8 pt-4 pb-0" >
                     <h1 class="text-center secondary--text mb-10">Sign in to Motion Fitness</h1>
                     <h4 class="text-center mlt-4">Please enter your username and password</h4>
                     <v-form>
@@ -26,15 +26,13 @@
                           prepend-icon="mdi-lock"
                           color="secondary"
                       />
-                      <div class="d-flex align-center">
+                      <div class="d-flex align-center mt-1">
                         <v-checkbox v-model="rememberMe" class="ma-0"/>
-                        <p>Remember me </p>
+                        <p>Remember me</p>
                       </div>
-
                     </v-form>
-<!--                    <h3 class="text-center mt-3">Forgot your password?</h3>-->
                   </v-card-text>
-                  <div class="text-center mt-3 mb-12">
+                  <div class="text-center mb-12">
                     <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
                   </div>
                 </v-col>
@@ -87,6 +85,7 @@
                   </v-card-text>
                   <div class="text-center mt-n5">
                     <v-btn rounded color="secondary mb-12" @click="createAccount()">CREATE ACCOUNT</v-btn>
+                    <verification-pop-up />
                   </div>
                 </v-col>
               </v-row>
@@ -103,9 +102,11 @@ import { mapActions, mapState } from "pinia";
 import { useSecurityStore } from "@/store/SecurityStore";
 import {Credentials, UserApi} from "@/api/user";
 import { User } from "@/api/user";
+import VerificationPopUp from "@/components/VerificationPopUp";
 
 export default {
   name: 'LoginForm',
+  components: { VerificationPopUp },
   props: {
     source: String,
   },
