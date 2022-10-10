@@ -119,7 +119,6 @@ export default {
     async sendcredentials() {
       await this.login();
       await this.getCurrentUser();
-      console.log(this.$user);
     },
     ...mapActions(useSecurityStore, {
       $getCurrentUser: 'getCurrentUser',

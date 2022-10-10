@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <SubHeaderSearch title="FAQ" subtitle="Frequently Asked Questions" has-search-bar="false" />
+    <SubHeaderSearch title="FAQ" subtitle="Frequently Asked Questions" has-search-bar=false />
     <template>
       <v-expansion-panels>
         <v-expansion-panel>

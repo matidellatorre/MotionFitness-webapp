@@ -33,56 +33,7 @@
 </template>
 
 <script>
-import { useSecurityStore } from "@/store/SecurityStore";
-import { mapActions, mapState } from "pinia";
 
-export default {
-  name: "UserView",
-  data() {
-    return {
-      name: this.$user.name,
-    }
-  },
-  methods: {
-    ...mapActions(useSecurityStore, {
-      $getCurrentUser: 'getCurrentUser',
-    }),
-    setResult(result){
-      this.result = JSON.stringify(result, null, 2)
-    },
-    clearResult() {
-      this.result = null
-    },
-    async logout() {
-      await this.$logout()
-      this.clearResult()
-    },
-    async getCurrentUser() {
-      await this.$getCurrentUser()
-      this.setResult(this.$user)
-    },
-    abort() {
-      this.controller.abort()
-    }
-  },
-  computed: {
-    ...mapState(useSecurityStore, {
-      $user: state => state.user,
-    }),
-    ...mapState(useSecurityStore, {
-      $isLoggedIn: 'isLoggedIn'
-    }),
-    canCreate() {
-      return this.$isLoggedIn && !this.sport
-    },
-    canOperate() {
-      return this.$isLoggedIn && this.sport
-    },
-    canAbort() {
-      return this.$isLoggedIn && this.controller
-    }
-  },
-};
 </script>
 
 <style scoped>
