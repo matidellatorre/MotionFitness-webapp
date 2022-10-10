@@ -1,6 +1,6 @@
 import { Api } from "./api.js";
 
-export { UserApi, Credentials }
+export { UserApi, Credentials, User }
 
 class UserApi {
     static getUrl(slug) {
@@ -18,11 +18,31 @@ class UserApi {
     static async get(controller) {
         return Api.get(UserApi.getUrl('current'), true, controller);
     }
+
+    static async create(user, controller) {
+        return Api.post(UserApi.getUrl(''),true, user, controller);
+    }
+
 }
 
 class Credentials {
     constructor(username, password) {
         this.username = username;
         this.password = password;
+    }
+}
+
+class User {
+    constructor(name, username, email, password) {
+        this.username = username;
+        this.password = password;
+        this.firstName = name;
+        this.lastName = "a";
+        this.gender = "male";
+        this.birthdate = 0;
+        this.email = email;
+        this.phone = "0";
+        this.avatarUrl = "https://flic.kr/p/3ntH2u";
+        this.metadata = null;
     }
 }

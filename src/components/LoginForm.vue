@@ -9,12 +9,12 @@
                 <v-col cols="12" md="8">
                   <v-card-text class="mt-12" >
                     <h1 class="text-center secondary--text mb-10">Sign in to Motion Fitness</h1>
-                    <h4 class="text-center mlt-4">Please enter your email and password</h4>
+                    <h4 class="text-center mlt-4">Please enter your username and password</h4>
                     <v-form>
                       <v-text-field
-                        label="UserName"
+                        label="Username"
                         v-model.trim="credentials.username"
-                        name="UserName"
+                        name="Username"
                         prepend-icon="mdi-account"
                         type="text"
                         color="secondary"/>
@@ -26,8 +26,13 @@
                           prepend-icon="mdi-lock"
                           color="secondary"
                       />
+                      <div class="d-flex align-center">
+                        <v-checkbox v-model="rememberMe" class="ma-0"/>
+                        <p>Remember me </p>
+                      </div>
+
                     </v-form>
-                    <h3 class="text-center mt-3">Forgot your password?</h3>
+<!--                    <h3 class="text-center mt-3">Forgot your password?</h3>-->
                   </v-card-text>
                   <div class="text-center mt-3 mb-12">
                     <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
@@ -61,8 +66,8 @@
                     <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
                     <v-form>
                       <v-text-field
-                          label="UserName"
-                          name="UserName"
+                          label="Username"
+                          name="Username"
                           prepend-icon="mdi-account"
                           type="text"
                           color="secondary"/>
@@ -81,7 +86,7 @@
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
-                    <v-btn rounded color="secondary mb-12">CREATE ACCOUNT</v-btn>
+                    <v-btn rounded color="secondary mb-12" @click="createAccount()">CREATE ACCOUNT</v-btn>
                   </div>
                 </v-col>
               </v-row>
@@ -96,7 +101,8 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { useSecurityStore } from "@/store/SecurityStore";
-import { Credentials } from "@/api/user";
+import {Credentials, UserApi} from "@/api/user";
+import { User } from "@/api/user";
 
 export default {
   name: 'LoginForm',
@@ -110,6 +116,7 @@ export default {
       credentials: new Credentials,
       result: null,
       controller: null,
+      rememberMe: false
     }
   },
   methods: {
@@ -136,8 +143,7 @@ export default {
     },
     async login() {
       try {
-        const credentials = new Credentials('johndoe', '1234567890')
-        await this.$login(credentials, true)
+        await this.$login(this.credentials, this.rememberMe)
         this.clearResult()
       } catch (e) {
         this.setResult(e)
@@ -153,6 +159,10 @@ export default {
     },
     abort() {
       this.controller.abort()
+    },
+    createAccount() {
+      const newUser = new User("test2",'test2','caca@gmail.com','12345')
+      UserApi.create(newUser,this.controller)
     }
   },
   computed: {

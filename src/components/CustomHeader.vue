@@ -23,7 +23,7 @@
         rounded
         @click="$router.push('/login')"
         v-if="this.$isLoggedIn == false"
-        >Log in</v-btn
+        >Sign Up / Log in</v-btn
       >
       <div class="d-flex align-center" v-else>
         <div class="d-flex flex-column">
