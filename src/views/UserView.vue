@@ -7,12 +7,21 @@
           <img src="@/assets/avatar.png" width="150" height="150">
         </div>
         <v-text-field
+            @keydown="wasEdited=true"
             label="Name"
             name="Name"
             :value="this.$user.firstName"
             type="text"
             color="secondary"
             class="mt-5" />
+        <v-text-field
+            @keydown="wasEdited=true"
+            label="Username"
+            name="Username"
+            :value="this.$user.username"
+            type="text"
+            color="secondary"
+        />
         <v-text-field
             label="Email"
             name="Email"
@@ -22,7 +31,7 @@
             disabled
         />
         <div class="d-flex justify-center my-3">
-          <v-btn rounded @click="dialog = false" color="secondary" class="mr-5 rounded-xl">Save</v-btn>
+          <v-btn rounded @click="dialog = false" color="secondary" class="mr-5 rounded-xl" :disabled="wasEdited==false">Save</v-btn>
           <v-btn outlined dark color="red" @click="logout(); $router.push('/')" class="ml-5 rounded-xl">Log out</v-btn>
         </div>
       </v-card>
@@ -47,6 +56,7 @@ export default {
       credentials: new Credentials,
       result: null,
       controller: null,
+      wasEdited: false
     }
   },
   methods: {

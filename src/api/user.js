@@ -48,7 +48,7 @@ class User {
         this.birthdate = 0;
         this.email = email;
         this.phone = "0";
-        this.avatarUrl = "https://flic.kr/p/3ntH2u";
+        this.avatarUrl = "https://ibb.co/j53rrL4";
         this.metadata = null;
     }
 }
