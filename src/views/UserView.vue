@@ -21,11 +21,9 @@
             color="secondary"
             disabled
         />
-        <div>
-          <v-btn text rounded color="red" class=" mb-4" @click="logout(); $router.push('/')">Log out</v-btn>
-        </div>
-        <div>
-          <v-btn rounded color="secondary">Save</v-btn>
+        <div class="d-flex justify-center my-3">
+          <v-btn rounded @click="dialog = false" color="secondary" class="mr-5 rounded-xl">Save</v-btn>
+          <v-btn outlined dark color="red" @click="logout(); $router.push('/')" class="ml-5 rounded-xl">Log out</v-btn>
         </div>
       </v-card>
     </div>

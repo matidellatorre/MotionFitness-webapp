@@ -23,6 +23,7 @@
                           label="Password"
                           v-model.trim="credentials.password"
                           name="Password"
+                          type="password"
                           prepend-icon="mdi-lock"
                           color="secondary"
                       />
@@ -84,8 +85,8 @@
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
-                    <v-btn rounded color="secondary mb-12" @click="createAccount()">CREATE ACCOUNT</v-btn>
-                    <verification-pop-up />
+                    <v-btn rounded color="secondary mb-12" @click="createAccount();showPopup=true">CREATE ACCOUNT</v-btn>
+                    <verification-pop-up :show=showPopup />
                   </div>
                 </v-col>
               </v-row>
@@ -117,7 +118,8 @@ export default {
       credentials: new Credentials,
       result: null,
       controller: null,
-      rememberMe: false
+      rememberMe: false,
+      showPopup: false,
     }
   },
   methods: {

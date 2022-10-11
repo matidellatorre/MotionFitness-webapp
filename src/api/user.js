@@ -1,6 +1,6 @@
 import { Api } from "./api.js";
 
-export { UserApi, Credentials, User }
+export { UserApi, Credentials, User, Verification}
 
 class UserApi {
     static getUrl(slug) {
@@ -20,7 +20,13 @@ class UserApi {
     }
 
     static async create(user, controller) {
-        return Api.post(UserApi.getUrl(''),true, user, controller);
+        return await Api.post(UserApi.getUrl(''),true, user, controller);
+        //Chequear si deberia ser await
+    }
+
+    static async verify(verification, controller) {
+        return await Api.post(UserApi.getUrl('verify_email'),true, verification, controller);
+        //Chequear si deberia ser await
     }
 
 }
@@ -44,5 +50,12 @@ class User {
         this.phone = "0";
         this.avatarUrl = "https://flic.kr/p/3ntH2u";
         this.metadata = null;
+    }
+}
+
+class Verification {
+    constructor(email, code) {
+        this.email = email;
+        this.code = code;
     }
 }
