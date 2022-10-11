@@ -65,28 +65,39 @@
                     <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
                     <v-form>
                       <v-text-field
+                          label="Name"
+                          name="Name"
+                          prepend-icon="mdi-account"
+                          type="text"
+                          v-model.trim="newUser.firstName"
+                          color="secondary"/>
+                      <v-text-field
                           label="Username"
                           name="Username"
                           prepend-icon="mdi-account"
                           type="text"
+                          v-model.trim="newUser.username"
                           color="secondary"/>
                       <v-text-field
                           label="Email"
                           name="Email"
                           prepend-icon="mdi-email"
                           type="text"
+                          v-model.trim="newUser.email"
                           color="secondary"/>
                       <v-text-field
                           label="Password"
                           name="Password"
                           prepend-icon="mdi-lock"
                           type="password"
+                          v-model.trim="newUser.password"
                           color="secondary"/>
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
-                    <v-btn rounded color="secondary mb-12" @click="createAccount();showPopup=true">CREATE ACCOUNT</v-btn>
-                    <verification-pop-up :show=showPopup />
+<!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
+                    <v-btn rounded color="secondary mb-12" @click="createAccount();showPopup = true">CREATE ACCOUNT</v-btn>
+                    <verification-pop-up :show=showPopup :email=newUser.email :controller=this.controller />
                   </div>
                 </v-col>
               </v-row>
@@ -120,13 +131,13 @@ export default {
       controller: null,
       rememberMe: false,
       showPopup: false,
+      newUser: new User,
     }
   },
   methods: {
     async sendcredentials() {
       await this.login();
       await this.getCurrentUser();
-      console.log(this.$user.username);
     },
     async talogueado() {
       await this.logout();
@@ -139,7 +150,8 @@ export default {
       $logout: 'logout',
     }),
     setResult(result){
-      this.result = JSON.stringify(result, null, 2)
+      //this.result = JSON.stringify(result, null, 2) No sirve pasarlo a string
+      this.result = result
     },
     clearResult() {
       this.result = null
@@ -164,8 +176,8 @@ export default {
       this.controller.abort()
     },
     createAccount() {
-      const newUser = new User("test2",'test2','caca@gmail.com','12345')
-      UserApi.create(newUser,this.controller)
+      //Validacion de los campos antes de llamar a crear usuario
+      UserApi.create(this.newUser,this.controller)
     }
   },
   computed: {
