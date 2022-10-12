@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { routineApi } from "@/api/routine";
+import { RoutineApi } from "@/api/routine";
 
 export const useRoutineStore = defineStore("routine", {
     state: () => ({ items: [] }),
@@ -17,27 +17,27 @@ export const useRoutineStore = defineStore("routine", {
         replace(index, routine) {
             this.items[index] = routine;
         },
-        splice(routine) {
-            this.items.splice(routine, 1);
+        splice(index) {
+            this.items.splice(index, 1);
         },
         replaceAll(routines) {
             this.items = routines;
         },
         async create(routine) {
-            const result = await routineApi.add(routine);
+            const result = await RoutineApi.add(routine);
             if (!this.findIndex(result))
                 this.push(result);
             return result;
         },
         async modify(routine) {
-            const result = await routineApi.modify(routine);
+            const result = await RoutineApi.modify(routine);
             const index = this.findIndex(result);
             if (index >= 0)
                 this.replace(index, result);
             return result;
         },
         async delete(routine) {
-            await routineApi.delete(routine.id);
+            await RoutineApi.delete(routine.id);
             const index = this.findIndex(routine);
             if (index >= 0)
                 this.splice(index);
@@ -47,12 +47,12 @@ export const useRoutineStore = defineStore("routine", {
             if (index >= 0)
                 return this.items[index];
 
-            const result = await routineApi.get();
+            const result = await RoutineApi.get();
             this.push(result);
             return result;
         },
         async getAll(controller) {
-            const result = await routineApi.getAll(controller);
+            const result = await RoutineApi.getAll(controller);
             return result;
         }
     },

@@ -34,6 +34,6 @@ class Routine {
       this.id = id;
     }
     this.name = name;
-    this.detail = `${cycles} cycles, ${exercises} exercises`
+    this.detail = `${cycles} cycles, ${exercises} exercises`;
   }
 }

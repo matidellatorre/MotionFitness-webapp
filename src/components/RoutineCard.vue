@@ -14,7 +14,7 @@
     </v-card-title>
 
     <v-card-subtitle>
-      {{ cycles }} cycles, {{ exercises }} exercises
+      {{ description }}
     </v-card-subtitle>
     <v-card-actions>
       <v-btn
@@ -33,9 +33,7 @@ export default {
   props: {
     imgSrc: String,
     routineName: String,
-    cycles: Number,
-    exercises: Number,
-    duration: String,
+    description: String
   },
 };
 </script>

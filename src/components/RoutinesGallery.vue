@@ -6,9 +6,7 @@
           <RoutineCard
               img-src="@/assets/workout_placeholder.png"
               :routine-name=routine.name
-              :cycles=routine.cycles
-              :exercises=routine.exercises
-              :duration=routine.duration
+              :description=routine.detail
           />
         </router-link>
       </v-col>
@@ -28,7 +26,10 @@ export default {
   },
   computed: {
     filteredRoutines() {
-      return this.routines.filter(routine => routine.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      if (this.routines){
+        return this.routines.filter(routine => routine.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      }
+      return null
     }
   },
 }

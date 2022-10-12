@@ -14,8 +14,12 @@
 
 <script>
 import SubHeaderSearch from "@/components/SubHeaderSearch";
-import store from "@/store/routines"
 import RoutinesGallery from "@/components/RoutinesGallery";
+import {useSecurityStore} from "@/store/SecurityStore";
+import {Credentials} from "@/api/user";
+import {mapActions, mapState} from "pinia";
+import {Sport} from "@/api/sport";
+import {useRoutineStore} from "@/store/RoutineStore";
 
 export default {
   name: "RoutinesView",
@@ -23,7 +27,127 @@ export default {
   data() {
     return {
       searchQuery: '',
-      routines: store.routines,
+      routines: null,
+      result: null,
+      routine: null,
+      controller: null,
+    }
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn'
+    }),
+    canCreate() {
+      return this.$isLoggedIn && !this.routine
+    },
+    canOperate() {
+      return this.$isLoggedIn && this.routine
+    },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
+  },
+  methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    ...mapActions(useRoutineStore, {
+      $createRoutine: 'create',
+      $modifyRoutine: 'modify',
+      $deleteRoutine: 'delete',
+      $getRoutine: 'get',
+      $getAllRoutines: 'getAll'
+    }),
+    setResult(result){
+      this.result = result
+    },
+    clearResult() {
+      this.result = null
+    },
+    async login() {
+      try {
+        const credentials = new Credentials('johndoe', '1234567890')
+        await this.$login(credentials, true)
+        this.clearResult()
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    async createRoutine() {
+      //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
+      const index = Math.floor(Math.random() * (999 - 1) + 1)
+      const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
+      try {
+        this.sport = await this.$createSport(sport);
+        this.setResult(this.sport)
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
+    async modifySport() {
+      //IDEM ANTERIOR
+      const index = Math.floor(Math.random() * (999 - 1) + 1)
+      this.sport.detail = `sport ${index}`;
+
+      try {
+        this.sport = await this.$modifySport(this.sport);
+        this.setResult(this.sport)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    async deleteSport() {
+      //IDEM
+      try {
+        await this.$deleteSport(this.sport);
+        this.sport = null
+        this.clearResult()
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    async getRoutine() {
+      try {
+        await this.$getRoutine(this.routine.id);
+        this.setResult(this.routine)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    async getAllRoutines() {
+      try {
+        this.controller = new AbortController()
+        const routines = await this.$getAllRoutines(this.controller);
+        this.controller = null
+        this.setResult(routines)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  async created() {
+    this.getAllRoutines()
+  },
+  watch: {
+    result: function() {
+      if (this.result.content)
+      this.routines = this.result.content
     }
   }
 };
