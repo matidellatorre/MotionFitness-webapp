@@ -26,12 +26,7 @@
         >Sign Up / Log in</v-btn
       >
       <div class="d-flex align-center" v-else>
-<!--        <div class="d-flex flex-column">-->
-<!--          <p class="mb-0">{{ `${this.$user.firstName}` }}</p>-->
-<!--          <btn @click="$router.push('/user')" id="profileBtn" max-width="10" class="mb-0">View profile</btn>-->
-<!--        </div>-->
         <top-right-menu />
-        <img src="@/assets/avatar.png" class="ml-4" width="50" height="50">
       </div>
     </v-toolbar>
   </nav>
