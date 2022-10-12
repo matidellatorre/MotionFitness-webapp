@@ -1,9 +1,9 @@
 <template>
   <v-main>
-    <SubHeaderSearch :title=routine.name has-search-bar="false" />
+    <SubHeaderSearch :title=$router.currentRoute.params.routineName has-search-bar="false" />
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
-      <LateralList />
+      <LateralList :cycles="this.cycles"/>
       <template>
         <v-data-table
           :headers="headers"
@@ -147,192 +147,335 @@
   </v-main>
 </template>
 
+<!--SCRIPT VIEJO -> Contiene el funcionamiento de la tabla esa que no se entiende nada-->
+<!--<script>-->
+<!--import store from "@/store/routines"-->
+<!--import SubHeaderSearch from "@/components/SubHeaderSearch";-->
+<!--import LateralList from "@/components/LateralList";-->
+<!--import ThirdHeader from "@/components/ThirdHeader";-->
+
+<!--export default {-->
+<!--  name: "RoutineDetails",-->
+<!--  components: { ThirdHeader, LateralList, SubHeaderSearch },-->
+<!--  data() {-->
+<!--    return {-->
+<!--      routineId: this.$route.params.id,-->
+<!--      exercises: store.exercises,-->
+<!--      dialog: false,-->
+<!--      dialogDelete: false,-->
+<!--      headers: [-->
+<!--        {-->
+<!--          text: 'Exercise',-->
+<!--          align: 'start',-->
+<!--          sortable: false,-->
+<!--          value: 'name',-->
+<!--        },-->
+<!--        { text: 'Reps', value: 'calories' },-->
+<!--        { text: 'Time', value: 'fat' },-->
+<!--        { text: 'Weight', value: 'carbs' },-->
+<!--        { text: 'Actions', value: 'actions', sortable: false },-->
+<!--      ],-->
+<!--      desserts: [],-->
+<!--      editedIndex: -1,-->
+<!--      editedItem: {-->
+<!--        name: '',-->
+<!--        calories: 0,-->
+<!--        fat: 0,-->
+<!--        carbs: 0,-->
+<!--        protein: 0,-->
+<!--      },-->
+<!--      defaultItem: {-->
+<!--        name: '',-->
+<!--        calories: 0,-->
+<!--        fat: 0,-->
+<!--        carbs: 0,-->
+<!--        protein: 0,-->
+<!--      },-->
+<!--    }-->
+<!--  },-->
+<!--  computed: {-->
+<!--    routine() {-->
+<!--      return store.routines.find(routine => routine.id === this.routineId) //Basicamente filtramos por id-->
+<!--    },-->
+<!--    formTitle() {-->
+<!--      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'-->
+<!--    },-->
+<!--  },-->
+<!--  watch: {-->
+<!--    dialog(val) {-->
+<!--      val || this.close()-->
+<!--    },-->
+<!--    dialogDelete(val) {-->
+<!--      val || this.closeDelete()-->
+<!--    },-->
+<!--  },-->
+
+<!--  created() {-->
+<!--    this.initialize()-->
+<!--  },-->
+
+<!--  methods: {-->
+<!--    initialize() {-->
+<!--      this.desserts = [-->
+<!--        {-->
+<!--          name: 'Frozen Yogurt',-->
+<!--          calories: 159,-->
+<!--          fat: 6.0,-->
+<!--          carbs: 24,-->
+<!--          protein: 4.0,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Ice cream sandwich',-->
+<!--          calories: 237,-->
+<!--          fat: 9.0,-->
+<!--          carbs: 37,-->
+<!--          protein: 4.3,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Eclair',-->
+<!--          calories: 262,-->
+<!--          fat: 16.0,-->
+<!--          carbs: 23,-->
+<!--          protein: 6.0,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Cupcake',-->
+<!--          calories: 305,-->
+<!--          fat: 3.7,-->
+<!--          carbs: 67,-->
+<!--          protein: 4.3,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Gingerbread',-->
+<!--          calories: 356,-->
+<!--          fat: 16.0,-->
+<!--          carbs: 49,-->
+<!--          protein: 3.9,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Jelly bean',-->
+<!--          calories: 375,-->
+<!--          fat: 0.0,-->
+<!--          carbs: 94,-->
+<!--          protein: 0.0,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Lollipop',-->
+<!--          calories: 392,-->
+<!--          fat: 0.2,-->
+<!--          carbs: 98,-->
+<!--          protein: 0,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Honeycomb',-->
+<!--          calories: 408,-->
+<!--          fat: 3.2,-->
+<!--          carbs: 87,-->
+<!--          protein: 6.5,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'Donut',-->
+<!--          calories: 452,-->
+<!--          fat: 25.0,-->
+<!--          carbs: 51,-->
+<!--          protein: 4.9,-->
+<!--        },-->
+<!--        {-->
+<!--          name: 'KitKat',-->
+<!--          calories: 518,-->
+<!--          fat: 26.0,-->
+<!--          carbs: 65,-->
+<!--          protein: 7,-->
+<!--        },-->
+<!--      ]-->
+<!--    },-->
+
+<!--    editItem(item) {-->
+<!--      this.editedIndex = this.desserts.indexOf(item)-->
+<!--      this.editedItem = Object.assign({}, item)-->
+<!--      this.dialog = true-->
+<!--    },-->
+
+<!--    deleteItem(item) {-->
+<!--      this.editedIndex = this.desserts.indexOf(item)-->
+<!--      this.editedItem = Object.assign({}, item)-->
+<!--      this.dialogDelete = true-->
+<!--    },-->
+
+<!--    deleteItemConfirm() {-->
+<!--      this.desserts.splice(this.editedIndex, 1)-->
+<!--      this.closeDelete()-->
+<!--    },-->
+
+<!--    close() {-->
+<!--      this.dialog = false-->
+<!--      this.$nextTick(() => {-->
+<!--        this.editedItem = Object.assign({}, this.defaultItem)-->
+<!--        this.editedIndex = -1-->
+<!--      })-->
+<!--    },-->
+
+<!--    closeDelete() {-->
+<!--      this.dialogDelete = false-->
+<!--      this.$nextTick(() => {-->
+<!--        this.editedItem = Object.assign({}, this.defaultItem)-->
+<!--        this.editedIndex = -1-->
+<!--      })-->
+<!--    },-->
+
+<!--    save() {-->
+<!--      if (this.editedIndex > -1) {-->
+<!--        Object.assign(this.desserts[this.editedIndex], this.editedItem)-->
+<!--      } else {-->
+<!--        this.desserts.push(this.editedItem)-->
+<!--      }-->
+<!--      this.close()-->
+<!--    },-->
+<!--  },-->
+<!--}-->
+<!--</script>-->
+
 <script>
-import store from "@/store/routines"
 import SubHeaderSearch from "@/components/SubHeaderSearch";
+import {mapActions, mapState} from "pinia";
+import {useSecurityStore} from "@/store/SecurityStore";
+import {Credentials} from "@/api/user";
 import LateralList from "@/components/LateralList";
 import ThirdHeader from "@/components/ThirdHeader";
+import {useCycleStore} from "@/store/CycleStore";
 
 export default {
-  name: "RoutineDetails",
-  components: { ThirdHeader, LateralList, SubHeaderSearch },
+  name: "RoutinesView",
+  components: {LateralList, ThirdHeader, SubHeaderSearch },
   data() {
     return {
-      routineId: this.$route.params.id,
-      exercises: store.exercises,
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        {
-          text: 'Exercise',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Reps', value: 'calories' },
-        { text: 'Time', value: 'fat' },
-        { text: 'Weight', value: 'carbs' },
-        { text: 'Actions', value: 'actions', sortable: false },
-      ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+      cycles: null,
+      result: null,
+      cycle: null,
+      controller: null,
+      // Obtener el id de la rutina actual: $router.currentRoute.params.id
     }
   },
   computed: {
-    routine() {
-      return store.routines.find(routine => routine.id === this.routineId) //Basicamente filtramos por id
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn'
+    }),
+    canCreate() {
+      return this.$isLoggedIn && !this.routine
     },
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    canOperate() {
+      return this.$isLoggedIn && this.routine
     },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
+  },
+  methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    ...mapActions(useCycleStore, {
+      $createCycle: 'create',
+      $modifyCycle: 'modify',
+      $deleteCycle: 'delete',
+      $getCycle: 'get',
+      $getAllCycles: 'getAll'
+    }),
+    setResult(result){
+      this.result = result
+    },
+    clearResult() {
+      this.result = null
+    },
+    async login() {
+      try {
+        const credentials = new Credentials('johndoe', '1234567890')
+        await this.$login(credentials, true)
+        this.clearResult()
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
+    async logout() {
+      await this.$logout()
+      this.clearResult()
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    // async createRoutine() {
+    //   //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
+    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
+    //   const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
+    //   try {
+    //     this.sport = await this.$createSport(sport);
+    //     this.setResult(this.sport)
+    //   } catch (e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    // async modifySport() {
+    //   //IDEM ANTERIOR
+    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
+    //   this.sport.detail = `sport ${index}`;
+    //
+    //   try {
+    //     this.sport = await this.$modifySport(this.sport);
+    //     this.setResult(this.sport)
+    //   } catch(e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    // async deleteSport() {
+    //   //IDEM
+    //   try {
+    //     await this.$deleteSport(this.sport);
+    //     this.sport = null
+    //     this.clearResult()
+    //   } catch(e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    async getCycle(routineId) {
+      try {
+        await this.$getCycle(routineId, this.cycle.id);
+        this.setResult(this.cycle)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    async getAllCycles(routineId) {
+      try {
+        this.controller = new AbortController()
+        const cycles = await this.$getAllCycles(routineId, this.controller);
+        this.controller = null
+        this.setResult(cycles)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  async created() {
+    this.getAllCycles(this.$router.currentRoute.params.id)
   },
   watch: {
-    dialog(val) {
-      val || this.close()
-    },
-    dialogDelete(val) {
-      val || this.closeDelete()
-    },
-  },
-
-  created() {
-    this.initialize()
-  },
-
-  methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ]
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
-    },
-
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1)
-      this.closeDelete()
-    },
-
-    close() {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    closeDelete() {
-      this.dialogDelete = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
-      }
-      this.close()
-    },
-  },
-}
+    result: function() {
+      if (this.result.content)
+        this.cycles = this.result.content
+    }
+  }
+};
 </script>
+
 
 <style scoped>
 LateralList {

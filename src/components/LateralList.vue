@@ -5,12 +5,12 @@
         color="secondary"
     >
       <v-list-item
-          v-for="(item, i) in items"
+          v-for="(cycle, i) in cycles"
           :key="i"
           width="auto"
       >
         <v-list-item-content>
-          <v-list-item-title v-text="item.text"></v-list-item-title>
+          <v-list-item-title v-text="cycle.name"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list-item-group>
@@ -21,12 +21,10 @@
 export default {
   data: () => ({
     selectedItem: 1,
-    items: [
-      { text: 'Real-Time' },
-      { text: 'Audience' },
-      { text: 'Conversions' },
-    ],
   }),
+  props: {
+    cycles: Array
+  }
 }
 </script>
 

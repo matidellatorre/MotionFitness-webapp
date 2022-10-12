@@ -8,7 +8,7 @@
       title="Routines"
       subtitle="This are your routines"
       has-search-bar="true"/>
-    <RoutinesGallery :routines="this.routines" :search-query="this.searchQuery" />'
+    <RoutinesGallery :routines="this.result.content" :search-query="this.searchQuery" />'
   </v-main>
 </template>
 
@@ -27,7 +27,6 @@ export default {
   data() {
     return {
       searchQuery: '',
-      routines: null,
       result: null,
       routine: null,
       controller: null,
