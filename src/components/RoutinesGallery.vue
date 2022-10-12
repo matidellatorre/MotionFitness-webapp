@@ -21,7 +21,7 @@ export default {
   name: "RoutinesGallery",
   components: { RoutineCard },
   props: {
-    routines: Object,
+    routines: Array,
     searchQuery: String
   },
   computed: {

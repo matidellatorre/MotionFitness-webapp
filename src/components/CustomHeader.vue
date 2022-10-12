@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-toolbar flat app dark color="primary">
+    <v-toolbar flat dark color="primary">
       <router-link to="/">
         <TopLeftlogo />
       </router-link>

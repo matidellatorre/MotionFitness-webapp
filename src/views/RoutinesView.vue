@@ -7,8 +7,8 @@
     <SubHeaderSearch @searched="(val) => searchQuery=val"
       title="Routines"
       subtitle="This are your routines"
-      has-search-bar="true"/>
-    <RoutinesGallery :routines="this.result.content" :search-query="this.searchQuery" />'
+      :has-search-bar=true />
+    <RoutinesGallery v-if="this.result" :routines="this.result.content" :search-query="this.searchQuery" />'
   </v-main>
 </template>
 
@@ -143,12 +143,6 @@ export default {
   async created() {
     this.getAllRoutines()
   },
-  watch: {
-    result: function() {
-      if (this.result.content)
-      this.routines = this.result.content
-    }
-  }
 };
 </script>
 

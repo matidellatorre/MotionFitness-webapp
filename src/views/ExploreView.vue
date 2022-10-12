@@ -3,7 +3,7 @@
     <SubHeaderSearch @searched="(val) => searchQuery=val"
     title="Explore"
     subtitle="Top routines by the community"
-    has-search-bar=true />
+    :has-search-bar=true />
     <RoutinesGallery :routines="this.routines" :search-query="this.searchQuery" />
   </v-main>
 </template>

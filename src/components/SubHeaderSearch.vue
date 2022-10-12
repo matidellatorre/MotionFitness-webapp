@@ -18,7 +18,7 @@
           v-model="searchQuery"
           @keyup="$emit('searched', searchQuery)"
           @click:clear="$emit('searched', '')"
-          v-if="hasSearchBar == 'true'"
+          v-if="hasSearchBar == true"
         />
       </div>
     </div>
@@ -35,7 +35,7 @@ export default {
     },
     subtitle: {
       type: String,
-      required: true,
+      required: false,
     },
     hasSearchBar: {
       type: Boolean,
