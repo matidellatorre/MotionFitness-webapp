@@ -3,8 +3,8 @@ import { Api } from "./api.js";
 export { RoutineApi, Routine }
 
 class RoutineApi {
-  static getUrl(slug) {
-    return `${Api.baseUrl}/routines${ slug ? `/${slug}` : ""}`;
+  static getUrl(slug, params) {
+    return `${Api.baseUrl}/routines${ slug ? `/${slug}` : ""}${ params ? `?${params}` : ""}`;
   }
 
   static async add(routine, controller) {
@@ -23,8 +23,8 @@ class RoutineApi {
     return await Api.get(RoutineApi.getUrl(id),true,  controller);
   }
 
-  static async getAll(controller) {
-    return await Api.get(RoutineApi.getUrl(), true, controller);
+  static async getAll(userId, controller) {
+    return await Api.get(RoutineApi.getUrl(null, `userId=${userId}&page=0&size=10&orderBy=date&direction=asc`), true, controller);
   }
 }
 

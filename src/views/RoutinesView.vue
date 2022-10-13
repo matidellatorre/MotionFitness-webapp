@@ -1,6 +1,6 @@
 <template >
   <v-main >
-    <v-btn @click="showCreationPopUp=true;" large color="secondary" fixed right bottom rounded>
+    <v-btn class="onTop" @click="showCreationPopUp=true;" large color="secondary" fixed right bottom rounded>
       Add routine
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -30,7 +30,8 @@ export default {
       result: null,
       routine: null,
       controller: null,
-      showCreationPopUp: false
+      showCreationPopUp: false,
+      currentUser: null,
     }
   },
   computed: {
@@ -54,6 +55,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useSecurityStore, {
+      $getUser: 'getUser',
+      $getCurrentUser: 'getCurrentUser',
+    }),
     ...mapActions(useRoutineStore, {
       $createRoutine: 'create',
       $modifyRoutine: 'modify',
@@ -67,16 +72,6 @@ export default {
     clearResult() {
       this.result = null
     },
-    // async createRoutine() {
-    //   //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
-    //   const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
-    //   try {
-    //     this.sport = await this.$createSport(sport);
-    //     this.setResult(this.sport)
-    //   } catch (e) {
-    //     this.setResult(e)
-    //   }
-    // },
     async modifySport() {
       //IDEM ANTERIOR
       const index = Math.floor(Math.random() * (999 - 1) + 1)
@@ -103,10 +98,10 @@ export default {
       await this.$getCurrentUser()
       this.setResult(this.$user)
     },
-    async getAllRoutines() {
+    async getAllRoutines(userId) {
       try {
         this.controller = new AbortController()
-        const routines = await this.$getAllRoutines(this.controller);
+        const routines = await this.$getAllRoutines(userId, this.controller);
         this.controller = null
         this.setResult(routines)
       } catch(e) {
@@ -117,10 +112,20 @@ export default {
       this.controller.abort()
     }
   },
-  async created() {
-    this.getAllRoutines()
+  watch: {
+    $user: function() {
+      this.currentUser = this.$user;
+      this.getAllRoutines(this.$user.id)
+    },
   },
+  async created() {
+    this.getAllRoutines(this.$user.id)
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.onTop {
+  z-index: 20;
+}
+</style>
