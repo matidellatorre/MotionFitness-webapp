@@ -14,7 +14,10 @@
         </v-list-item-content>
       </v-list-item>
     </v-list-item-group>
-    <v-btn class="mt-3" color="secondary" rounded>
+<!--    <v-list-item-content v-if="addyingCycle" class="pa-0">-->
+<!--      <v-text-field @focusout="addyingCycle=false" v-model="newCycle" class="ma-0 py-0 px-1"></v-text-field>-->
+<!--    </v-list-item-content>-->
+    <v-btn class="mt-3" color="secondary" rounded @click="addyingCycle=true">
       Add cycle
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -32,6 +35,8 @@ export default {
     result: null,
     exercise: null,
     controller: null,
+    // newCycle: '',
+    // addyingCycle: false,
   }),
   props: {
     cycles: Array
@@ -49,7 +54,7 @@ export default {
   watch: {
     selectedItem: function() {
       this.$setSelectedCycle(this.selectedItem)
-    }
+    },
   }
 }
 </script>

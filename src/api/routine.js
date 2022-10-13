@@ -24,7 +24,7 @@ class RoutineApi {
   }
 
   static async getAll(userId, controller) {
-    return await Api.get(RoutineApi.getUrl(null, `userId=${userId}&page=0&size=10&orderBy=date&direction=asc`), true, controller);
+    return await Api.get(RoutineApi.getUrl(null, `userId=${userId}&page=0&size=30&orderBy=date&direction=asc`), true, controller);
   }
 }
 

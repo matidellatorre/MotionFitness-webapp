@@ -8,7 +8,7 @@
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
       <LateralList :cycles="this.cycles" />
-      <ExerciseList v-if="cycles" :selectedCycleId="cycles[this.$getSelectedCycle()].id"/>
+      <ExerciseList v-if="cycles" :selectedCycleId="cycles[this.$getSelectedCycle()].id" />
     </div>
   </v-main>
 </template>
