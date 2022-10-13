@@ -96,8 +96,8 @@
                   </v-card-text>
                   <div class="text-center mt-n5">
 <!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
-                    <v-btn rounded color="secondary mb-12" @click="createAccount();showPopup = true">CREATE ACCOUNT</v-btn>
-                    <verification-pop-up :show=showPopup :email=newUser.email :controller=this.controller />
+                    <v-btn rounded color="secondary mb-12" @click="createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
+                    <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false" />
                   </div>
                 </v-col>
               </v-row>
@@ -130,7 +130,7 @@ export default {
       result: null,
       controller: null,
       rememberMe: false,
-      showPopup: false,
+      showVerificationPopUp: false,
       newUser: new User,
     }
   },

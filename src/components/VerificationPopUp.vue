@@ -12,8 +12,8 @@
             v-model="code"
         ></v-otp-input>
         <div class="d-flex justify-center my-3">
-          <v-btn @click="verifyUser(mail, code); dialog=false" class="mr-5 rounded-xl" color="secondary">Verify</v-btn>
-          <v-btn outlined dark color="red" @click="dialog = false" class="ml-5 rounded-xl">Cancel</v-btn>
+          <v-btn @click="verifyUser(mail, code); $emit('popUpClosed')" class="mr-5 rounded-xl" color="secondary">Verify</v-btn>
+          <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
         </div>
       </v-card>
     </v-dialog>

@@ -7,12 +7,12 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="pa-3">
         <div class="d-flex flex-column">
-          <v-btn plain text rounded-pill @click="$router.push('/routines')"> Routines </v-btn>
+          <v-btn text rounded-pill @click="$router.push('/routines')"> Routines </v-btn>
           <v-card v-show="this.$route.name=='routines'" height="4" color="accent" class="mx-3 mt-0 rounded-pill"/>
         </div>
         <v-divider vertical></v-divider>
         <div class="d-flex flex-column">
-          <v-btn plain text @click="$router.push('/explore')">Explore</v-btn>
+          <v-btn text @click="$router.push('/explore')">Explore</v-btn>
           <v-sheet v-show="this.$route.name=='explore'" height="4" color="accent" class="mx-3 mt-0 rounded-pill"/>
         </div>
       </v-toolbar-items>

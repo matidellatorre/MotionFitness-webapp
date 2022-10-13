@@ -1,10 +1,14 @@
 <template>
   <v-main>
+    <v-btn v-if="cycles" large color="secondary" fixed right bottom rounded>
+      Add exercise
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
     <SubHeaderSearch :title=$router.currentRoute.params.routineName :has-search-bar=false />
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
       <LateralList :cycles="this.cycles" />
-      <ExerciseList :selected-cycle="this.$getSelectedCycle()"/>
+      <ExerciseList v-if="cycles" :selectedCycleId="cycles[this.$getSelectedCycle()].id"/>
     </div>
   </v-main>
 </template>
@@ -146,7 +150,6 @@ export default {
   },
   async created() {
     this.getAllCycles(this.$router.currentRoute.params.id)
-    console.log(this.$getSelectedCycle())
   },
   watch: {
     result: function() {

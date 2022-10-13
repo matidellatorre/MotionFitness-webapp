@@ -3,10 +3,16 @@
     <v-list-item class="flex-fill" v-for="cycleExercise in result.content" :key="cycleExercise.order">
       <v-list-item-content>
         <div class="d-flex justify-center">
-          <h2>{{cycleExercise.exercise.name}}</h2>
+          <h3>{{cycleExercise.exercise.name}}</h3>
           <v-spacer />
-          <h3 class="mx-2">{{ cycleExercise.repetitions }} repetitions</h3>
-          <h3 class="mx-2">{{ cycleExercise.duration }} seconds</h3>
+          <div class="d-flex">
+            <v-icon>mdi-sync</v-icon>
+            <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.repetitions }} repetitions</p>
+          </div>
+          <div class="d-flex">
+            <v-icon>mdi-clock</v-icon>
+            <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.duration }} seconds</p>
+          </div>
 <!--          <h3 class="mx-2">{{ cycleExercise.duration }}</h3>-->
 <!--          Queda comentado por si queremos agregarle que tmb muestre el peso-->
           <v-spacer />
@@ -38,7 +44,7 @@ export default {
     }
   },
   props: {
-    selectedCycle: Number
+    selectedCycleId: Number
   },
   computed: {
     ...mapState(useSecurityStore, {
@@ -134,12 +140,13 @@ export default {
     }
   },
   async created() {
-    this.getAllCycleExercises(1)
+    if(this.selectedCycleId){
+      this.getAllCycleExercises(this.selectedCycleId)
+    }
   },
   watch: {
-    selectedCycle: function() {
-      console.log(this.selectedCycle)
-      //Aca deberia llamar a la API pidiendo los datos del ciclo con ese id
+    selectedCycleId: function() {
+      this.getAllCycleExercises(this.selectedCycleId)
     }
   }
 }

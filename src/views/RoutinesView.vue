@@ -1,6 +1,6 @@
 <template >
   <v-main >
-    <v-btn large color="secondary" fixed right bottom rounded>
+    <v-btn @click="showCreationPopUp=true;" large color="secondary" fixed right bottom rounded>
       Add routine
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -9,6 +9,7 @@
       subtitle="This are your routines"
       :has-search-bar=true />
     <RoutinesGallery v-if="this.result" :routines="this.result.content" :search-query="this.searchQuery" />'
+    <CreateRoutinePopUp :show="showCreationPopUp" @popUpClosed="showCreationPopUp=false" />
   </v-main>
 </template>
 
@@ -20,16 +21,18 @@ import {Credentials} from "@/api/user";
 import {mapActions, mapState} from "pinia";
 import {Sport} from "@/api/sport";
 import {useRoutineStore} from "@/store/RoutineStore";
+import CreateRoutinePopUp from "@/components/CreateRoutinePopUp";
 
 export default {
   name: "RoutinesView",
-  components: {RoutinesGallery, SubHeaderSearch },
+  components: {CreateRoutinePopUp, RoutinesGallery, SubHeaderSearch },
   data() {
     return {
       searchQuery: '',
       result: null,
       routine: null,
       controller: null,
+      showCreationPopUp: false
     }
   },
   computed: {
