@@ -8,7 +8,7 @@
       title="Routines"
       subtitle="This are your routines"
       :has-search-bar=true />
-    <RoutinesGallery v-if="this.result" :routines="this.result.content" :search-query="this.searchQuery" />'
+    <RoutinesGallery v-if="this.$routines" :routines="this.$routines" :search-query="this.searchQuery" />'
     <CreateRoutinePopUp :show="showCreationPopUp" @popUpClosed="showCreationPopUp=false" />
   </v-main>
 </template>

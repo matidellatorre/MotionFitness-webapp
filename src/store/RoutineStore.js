@@ -53,6 +53,9 @@ export const useRoutineStore = defineStore("routine", {
         },
         async getAll(userId, controller) {
             const result = await RoutineApi.getAll(userId, controller);
+            if(result.content){
+                this.replaceAll(result.content);
+            }
             return result;
         }
     },
