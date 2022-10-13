@@ -29,11 +29,11 @@ class CycleApi {
 }
 
 class Cycle {
-  constructor(id, name, reps) {
-    if (id) {
-      this.id = id;
-    }
-    this.name = name;
-    this.reps = reps;
+  constructor(name, order, reps) {
+    this.name = name
+    this.detail = "detail"
+    this.type = "exercise"
+    this.order = order
+    this.repetitions = reps
   }
 }

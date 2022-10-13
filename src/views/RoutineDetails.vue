@@ -7,7 +7,7 @@
     <SubHeaderSearch :title=$router.currentRoute.params.routineName :has-search-bar=false />
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
-      <LateralList :cycles="this.cycles" />
+      <LateralList :cycles="this.cycles" :routine-id="$router.currentRoute.params.id" />
       <ExerciseList v-if="cycles" :selectedCycleId="cycles[this.$getSelectedCycle()].id" />
     </div>
   </v-main>

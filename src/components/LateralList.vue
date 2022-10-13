@@ -17,10 +17,11 @@
 <!--    <v-list-item-content v-if="addyingCycle" class="pa-0">-->
 <!--      <v-text-field @focusout="addyingCycle=false" v-model="newCycle" class="ma-0 py-0 px-1"></v-text-field>-->
 <!--    </v-list-item-content>-->
-    <v-btn class="mt-3" color="secondary" rounded @click="addyingCycle=true">
+    <v-btn class="mt-3" color="secondary" rounded @click="showCyclePopUp=true">
       Add cycle
       <v-icon>mdi-plus</v-icon>
     </v-btn>
+    <CreateCyclePopUp :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="cycles.length" @popUpClosed="showCyclePopUp=false"/>
   </v-list>
 </template>
 
@@ -28,17 +29,19 @@
 
 import {mapActions, mapState} from "pinia";
 import {useCycleStore} from "@/store/CycleStore";
+import CreateCyclePopUp from "@/components/CreateCyclePopUp";
 
 export default {
+  components: {CreateCyclePopUp},
   data: () => ({
     selectedItem: 0,
     result: null,
     exercise: null,
     controller: null,
-    // newCycle: '',
-    // addyingCycle: false,
+    showCyclePopUp: false
   }),
   props: {
+    routineId: Number,
     cycles: Array
   },
   computed: {

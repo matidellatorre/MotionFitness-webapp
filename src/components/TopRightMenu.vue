@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
         <div class="d-flex align-center clickable" v-on="on">
           <p v-if="currentUser" class="mb-0">{{ currentUser.firstName }}</p>
-          <img src="@/assets/avatar.png" class="ml-2" width="30">
+          <img class = "rounded-circle elevation-5 ml-2" src="@/assets/avatar.png" width="30">
         </div>
       </template>
       <v-list class="pa-0">
