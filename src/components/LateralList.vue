@@ -18,12 +18,34 @@
 </template>
 
 <script>
+
+import {mapActions, mapState} from "pinia";
+import {useCycleStore} from "@/store/CycleStore";
+
 export default {
   data: () => ({
-    selectedItem: 1,
+    selectedItem: 0,
+    result: null,
+    exercise: null,
+    controller: null,
   }),
   props: {
     cycles: Array
+  },
+  computed: {
+    ...mapState(useCycleStore, {
+      $selectedCycle: state => state.selectedCycle,
+    }),
+  },
+  methods: {
+    ...mapActions(useCycleStore, {
+      $setSelectedCycle: 'setSelectedCycle',
+    }),
+  },
+  watch: {
+    selectedItem: function() {
+      this.$setSelectedCycle(this.selectedItem)
+    }
   }
 }
 </script>

@@ -2,15 +2,24 @@ import { defineStore } from "pinia";
 import {CycleApi} from "@/api/cycle";
 
 export const useCycleStore = defineStore("cycle", {
-    state: () => ({ items: [] }),
+    state: () => ({
+        items: [],
+        selectedCycle: 0
+    }),
     getters: {
         findIndex() {
             return (cycle) => {
                 return this.items.findIndex(item => item.id === cycle.id)
             }
-        },
+        }
     },
     actions: {
+        getSelectedCycle() {
+            return this.selectedCycle
+        },
+        setSelectedCycle(value) {
+            this.selectedCycle = value
+        },
         push(cycle) {
             this.items.push(cycle);
         },
@@ -54,6 +63,6 @@ export const useCycleStore = defineStore("cycle", {
         async getAll(routineId, controller) {
             const result = await CycleApi.getAll(routineId, controller);
             return result;
-        }
+        },
     },
 });

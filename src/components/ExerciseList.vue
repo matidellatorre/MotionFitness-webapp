@@ -1,20 +1,149 @@
 <template>
-  <v-list>
-    <v-list-item>
+  <v-list v-if="result.content" color="white" width="100%" class="justify-center text-center align-center">
+    <v-list-item class="flex-fill" v-for="cycleExercise in result.content" :key="cycleExercise.order">
       <v-list-item-content>
-        <v-list-item-title>Pull ups</v-list-item-title>
+        <div class="d-flex justify-center">
+          <h2>{{cycleExercise.exercise.name}}</h2>
+          <v-spacer />
+          <h3 class="mx-2">{{ cycleExercise.repetitions }} repetitions</h3>
+          <h3 class="mx-2">{{ cycleExercise.duration }} seconds</h3>
+<!--          <h3 class="mx-2">{{ cycleExercise.duration }}</h3>-->
+<!--          Queda comentado por si queremos agregarle que tmb muestre el peso-->
+          <v-spacer />
+          <v-btn class="mr-4" >
+            Edit
+          </v-btn>
+          <v-btn color="red">
+            Delete
+          </v-btn>
+        </div>
       </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
 
 <script>
+import {mapActions, mapState} from "pinia";
+import {useSecurityStore} from "@/store/SecurityStore";
+import {useCycleExerciseStore} from "@/store/CycleExerciseStore";
+
 export default {
-  name: "ExerciseList"
-},
-props: {
-  selectedCycle: Number
+  name: "ExerciseList",
+  data() {
+    return {
+      cycleExercises: null,
+      result: null,
+      cycleExercise: null,
+      controller: null,
+    }
+  },
+  props: {
+    selectedCycle: Number
+  },
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+    }),
+    ...mapState(useSecurityStore, {
+      $isLoggedIn: 'isLoggedIn'
+    }),
+    canCreate() {
+      return this.$isLoggedIn && !this.routine
+    },
+    canOperate() {
+      return this.$isLoggedIn && this.routine
+    },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
+  },
+  methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+    }),
+    ...mapActions(useCycleExerciseStore, {
+      $createCycleExercise: 'create',
+      $modifyCycleExercise: 'modify',
+      $deleteCycleExercise: 'delete',
+      $getCycleExercise: 'get',
+      $getAllCycleExercises: 'getAll',
+    }),
+    setResult(result){
+      this.result = result
+    },
+    clearResult() {
+      this.result = null
+    },
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
+    },
+    // async createRoutine() {
+    //   //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
+    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
+    //   const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
+    //   try {
+    //     this.sport = await this.$createSport(sport);
+    //     this.setResult(this.sport)
+    //   } catch (e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    // async modifySport() {
+    //   //IDEM ANTERIOR
+    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
+    //   this.sport.detail = `sport ${index}`;
+    //
+    //   try {
+    //     this.sport = await this.$modifySport(this.sport);
+    //     this.setResult(this.sport)
+    //   } catch(e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    // async deleteSport() {
+    //   //IDEM
+    //   try {
+    //     await this.$deleteSport(this.sport);
+    //     this.sport = null
+    //     this.clearResult()
+    //   } catch(e) {
+    //     this.setResult(e)
+    //   }
+    // },
+    async getCycleExercise(cycleId) {
+      try {
+        await this.$getCycleExercise(cycleId, this.cycle.id);
+        this.setResult(this.cycle)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    async getAllCycleExercises(cycleId) {
+      try {
+        this.controller = new AbortController()
+        const cycleExercises = await this.$getAllCycleExercises(cycleId, this.controller);
+        this.controller = null
+        this.setResult(cycleExercises)
+      } catch(e) {
+        this.setResult(e)
+      }
+    },
+    abort() {
+      this.controller.abort()
+    }
+  },
+  async created() {
+    this.getAllCycleExercises(1)
+  },
+  watch: {
+    selectedCycle: function() {
+      console.log(this.selectedCycle)
+      //Aca deberia llamar a la API pidiendo los datos del ciclo con ese id
+    }
+  }
 }
+
 </script>
 <style scoped>
 
