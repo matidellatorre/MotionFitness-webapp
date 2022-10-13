@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       dialog: this.show,
+      count: this.cycleCount,
       cycle: new Cycle(null,this.cycleCount+1,10),
     }
   },
@@ -41,6 +42,9 @@ export default {
     show: function() {
       this.dialog = this.show;
     },
+    cycleCount: function() {
+      this.cycle.order = this.cycleCount+1
+    }
   },
   methods: {
     ...mapActions(useCycleStore, {

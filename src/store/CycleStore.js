@@ -4,7 +4,7 @@ import {CycleApi} from "@/api/cycle";
 export const useCycleStore = defineStore("cycle", {
     state: () => ({
         items: [],
-        selectedCycleId: this.items[0].id,
+        selectedCycleId: null
     }),
     getters: {
         findIndex() {
@@ -17,7 +17,7 @@ export const useCycleStore = defineStore("cycle", {
         getSelectedCycleId() {
             return this.selectedCycleId
         },
-        setSelectedCycle(index) {
+        setSelectedCycleId(index) {
             this.selectedCycleId = this.items[index].id;
         },
         push(cycle) {
@@ -34,8 +34,7 @@ export const useCycleStore = defineStore("cycle", {
         },
         async create(routineId, cycle) {
             const result = await CycleApi.add(routineId, cycle);
-            if (!this.findIndex(result))
-                this.push(result);
+            this.push(result);
             return result;
         },
         async modify(routineId, cycle) {
@@ -60,8 +59,11 @@ export const useCycleStore = defineStore("cycle", {
             this.push(result);
             return result;
         },
-        async getAll(routineId, controller) {
-            const result = await CycleApi.getAll(routineId, controller);
+        async getAll(routineId) {
+            const result = await CycleApi.getAll(routineId);
+            if(result.content){
+                this.replaceAll(result.content);
+            }
             return result;
         },
     },

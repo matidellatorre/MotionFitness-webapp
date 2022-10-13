@@ -21,7 +21,7 @@
       Add cycle
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <CreateCyclePopUp :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="cycles.length" @popUpClosed="showCyclePopUp=false"/>
+    <CreateCyclePopUp v-if="cycles" :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" @popUpClosed="showCyclePopUp=false"/>
   </v-list>
 </template>
 
@@ -36,29 +36,66 @@ export default {
   data: () => ({
     selectedItem: 0,
     result: null,
-    exercise: null,
+    cycle: null,
     controller: null,
-    showCyclePopUp: false
-  }),
-  props: {
-    routineId: Number,
+    showCyclePopUp: false,
     cycles: Array
-  },
+  }),
   computed: {
     ...mapState(useCycleStore, {
-      $selectedCycle: state => state.selectedCycle,
+      $selectedCycleId: state => state.selectedCycleId,
     }),
+    ...mapState(useCycleStore, {
+      $items: state => state.items,
+    }),
+  },
+  props: {
+    routineId: Number,
   },
   methods: {
     ...mapActions(useCycleStore, {
-      $setSelectedCycle: 'setSelectedCycle',
+      $createCycle: 'create',
+      $modifyCycle: 'modify',
+      $deleteCycle: 'delete',
+      $getCycle: 'get',
+      $getAllCycles: 'getAll',
+      $setSelectedCycleId: 'setSelectedCycleId',
+      $getSelectedCycleId: 'getSelectedCycleId',
     }),
+    setResult(result) {
+      this.result = result
+    },
+    clearResult() {
+      this.result = null
+    },
+    async getAllCycles(routineId) {
+      try {
+        this.controller = new AbortController()
+        const cycles = await this.$getAllCycles(routineId, this.controller);
+        this.controller = null
+        this.setResult(cycles)
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
+    abort() {
+      this.controller.abort()
+    },
   },
   watch: {
     selectedItem: function() {
-      this.$setSelectedCycle(this.selectedItem)
+      this.$setSelectedCycleId(this.selectedItem)
     },
-  }
+    //Explicar a gasti
+    result: function() {
+      if (this.result.content)
+        this.cycles = this.result.content
+    }
+  },
+  async created() {
+    console.log(this.cycles.length)
+    this.getAllCycles(this.$router.currentRoute.params.id)
+  },
 }
 </script>
 
