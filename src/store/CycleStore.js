@@ -4,7 +4,7 @@ import {CycleApi} from "@/api/cycle";
 export const useCycleStore = defineStore("cycle", {
     state: () => ({
         items: [],
-        selectedCycle: 0
+        selectedCycleId: this.items[0].id,
     }),
     getters: {
         findIndex() {
@@ -14,11 +14,11 @@ export const useCycleStore = defineStore("cycle", {
         }
     },
     actions: {
-        getSelectedCycle() {
-            return this.selectedCycle
+        getSelectedCycleId() {
+            return this.selectedCycleId
         },
-        setSelectedCycle(value) {
-            this.selectedCycle = value
+        setSelectedCycle(index) {
+            this.selectedCycleId = this.items[index].id;
         },
         push(cycle) {
             this.items.push(cycle);
