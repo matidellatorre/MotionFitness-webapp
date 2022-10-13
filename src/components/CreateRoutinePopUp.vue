@@ -5,10 +5,10 @@
       width="500"
     >
       <v-card class="pa-10 rounded-xl">
-        <h1 class="text-center secondary--text mb-5">Routine Name</h1>
-        <h4 class="text-center mlt-4 mb-8">Please enter this routine name to save it</h4>
-        <v-text-field type="text" name="Routine Name" v-model="routine.name" />
-        <v-textarea type="text" name="Detail" v-model="routine.detail" />
+        <h1 class="text-center secondary--text mb-5">New Routine</h1>
+        <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
+        <v-text-field type="text" label="Routine Name" v-model="routine.name" />
+        <v-text-field type="text" label="Description" v-model="routine.detail" />
         <div class="d-flex justify-center my-3">
           <v-btn @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create Routine</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
