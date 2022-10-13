@@ -17,9 +17,7 @@
 import SubHeaderSearch from "@/components/SubHeaderSearch";
 import RoutinesGallery from "@/components/RoutinesGallery";
 import {useSecurityStore} from "@/store/SecurityStore";
-import {Credentials} from "@/api/user";
 import {mapActions, mapState} from "pinia";
-import {Sport} from "@/api/sport";
 import {useRoutineStore} from "@/store/RoutineStore";
 import CreateRoutinePopUp from "@/components/CreateRoutinePopUp";
 
@@ -36,6 +34,9 @@ export default {
     }
   },
   computed: {
+    ...mapState(useRoutineStore, {
+      $routines: state => state.items,
+    }),
     ...mapState(useSecurityStore, {
       $user: state => state.user,
     }),
@@ -53,11 +54,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useSecurityStore, {
-      $getCurrentUser: 'getCurrentUser',
-      $login: 'login',
-      $logout: 'logout',
-    }),
     ...mapActions(useRoutineStore, {
       $createRoutine: 'create',
       $modifyRoutine: 'modify',
@@ -71,34 +67,16 @@ export default {
     clearResult() {
       this.result = null
     },
-    async login() {
-      try {
-        const credentials = new Credentials('johndoe', '1234567890')
-        await this.$login(credentials, true)
-        this.clearResult()
-      } catch (e) {
-        this.setResult(e)
-      }
-    },
-    async logout() {
-      await this.$logout()
-      this.clearResult()
-    },
-    async getCurrentUser() {
-      await this.$getCurrentUser()
-      this.setResult(this.$user)
-    },
-    async createRoutine() {
-      //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
-      const index = Math.floor(Math.random() * (999 - 1) + 1)
-      const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
-      try {
-        this.sport = await this.$createSport(sport);
-        this.setResult(this.sport)
-      } catch (e) {
-        this.setResult(e)
-      }
-    },
+    // async createRoutine() {
+    //   //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
+    //   const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
+    //   try {
+    //     this.sport = await this.$createSport(sport);
+    //     this.setResult(this.sport)
+    //   } catch (e) {
+    //     this.setResult(e)
+    //   }
+    // },
     async modifySport() {
       //IDEM ANTERIOR
       const index = Math.floor(Math.random() * (999 - 1) + 1)
@@ -121,13 +99,9 @@ export default {
         this.setResult(e)
       }
     },
-    async getRoutine() {
-      try {
-        await this.$getRoutine(this.routine.id);
-        this.setResult(this.routine)
-      } catch(e) {
-        this.setResult(e)
-      }
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+      this.setResult(this.$user)
     },
     async getAllRoutines() {
       try {

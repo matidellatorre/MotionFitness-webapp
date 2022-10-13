@@ -29,11 +29,10 @@ class RoutineApi {
 }
 
 class Routine {
-  constructor(id, name, cycles, exercises) {
-    if (id) {
-      this.id = id;
-    }
+  constructor(name, detail) {
     this.name = name;
-    this.detail = `${cycles} cycles, ${exercises} exercises`;
+    this.detail = detail;
+    this.isPublic=true;
+    this.difficulty="rookie";
   }
 }
