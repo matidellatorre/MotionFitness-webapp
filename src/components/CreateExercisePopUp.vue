@@ -15,7 +15,7 @@
         <v-text-field v-if="isRest==false" type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
         <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
         <div>
-          <v-autocomplete
+          <v-combobox
             v-model="selectedExercise"
             :items="this.$exercises"
             item-text="name"
@@ -24,7 +24,7 @@
             hide-no-data
             filled
             label="Filled"
-          ></v-autocomplete>
+          ></v-combobox>
         </div>
         <div class="d-flex justify-center my-3">
           <v-btn @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create Cycle</v-btn>
@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     create() {
+      console.log(this.selectedExercise)
       const res = ExerciseApi.add(this.exercise)
       console.log(res)
       // Se crea bien el ejercicio, falta importar y usar el store de cycleExercises
