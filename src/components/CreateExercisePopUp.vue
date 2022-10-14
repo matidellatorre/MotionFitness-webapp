@@ -17,8 +17,11 @@
         <div>
           <v-autocomplete
             v-model="selectedExercise"
-            :items="exercisesName"
+            :items="this.$exercises"
+            item-text="name"
+            item-value="id"
             dense
+            hide-no-data
             filled
             label="Filled"
           ></v-autocomplete>
