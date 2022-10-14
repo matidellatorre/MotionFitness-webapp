@@ -51,7 +51,7 @@ export default {
       result: null,
       cycleExercise: null,
       controller: null,
-      cycleId: null,
+      // cycleId: null,
       showPopUp: false
     }
   },

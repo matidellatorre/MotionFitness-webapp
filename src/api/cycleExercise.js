@@ -7,8 +7,8 @@ class CycleExerciseApi {
         return `${Api.baseUrl}/cycles${ cycleId ? `/${cycleId}` : ""}/exercises${ exerciseId ? `/${exerciseId}` : ""}`;
     }
 
-    static async add(cycleId, exercise, controller) {
-        return await Api.post(CycleExerciseApi.getUrl(cycleId), true, exercise, controller);
+    static async add(cycleId, exerciseId, cycleExercise, controller) {
+        return await Api.post(CycleExerciseApi.getUrl(cycleId, exerciseId), true, cycleExercise, controller);
     }
 
     static async modify(cycleId, exerciseId, exercise, controller) {

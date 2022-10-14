@@ -50,6 +50,8 @@ import {Exercise} from "@/api/exercise";
 import {CycleExercise} from "@/api/cycleExercise";
 import { mapActions, mapState } from "pinia";
 import { useExerciseStore } from "@/store/ExerciseStore";
+import { useCycleExerciseStore } from "@/store/CycleExerciseStore";
+import { useCycleStore } from "@/store/CycleStore";
 
 export default {
   name: "CreateExercisePopUp",
@@ -58,10 +60,10 @@ export default {
       dialog: this.show,
       isRest: false,
       exercise: new Exercise(null, this.isRest ? "rest" : "exercise"),
-      cycleExercise: new CycleExercise(1, 30, 10),
+      cycleExercise: new CycleExercise(4, 30, 10),
       selectedExercise: '',
       suggestions: false,
-      flteredExercises: Array,
+      filteredExercises: Array,
     }
   },
   props: {
@@ -72,8 +74,11 @@ export default {
       const res = this.filterResult(this.selectedExercise);
       if (res.length===1) {
         console.log("el ejercicio esta creado");
+        this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
       } else {
         console.log("creemos uno nuevo");
+        //crear un nuevo ejercicio
+        //hacer el add Cycle exrcise
       }
     },
     filterExercises() {
@@ -92,10 +97,16 @@ export default {
       $getAllExercises: 'getAll',
       $createExercise: 'create',
     }),
+    ...mapActions(useCycleExerciseStore, {
+      $createCycleExercise: 'create',
+    }),
   },
   computed: {
     ...mapState(useExerciseStore, {
       $exercises: state => state.items,
+    }),
+    ...mapState(useCycleStore, {
+      $cycleId: state => state.selectedCycleId,
     }),
   },
   watch: {
@@ -105,10 +116,7 @@ export default {
     selectedExercise: function() {
       this.filteredExercises = this.filterExercises();
       this.suggestions = this.selectedExercise !== '';
-    }
-    // $exercises: function() {
-    //   this.exercisesName = this.$exercises.map(exercise => exercise.name);
-    // },
+    },
   },
   async created() {
     this.$getAllExercises();

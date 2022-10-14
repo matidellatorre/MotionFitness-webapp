@@ -23,8 +23,8 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         replaceAll(cycleExercises) {
             this.items = cycleExercises;
         },
-        async create(cycleId, cycleExercise) {
-            const result = await CycleExerciseApi.add(cycleId, cycleExercise);
+        async create(cycleId, exerciseId, cycleExercise) {
+            const result = await CycleExerciseApi.add(cycleId, exerciseId, cycleExercise);
             this.push(result);
             return result;
         },
