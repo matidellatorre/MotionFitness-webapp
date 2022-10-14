@@ -31,6 +31,7 @@
 <script>
 import {mapActions, mapState} from "pinia";
 import {useSecurityStore} from "@/store/SecurityStore";
+import {useCycleStore} from "@/store/CycleStore";
 import {useCycleExerciseStore} from "@/store/CycleExerciseStore";
 
 export default {
@@ -43,15 +44,15 @@ export default {
       controller: null,
     }
   },
-  props: {
-    selectedCycleId: Number
-  },
   computed: {
     ...mapState(useSecurityStore, {
       $user: state => state.user,
     }),
     ...mapState(useSecurityStore, {
       $isLoggedIn: 'isLoggedIn'
+    }),
+    ...mapState(useCycleStore, {
+      $selectedCycleId: 'selectedCycleId'
     }),
     canCreate() {
       return this.$isLoggedIn && !this.routine
@@ -73,6 +74,7 @@ export default {
       $deleteCycleExercise: 'delete',
       $getCycleExercise: 'get',
       $getAllCycleExercises: 'getAll',
+      $getSelectedCycleId: 'getSelectedCycleId'
     }),
     setResult(result){
       this.result = result
@@ -140,13 +142,8 @@ export default {
     }
   },
   async created() {
-    if(this.selectedCycleId){
-      this.getAllCycleExercises(this.selectedCycleId)
-    }
-  },
-  watch: {
-    selectedCycleId: function() {
-      this.getAllCycleExercises(this.selectedCycleId)
+    if(this.$getSelectedCycleId){
+      this.getAllCycleExercises(this.$getSelectedCycleId)
     }
   }
 }

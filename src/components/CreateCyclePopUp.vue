@@ -30,7 +30,7 @@ export default {
     return {
       dialog: this.show,
       count: this.cycleCount,
-      cycle: new Cycle(null,this.cycleCount+1,10),
+      cycle: new Cycle(null,this.cycleCount+1,1),
     }
   },
   props: {
