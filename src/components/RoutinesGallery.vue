@@ -2,13 +2,12 @@
   <v-container>
     <v-row justify="start">
       <v-col cols="4" xl="3" v-for="routine in filteredRoutines" :key="routine.id">
-        <router-link :to="{ name: 'details', params: { id: routine.id, routineName: routine.name }}">
           <RoutineCard
               img-src="@/assets/workout_placeholder.png"
               :routine-name=routine.name
               :description=routine.detail
+              :id="routine.id"
           />
-        </router-link>
       </v-col>
     </v-row>
   </v-container >
