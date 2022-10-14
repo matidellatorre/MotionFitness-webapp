@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {Exercise} from "@/api/exercise";
+import {Exercise, ExerciseApi} from "@/api/exercise";
 import {CycleExercise} from "@/api/cycleExercise";
 
 export default {
@@ -42,7 +42,13 @@ export default {
   },
   methods: {
     create() {
-      console.log('ejercicio creado')
+      const res = ExerciseApi.add(this.exercise)
+      console.log(res)
+      // Se crea bien el ejercicio, falta importar y usar el store de cycleExercises
+      // Creo que np hace falta tener un store para Exercise, solo para CycleExercise
+      // if (res.id) {
+      //   CycleExerciseApi.add(3,res.id,this.cycleExercise)
+      // }
     }
   },
   watch: {

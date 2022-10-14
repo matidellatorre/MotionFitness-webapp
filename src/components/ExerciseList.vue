@@ -4,7 +4,7 @@
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-list v-if="result.content" class="justify-center text-center align-center" color="white" width="100%">
+    <v-list v-if="result" class="justify-center text-center align-center" color="white" width="100%">
       <v-list-item v-for="cycleExercise in result.content" :key="cycleExercise.order" class="flex-fill">
         <v-list-item-content>
           <div class="d-flex justify-center">
