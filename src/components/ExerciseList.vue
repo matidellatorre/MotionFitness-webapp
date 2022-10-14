@@ -1,38 +1,31 @@
 <template>
-  <div id="div-container">
-    <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
-      Add exercise
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
-    <v-list v-if="result" class="justify-center text-center align-center" color="white" width="100%">
-      <v-list-item v-for="cycleExercise in result.content" :key="cycleExercise.order" class="flex-fill">
-        <v-list-item-content>
-          <div class="d-flex justify-center">
-            <h3>{{ cycleExercise.exercise.name }}</h3>
-            <v-spacer/>
-            <div class="d-flex">
-              <v-icon>mdi-sync</v-icon>
-              <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.repetitions }} repetitions</p>
-            </div>
-            <div class="d-flex">
-              <v-icon>mdi-clock</v-icon>
-              <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.duration }} seconds</p>
-            </div>
-            <!--          <h3 class="mx-2">{{ cycleExercise.duration }}</h3>-->
-            <!--          Queda comentado por si queremos agregarle que tmb muestre el peso-->
-            <v-spacer/>
-            <v-btn class="mr-4">
-              Edit
-            </v-btn>
-            <v-btn color="red">
-              Delete
-            </v-btn>
+  <v-list v-if="result.content" color="white" width="100%" class="justify-center text-center align-center">
+    <v-list-item class="flex-fill" v-for="cycleExercise in result.content" :key="cycleExercise.order">
+      <v-list-item-content>
+        <div class="d-flex justify-center">
+          <h3>{{cycleExercise.exercise.name}}</h3>
+          <v-spacer />
+          <div class="d-flex">
+            <v-icon>mdi-sync</v-icon>
+            <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.repetitions }} repetitions</p>
           </div>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <CreateExercisePopUp :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
-  </div>
+          <div class="d-flex">
+            <v-icon>mdi-clock</v-icon>
+            <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.duration }} seconds</p>
+          </div>
+<!--          <h3 class="mx-2">{{ cycleExercise.duration }}</h3>-->
+<!--          Queda comentado por si queremos agregarle que tmb muestre el peso-->
+          <v-spacer />
+          <v-btn class="mr-4" >
+            Edit
+          </v-btn>
+          <v-btn color="red">
+            Delete
+          </v-btn>
+        </div>
+      </v-list-item-content>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
@@ -40,11 +33,9 @@ import {mapActions, mapState} from "pinia";
 import {useSecurityStore} from "@/store/SecurityStore";
 import {useCycleStore} from "@/store/CycleStore";
 import {useCycleExerciseStore} from "@/store/CycleExerciseStore";
-import CreateExercisePopUp from "@/components/CreateExercisePopUp";
 
 export default {
   name: "ExerciseList",
-  components: {CreateExercisePopUp},
   data() {
     return {
       cycleExercises: null,
@@ -52,7 +43,6 @@ export default {
       cycleExercise: null,
       controller: null,
       cycleId: null,
-      showPopUp: false
     }
   },
   computed: {
@@ -68,6 +58,15 @@ export default {
     ...mapState(useCycleStore, {
       $cycleExercises: state => state.items,
     }),
+    canCreate() {
+      return this.$isLoggedIn && !this.routine
+    },
+    canOperate() {
+      return this.$isLoggedIn && this.routine
+    },
+    canAbort() {
+      return this.$isLoggedIn && this.controller
+    }
   },
   methods: {
     ...mapActions(useSecurityStore, {
@@ -83,13 +82,13 @@ export default {
     ...mapActions(useCycleStore, {
       $setSelectedCycleId: 'setSelectedCycleId',
     }),
-    setResult(result) {
+    setResult(result){
       this.result = result
     },
     clearResult() {
       this.result = null
     },
-    canInitialize() {
+    canInitialize(){
       return this.cycleExercises.length > 0;
     },
     async getCurrentUser() {
@@ -100,7 +99,7 @@ export default {
       try {
         await this.$getCycleExercise(cycleId, this.cycle.id);
         this.setResult(this.cycle)
-      } catch (e) {
+      } catch(e) {
         this.setResult(e)
       }
     },
@@ -110,7 +109,7 @@ export default {
         const cycleExercises = await this.$getAllCycleExercises(cycleId, this.controller);
         this.controller = null
         this.setResult(cycleExercises)
-      } catch (e) {
+      } catch(e) {
         this.setResult(e)
       }
     },
@@ -119,10 +118,10 @@ export default {
     }
   },
   watch: {
-    $selectedCycleId: function () {
+    $selectedCycleId: function() {
       this.getAllCycleExercises(this.$selectedCycleId);
     },
-    $cycleExercises: function () {
+    $cycleExercises: function() {
       this.$setSelectedCycleId(0);
     }
   },
@@ -136,7 +135,5 @@ export default {
 
 </script>
 <style scoped>
-  #div-container {
-    width: 100%;
-  }
+
 </style>

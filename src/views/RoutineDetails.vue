@@ -1,13 +1,13 @@
 <template>
   <v-main>
-    <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
+    <v-btn large color="secondary" fixed right bottom rounded>
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <SubHeaderSearch :title=$router.currentRoute.params.routineName :has-search-bar=false />
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
-      <LateralList :routine-id="parseInt($router.currentRoute.params.id)" />
+      <LateralList :routine-id="$router.currentRoute.params.id" />
       <ExerciseList />
     </div>
   </v-main>
