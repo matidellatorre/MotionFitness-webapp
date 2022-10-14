@@ -4,19 +4,18 @@
         v-model="selectedItem"
         color="secondary"
     >
-      <v-list-item
-          v-for="(cycle, i) in cycles"
-          :key="i"
-          width="auto"
+      <div
+        v-for="(cycle, i) in cycles"
+        :key="i"
+        class="rounded-0"
       >
-        <v-list-item-content>
-          <v-list-item-title v-text="cycle.name"></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-card flat v-bind:class="{ class1: i==selectedItem, class2: i!=selectedItem}">
+          <v-list-item width="auto">
+            <v-list-item-title v-text="cycle.name"></v-list-item-title>
+          </v-list-item>
+        </v-card>
+      </div>
     </v-list-item-group>
-<!--    <v-list-item-content v-if="addyingCycle" class="pa-0">-->
-<!--      <v-text-field @focusout="addyingCycle=false" v-model="newCycle" class="ma-0 py-0 px-1"></v-text-field>-->
-<!--    </v-list-item-content>-->
     <v-btn class="mt-3" color="secondary" rounded @click="showCyclePopUp=true">
       Add cycle
       <v-icon>mdi-plus</v-icon>
@@ -39,7 +38,7 @@ export default {
     cycle: null,
     controller: null,
     showCyclePopUp: false,
-    cycles: Array
+    cycles: Array,
   }),
   computed: {
     ...mapState(useCycleStore, {
@@ -100,5 +99,14 @@ export default {
 </script>
 
 <style scoped>
-
+.class1 {
+  background-color: white;
+  border-radius: 0px;
+  margin: 0px 0px;
+}
+.class2 {
+  background-color: rgba(168, 162, 157, 0.34);
+  margin: 0.5rem 0.25rem;
+  border-radius: 25px;
+}
 </style>
