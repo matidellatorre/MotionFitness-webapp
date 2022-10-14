@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="div-container">
     <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
       Add exercise
       <v-icon>mdi-plus</v-icon>
@@ -136,5 +136,7 @@ export default {
 
 </script>
 <style scoped>
-
+  #div-container {
+    width: 100%;
+  }
 </style>
