@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-btn large color="secondary" fixed right bottom rounded>
+    <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
