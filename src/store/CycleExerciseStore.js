@@ -25,8 +25,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         },
         async create(cycleId, cycleExercise) {
             const result = await CycleExerciseApi.add(cycleId, cycleExercise);
-            if (!this.findIndex(result))
-                this.push(result);
+            this.push(result);
             return result;
         },
         async modify(cycleId, cycleExercise) {
@@ -52,6 +51,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         },
         async getAll(cycleId, controller) {
             const result = await CycleExerciseApi.getAll(cycleId, controller);
+            this.replaceAll(result);
             return result;
         }
     },

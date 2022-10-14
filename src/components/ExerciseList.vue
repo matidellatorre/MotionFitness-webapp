@@ -55,6 +55,9 @@ export default {
     ...mapState(useCycleStore, {
       $selectedCycleId: 'selectedCycleId'
     }),
+    ...mapState(useCycleStore, {
+      $cycleExercises: state => state.items,
+    }),
     canCreate() {
       return this.$isLoggedIn && !this.routine
     },
@@ -75,13 +78,18 @@ export default {
       $deleteCycleExercise: 'delete',
       $getCycleExercise: 'get',
       $getAllCycleExercises: 'getAll',
-      $getSelectedCycleId: 'getSelectedCycleId'
+    }),
+    ...mapActions(useCycleStore, {
+      $setSelectedCycleId: 'setSelectedCycleId',
     }),
     setResult(result){
       this.result = result
     },
     clearResult() {
       this.result = null
+    },
+    canInitialize(){
+      return this.cycleExercises.length > 0;
     },
     async getCurrentUser() {
       await this.$getCurrentUser()
@@ -112,11 +120,17 @@ export default {
   watch: {
     $selectedCycleId: function() {
       this.getAllCycleExercises(this.$selectedCycleId);
+    },
+    $cycleExercises: function() {
+      this.$setSelectedCycleId(0);
     }
   },
-  async created() {
-    this.getAllCycleExercises(this.$selectedCycleId)
-  }
+  // async created() {
+  //   if(this.canInitialize()){
+  //     this.$setSelectedCycleId(0);
+  //     console.log(this.$selectedCycleId);
+  //   }
+  // }
 }
 
 </script>
