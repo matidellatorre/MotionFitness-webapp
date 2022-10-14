@@ -11,24 +11,31 @@
           <v-btn width="100px" v-bind:color="isRest==false ? 'secondary' : 'white'" @click="isRest=false">Exercise</v-btn>
           <v-btn width="100px" v-bind:color="isRest==true ? 'secondary' : 'white'" @click="isRest=true">Rest</v-btn>
         </div>
-        <v-form @submit.prevent="handleSubmit">
           <v-text-field type="text" label="Name" v-model="exercise.name"/>
           <v-text-field v-if="isRest==false" type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
           <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
           <div>
-            <v-combobox
-              v-model="selectedExercise"
-              :items="this.$exercises"
-              item-text="name"
-              item-value="id"
-              @input="handleInput"
-              dense
-              hide-no-data
-              filled
-              label="Filled"
-            ></v-combobox>
+            <v-text-field v-model="selectedExercise"/>
+              <v-card
+                id="este" v-if="suggestions"
+                class="mx-auto"
+                max-width="300"
+                tile
+                @click="suggestions=false"
+              >
+                <v-list dense>
+                    <v-list-item
+                      v-for="(item, i) in this.filteredExercises"
+                      :key="i"
+                      @click="selectedExercise=item.name"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title v-text="item.name"></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+              </v-card>
           </div>
-        </v-form>
         <div class="d-flex justify-center my-3">
           <v-btn @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create Cycle</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
@@ -52,34 +59,34 @@ export default {
       isRest: false,
       exercise: new Exercise(null, this.isRest ? "rest" : "exercise"),
       cycleExercise: new CycleExercise(1, 30, 10),
-      selectedExercise: null,
-      exercisesName: Array,
+      selectedExercise: '',
+      suggestions: false,
+      flteredExercises: Array,
     }
   },
   props: {
     show: Boolean,
   },
   methods: {
-    handleInput () {
-      this.$nextTick(() => {
-        console.log(this.selectedExercise)
-      })
-    },
-    handleSubmit () {
-      this.selectedExercise = this.value
-    },
     create() {
-      if(this.selectedExercise.id){
+      const res = this.filterResult(this.selectedExercise);
+      if (res.length===1) {
         console.log("el ejercicio esta creado");
-        //Llamo a la funcion de createCycle
       } else {
-
         console.log("creemos uno nuevo");
-        // const res = ExerciseApi.add(this.exercise);
-        // console.log(res);
       }
-
-
+    },
+    filterExercises() {
+      if (this.selectedExercise) {
+        return this.$exercises.filter(exercise => exercise.name.toLowerCase().includes(this.selectedExercise.toLowerCase()))
+      }
+      return null
+    },
+    filterResult() {
+      if (this.selectedExercise) {
+        return this.$exercises.filter(exercise => exercise.name.toLowerCase() === this.selectedExercise.toLowerCase())
+      }
+      return null
     },
     ...mapActions(useExerciseStore, {
       $getAllExercises: 'getAll',
@@ -95,9 +102,13 @@ export default {
     show: function() {
       this.dialog = this.show
     },
-    $exercises: function() {
-      this.exercisesName = this.$exercises.map(exercise => exercise.name);
+    selectedExercise: function() {
+      this.filteredExercises = this.filterExercises();
+      this.suggestions = this.selectedExercise !== '';
     }
+    // $exercises: function() {
+    //   this.exercisesName = this.$exercises.map(exercise => exercise.name);
+    // },
   },
   async created() {
     this.$getAllExercises();
@@ -106,5 +117,9 @@ export default {
 </script>
 
 <style scoped>
-
+#este {
+  position: absolute;
+  background-color: white;
+  z-index: 21;
+}
 </style>
