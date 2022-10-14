@@ -29,10 +29,7 @@ class CycleExerciseApi {
 }
 
 class CycleExercise {
-    constructor(id, order, duration, repetitions) {
-        if (id) {
-            this.id = id;
-        }
+    constructor(order, duration, repetitions) {
         this.order = order;
         this.duration = duration;
         this.repetitions = repetitions;

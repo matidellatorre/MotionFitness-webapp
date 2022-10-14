@@ -92,7 +92,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.cycles.length)
     this.getAllCycles(this.$router.currentRoute.params.id)
   },
 }
