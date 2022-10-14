@@ -42,6 +42,7 @@ export default {
       result: null,
       cycleExercise: null,
       controller: null,
+      cycleId: null,
     }
   },
   computed: {
@@ -86,39 +87,6 @@ export default {
       await this.$getCurrentUser()
       this.setResult(this.$user)
     },
-    // async createRoutine() {
-    //   //FALTA CAMBIAR SPORT POR ROUTINE Y CAMBIAR LA INSTANCIA DEL OBJETO
-    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
-    //   const sport = new Sport(null, `sport ${index}`, `sport ${index}`);
-    //   try {
-    //     this.sport = await this.$createSport(sport);
-    //     this.setResult(this.sport)
-    //   } catch (e) {
-    //     this.setResult(e)
-    //   }
-    // },
-    // async modifySport() {
-    //   //IDEM ANTERIOR
-    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
-    //   this.sport.detail = `sport ${index}`;
-    //
-    //   try {
-    //     this.sport = await this.$modifySport(this.sport);
-    //     this.setResult(this.sport)
-    //   } catch(e) {
-    //     this.setResult(e)
-    //   }
-    // },
-    // async deleteSport() {
-    //   //IDEM
-    //   try {
-    //     await this.$deleteSport(this.sport);
-    //     this.sport = null
-    //     this.clearResult()
-    //   } catch(e) {
-    //     this.setResult(e)
-    //   }
-    // },
     async getCycleExercise(cycleId) {
       try {
         await this.$getCycleExercise(cycleId, this.cycle.id);
@@ -141,10 +109,13 @@ export default {
       this.controller.abort()
     }
   },
-  async created() {
-    if(this.$getSelectedCycleId){
-      this.getAllCycleExercises(this.$getSelectedCycleId)
+  watch: {
+    $selectedCycleId: function() {
+      this.getAllCycleExercises(this.$selectedCycleId);
     }
+  },
+  async created() {
+    this.getAllCycleExercises(this.$selectedCycleId)
   }
 }
 
