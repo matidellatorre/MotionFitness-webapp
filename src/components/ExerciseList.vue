@@ -25,7 +25,7 @@
                     </div>
                   </v-col>
                   <v-col class="d-flex justify-end">
-                    <v-btn outlined class="mr-4">
+                    <v-btn @click="editCycleExercise=cycleExercise; showEdit=true" outlined class="mr-4">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn @click="deleteExercise(cycleExercise)" outlined color="red">
@@ -40,6 +40,7 @@
       </div>
     </v-list>
     <CreateExercisePopUp :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
+    <edit-exercise-pop-up :show="this.showEdit" :editing-cycle-exercise="editCycleExercise" @popUpClosed="showEdit=false"/>
   </div>
 </template>
 
@@ -49,18 +50,20 @@ import {useSecurityStore} from "@/store/SecurityStore";
 import {useCycleStore} from "@/store/CycleStore";
 import {useCycleExerciseStore} from "@/store/CycleExerciseStore";
 import CreateExercisePopUp from "@/components/CreateExercisePopUp";
+import EditExercisePopUp from "@/components/EditExercisePopUp";
 
 export default {
   name: "ExerciseList",
-  components: {CreateExercisePopUp},
+  components: { EditExercisePopUp, CreateExercisePopUp},
   data() {
     return {
       cycleExercises: null,
       result: null,
-      cycleExercise: null,
+      editCycleExercise: null,
       controller: null,
       // cycleId: null,
-      showPopUp: false
+      showPopUp: false,
+      showEdit: false,
     }
   },
   computed: {
