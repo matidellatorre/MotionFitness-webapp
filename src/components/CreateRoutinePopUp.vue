@@ -32,7 +32,7 @@ export default {
       dialog: this.show,
       mail: String,
       code: String,
-      routine: new Routine(null,""),
+      routine: new Routine(null,"",null),
     }
   },
   props: {
@@ -79,29 +79,9 @@ export default {
     clearResult() {
       this.result = null
     },
-    async modifySport() {
-      //IDEM ANTERIOR
-      const index = Math.floor(Math.random() * (999 - 1) + 1)
-      this.sport.detail = `sport ${index}`;
-
-      try {
-        this.sport = await this.$modifySport(this.sport);
-        this.setResult(this.sport)
-      } catch(e) {
-        this.setResult(e)
-      }
-    },
-    async deleteSport() {
-      //IDEM
-      try {
-        await this.$deleteSport(this.sport);
-        this.sport = null
-        this.clearResult()
-      } catch(e) {
-        this.setResult(e)
-      }
-    },
     async create() {
+      const fileName = `routine${Math.floor(Math.random() * 8)+1}.jpeg`
+      this.routine.metadata.image = fileName
       try {
         await this.$createRoutine(this.routine);
         this.setResult(this.routine)

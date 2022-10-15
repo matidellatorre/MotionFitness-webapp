@@ -29,10 +29,13 @@ class RoutineApi {
 }
 
 class Routine {
-  constructor(name, detail) {
+  constructor(name, detail, imageFile) {
     this.name = name;
     this.detail = detail;
     this.isPublic=true;
     this.difficulty="rookie";
+    this.metadata = {
+      image: imageFile
+    }
   }
 }

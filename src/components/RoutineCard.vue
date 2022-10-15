@@ -7,7 +7,7 @@
           transition="scale-transition"
   >
     <v-img
-        src="@/assets/workout_placeholder.png"
+        v-bind:src="require('@/assets/routine-photos/'+routine.metadata.image)"
         height="150px"
     ></v-img>
     <v-card-title>
