@@ -11,32 +11,32 @@
           <v-btn width="100px" v-bind:color="isRest==false ? 'secondary' : 'white'" @click="isRest=false">Exercise</v-btn>
           <v-btn width="100px" v-bind:color="isRest==true ? 'secondary' : 'white'" @click="isRest=true">Rest</v-btn>
         </div>
+        <div>
+          <v-text-field v-model="selectedExercise" label = "Name"/>
+          <v-card
+              id="este" v-if="suggestions"
+              class="mx-auto"
+              max-width="300"
+              tile
+              @click="suggestions=false"
+          >
+            <v-list dense>
+              <v-list-item
+                  v-for="(item, i) in this.filteredExercises"
+                  :key="i"
+                  @click="selectedExercise=item.name"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.name"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </div>
           <v-text-field v-if="isRest==false" type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
           <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
-          <div>
-            <v-text-field v-model="selectedExercise"/>
-              <v-card
-                id="este" v-if="suggestions"
-                class="mx-auto"
-                max-width="300"
-                tile
-                @click="suggestions=false"
-              >
-                <v-list dense>
-                    <v-list-item
-                      v-for="(item, i) in this.filteredExercises"
-                      :key="i"
-                      @click="selectedExercise=item.name"
-                    >
-                      <v-list-item-content>
-                        <v-list-item-title v-text="item.name"></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                </v-list>
-              </v-card>
-          </div>
         <div class="d-flex justify-center my-3">
-          <v-btn @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create Cycle</v-btn>
+          <v-btn @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create {{ isRest?'Rest' : 'Exercise' }}</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
         </div>
       </v-card>
