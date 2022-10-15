@@ -20,6 +20,9 @@ export const useRoutineStore = defineStore("routine", {
         splice(index, routine) {
             this.items.splice(index, 1, routine);
         },
+        remove(index) {
+            this.items.splice(index, 1);
+        },
         replaceAll(routines) {
             this.items = routines;
         },
@@ -41,7 +44,7 @@ export const useRoutineStore = defineStore("routine", {
             await RoutineApi.delete(routine.id);
             const index = this.findIndex(routine);
             if (index >= 0)
-                this.splice(index);
+                this.remove(index);
         },
         async get(routine) {
             const index = this.findIndex(routine);

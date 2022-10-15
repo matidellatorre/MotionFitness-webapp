@@ -20,6 +20,9 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         splice(index, cycleExercise) {
             this.items.splice(index, 1, cycleExercise);
         },
+        remove(index) {
+            this.items.splice(index, 1);
+        },
         replaceAll(cycleExercises) {
             this.items = cycleExercises;
         },
@@ -39,7 +42,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
             await CycleExerciseApi.delete(cycleId, cycleExercise.exercise.id);
             const index = this.findIndex(cycleExercise);
             if (index >= 0)
-                this.splice(index);
+                this.remove(index);
         },
         async get(cycleId, cycle) {
             const index = this.findIndex(cycle);

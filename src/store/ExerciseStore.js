@@ -17,8 +17,11 @@ export const useExerciseStore = defineStore("Exercise", {
         replace(index, exercise) {
             this.items[index] = exercise;
         },
-        splice(index) {
-            this.items.splice(index, 1);
+        splice(index, exercises) {
+            this.items.splice(index, 1, exercises);
+        },
+        remove(index) {
+            this.items.remove(index, 1);
         },
         replaceAll(exercises) {
             this.items = exercises;
@@ -32,14 +35,14 @@ export const useExerciseStore = defineStore("Exercise", {
             const result = await ExerciseApi.modify(exercise);
             const index = this.findIndex(result);
             if (index >= 0)
-                this.replace(index, result);
+                this.splice(index, result);
             return result;
         },
         async delete(exercise) {
             await ExerciseApi.delete(exercise.id);
             const index = this.findIndex(exercise);
             if (index >= 0)
-                this.splice(index);
+                this.remove(index);
         },
         // async get(exercise) {
         //     const index = this.findIndex(exercise);
