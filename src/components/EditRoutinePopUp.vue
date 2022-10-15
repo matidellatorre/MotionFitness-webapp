@@ -10,7 +10,7 @@
         <v-text-field type="text" label="Routine Name" v-model="routine.name" />
         <v-text-field type="text" label="Description" v-model="routine.detail" />
         <div class="d-flex justify-center my-3">
-          <v-btn @click="$emit('popUpClosed'); modifyRoutine()" class="mr-5 rounded-xl" color="secondary">Save Routine</v-btn>
+          <v-btn @click="$emit('popUpClosed'); modifyRoutine()" class="mr-5 rounded-xl" color="secondary">Save</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
         </div>
       </v-card>
@@ -30,17 +30,12 @@ export default {
       dialog: this.show,
       mail: String,
       code: String,
-      routine: Object.assign({},this.routineToEdit)
+      routine: {...this.routineToEdit}
     }
   },
   props: {
     show: Boolean,
     routineToEdit: Object
-  },
-  watch: {
-    show: function() {
-      this.dialog = this.show;
-    },
   },
   methods: {
     ...mapActions(useRoutineStore, {
@@ -62,6 +57,14 @@ export default {
     },
     abort() {
       this.controller.abort()
+    }
+  },
+  watch: {
+    show: function() {
+      this.dialog = this.show;
+    },
+    routineToEdit: function() {
+      this.routine = {...this.routineToEdit};
     }
   },
 };

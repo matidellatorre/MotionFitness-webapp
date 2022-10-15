@@ -67,8 +67,7 @@ export default {
       this.dialog = this.show
     },
     editingCycleExercise: function() {
-      this.cycleExercise = this.editingCycleExercise;
-      this.exercise = this.editingCycleExercise.exercise;
+      this.cycleExercise = {...this.editingCycleExercise};
     }
   },
 };
