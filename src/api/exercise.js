@@ -3,8 +3,8 @@ import { Api } from "./api.js";
 export { ExerciseApi, Exercise }
 
 class ExerciseApi {
-    static getUrl(slug) {
-        return `${Api.baseUrl}/exercises${ slug ? `/${slug}` : ""}`;
+    static getUrl(slug, params) {
+        return `${Api.baseUrl}/exercises${ slug ? `/${slug}` : ""}${ params ? `?${params}` : ""}`;
     }
 
     static async add(exercise, controller) {
@@ -24,7 +24,7 @@ class ExerciseApi {
     }
 
     static async getAll(controller) {
-        return await Api.get(ExerciseApi.getUrl(), true, controller);
+        return await Api.get(ExerciseApi.getUrl(null, `page=0&size=30&orderBy=id&direction=asc`), true, controller);
     }
 }
 

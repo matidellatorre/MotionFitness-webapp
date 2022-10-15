@@ -59,7 +59,7 @@ export default {
       dialog: this.show,
       isRest: false,
       exercise: new Exercise(null, this.isRest ? "rest" : "exercise"),
-      cycleExercise: new CycleExercise(8, 30, 10),
+      cycleExercise: new CycleExercise(null, 30, 10),
       selectedExercise: '',
       suggestions: false,
       filteredExercises: Array,
@@ -75,8 +75,9 @@ export default {
         this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
       } else {
         this.exercise.name=this.selectedExercise;
-        console.log("creemos uno nuevo");
         const newExercise = await this.$createExercise(this.exercise);
+        console.log("Paseeeee");
+        this.cycleExercise.order=this.getMaxOrder()+1;
         this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
         //hacer el add Cycle exrcise
       }
@@ -93,12 +94,16 @@ export default {
       }
       return null
     },
+    getMaxOrder() {
+      return Math.max(...this.$cycleExercises.map(item => item.order));
+    },
     ...mapActions(useExerciseStore, {
       $getAllExercises: 'getAll',
       $createExercise: 'create',
     }),
     ...mapActions(useCycleExerciseStore, {
       $createCycleExercise: 'create',
+      $getMaxOrder: 'getMaxOrder',
     }),
   },
   computed: {
@@ -107,6 +112,9 @@ export default {
     }),
     ...mapState(useCycleStore, {
       $cycleId: state => state.selectedCycleId,
+    }),
+    ...mapState(useCycleExerciseStore, {
+      $cycleExercises: state => state.items,
     }),
   },
   watch: {

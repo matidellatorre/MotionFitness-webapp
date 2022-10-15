@@ -1,6 +1,6 @@
 <template>
   <div id="div-container">
-    <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
+    <v-btn large color="secondary" class="onTop" fixed right bottom rounded @click="showPopUp=true">
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -136,7 +136,10 @@ export default {
 
 </script>
 <style scoped>
-  #div-container {
-    width: 100%;
-  }
+#div-container {
+  width: 100%;
+}
+.onTop{
+  z-index: 20;
+}
 </style>
