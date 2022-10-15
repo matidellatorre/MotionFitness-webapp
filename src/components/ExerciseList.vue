@@ -5,31 +5,33 @@
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-list v-if="result" class="justify-center text-center align-center" color="white" width="100%">
-      <v-list-item v-for="cycleExercise in result.content" :key="cycleExercise.order" class="flex-fill">
-        <v-list-item-content>
-          <div class="d-flex justify-center">
-            <h3>{{ cycleExercise.exercise.name }}</h3>
-            <v-spacer/>
-            <div class="d-flex">
-              <v-icon>mdi-sync</v-icon>
-              <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.repetitions }} repetitions</p>
-            </div>
-            <div class="d-flex">
-              <v-icon>mdi-clock</v-icon>
-              <p class="mx-2 text-md-subtitle-1">{{ cycleExercise.duration }} seconds</p>
-            </div>
-            <!--          <h3 class="mx-2">{{ cycleExercise.duration }}</h3>-->
-            <!--          Queda comentado por si queremos agregarle que tmb muestre el peso-->
-            <v-spacer/>
-            <v-btn class="mr-4">
-              Edit
-            </v-btn>
-            <v-btn color="red">
-              Delete
-            </v-btn>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
+      <div v-for="cycleExercise in result.content" :key="cycleExercise.order">
+        <v-card class="ma-1 elevation-2">
+          <v-list-item>
+            <v-list-item-content class="d-inline-block">
+              <div class="d-flex align-center">
+                <h3>{{ cycleExercise.exercise.name }}</h3>
+              </div>
+              <v-spacer/>
+              <div class="d-flex d-inline-block align-center">
+                <v-icon>mdi-sync</v-icon>
+                <p class="ma-0">{{ cycleExercise.repetitions }} repetitions</p>
+              </div>
+              <div class="d-flex d-inline-block align-center">
+                <v-icon>mdi-clock</v-icon>
+                <p class="ma-0">{{ cycleExercise.duration }} seconds</p>
+              </div>
+              <v-spacer/>
+              <v-btn class="mr-4">
+                Edit
+              </v-btn>
+              <v-btn color="red">
+                Delete
+              </v-btn>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card>
+      </div>
     </v-list>
     <CreateExercisePopUp :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
   </div>
