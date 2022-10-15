@@ -45,7 +45,6 @@ export default {
     cycleToEdit: function () {
       this.cycle = {...this.cycleToEdit}
     },
-
   },
   methods: {
     ...mapActions(useCycleStore, {

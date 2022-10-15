@@ -49,7 +49,7 @@
       Add cycle
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <CreateCyclePopUp v-if="cycles" :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" @popUpClosed="showCyclePopUp=false"/>
+    <CreateCyclePopUp v-if="this.cycles" :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" @popUpClosed="showCyclePopUp=false"/>
     <EditCyclePopUp :show="showEditPopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" :cycle-to-edit="this.cycles[selectedItem]" @popUpClosed="showCyclePopUp=false; showEditPopUp=false"/>
   </v-list>
 </template>
@@ -78,7 +78,7 @@ export default {
       $selectedCycleId: state => state.selectedCycleId,
     }),
     ...mapState(useCycleStore, {
-      $items: state => state.items,
+      $cycles: state => state.items,
     }),
   },
   props: {
@@ -95,7 +95,7 @@ export default {
       $getSelectedCycleId: 'getSelectedCycleId',
     }),
     deleteC() {
-      this.deleteCycle(this.routineId, this.$items[this.selectedItem])
+      this.deleteCycle(this.routineId, this.$cycles[this.selectedItem])
     },
     setResult(result) {
       this.result = result
@@ -129,9 +129,8 @@ export default {
     selectedItem: function() {
       this.$setSelectedCycleId(this.selectedItem)
     },
-    result: function() {
-      if (this.result.content)
-        this.cycles = this.result.content
+    $cycles: function() {
+      this.cycles = this.$cycles;
     }
   },
   async created() {

@@ -17,8 +17,8 @@ export const useRoutineStore = defineStore("routine", {
         replace(index, routine) {
             this.items[index] = routine;
         },
-        splice(index) {
-            this.items.splice(index, 1);
+        splice(index, routine) {
+            this.items.splice(index, 1, routine);
         },
         replaceAll(routines) {
             this.items = routines;
@@ -31,13 +31,8 @@ export const useRoutineStore = defineStore("routine", {
         async modify(routine) {
             const result = await RoutineApi.modify(routine);
             const index = this.findIndex(result);
-            console.log(index)
-            console.log(result)
             if (index >= 0){
-                console.log('Entro!!!')
-                console.log(this.items[index].name)
-                this.replace(index, result);
-                console.log(this.items[index].name)
+                this.splice(index, result);
             }
 
             return result;

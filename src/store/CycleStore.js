@@ -26,14 +26,17 @@ export const useCycleStore = defineStore("cycle", {
         replace(index, cycle) {
             this.items[index] = cycle;
         },
-        splice(index) {
+        splice(index, cycle) {
+            this.items.splice(index, 1, cycle);
+        },
+        remove(index) {
             this.items.splice(index, 1);
         },
         replaceAll(cycles) {
             this.items = cycles;
         },
         async create(routineId, cycle) {
-            const result = await CycleApi.add(routineId, cycle.id, cycle);
+            const result = await CycleApi.add(routineId, cycle);
             this.push(result);
             return result;
         },
@@ -41,14 +44,14 @@ export const useCycleStore = defineStore("cycle", {
             const result = await CycleApi.modify(routineId, cycle.id, cycle);
             const index = this.findIndex(result);
             if (index >= 0)
-                this.replace(index, result);
+                this.splice(index, result);
             return result;
         },
         async delete(routineId, cycle) {
             await CycleApi.delete(routineId, cycle.id);
             const index = this.findIndex(cycle);
             if (index >= 0)
-                this.splice(index);
+                this.remove(index);
         },
         async get(routineId, cycle) {
             const index = this.findIndex(cycle);

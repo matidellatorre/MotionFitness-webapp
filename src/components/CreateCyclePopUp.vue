@@ -36,7 +36,7 @@ export default {
   props: {
     show: Boolean,
     routineId: Number,
-    cycleCount: Number
+    cycleCount: Number,
   },
   watch: {
     show: function() {
@@ -60,28 +60,6 @@ export default {
     clearResult() {
       this.result = null
     },
-    // async modifySport() {
-    //   //IDEM ANTERIOR
-    //   const index = Math.floor(Math.random() * (999 - 1) + 1)
-    //   this.sport.detail = `sport ${index}`;
-    //
-    //   try {
-    //     this.sport = await this.$modifySport(this.sport);
-    //     this.setResult(this.sport)
-    //   } catch(e) {
-    //     this.setResult(e)
-    //   }
-    // },
-    // async deleteSport() {
-    //   //IDEM
-    //   try {
-    //     await this.$deleteSport(this.sport);
-    //     this.sport = null
-    //     this.clearResult()
-    //   } catch(e) {
-    //     this.setResult(e)
-    //   }
-    // },
     async createCycle() {
       try {
         await this.$createCycle(this.routineId, this.cycle);
