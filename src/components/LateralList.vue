@@ -1,5 +1,5 @@
 <template>
-  <v-list flat class="text-center" height="100%" width="18%" elevation="3" color="grey1">
+  <v-list flat class="text-center" height="100%" width="18%" color="grey1">
     <v-list-item-group
         v-model="selectedItem"
         color="secondary"

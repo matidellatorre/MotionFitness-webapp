@@ -4,36 +4,36 @@
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-list v-if="result" class="justify-center text-center align-center" color="white" width="100%">
+    <v-list v-if="result" class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
       <div v-for="cycleExercise in result.content" :key="cycleExercise.order">
         <v-card class="ma-1 elevation-2">
           <v-list-item>
             <v-list-item-content>
-              <div class="d-flex">
-                <div class="d-flex align-center">
-                  <h3>{{ cycleExercise.exercise.name }}</h3>
-                </div>
-                <v-spacer />
-                <div class="d-flex">
-                  <div class="d-flex align-center">
-                    <v-icon>mdi-sync</v-icon>
-                    <p class="ma-0">{{ cycleExercise.repetitions }} repetitions</p>
-                  </div>
-                  <div class="d-flex align-center">
-                    <v-icon>mdi-clock</v-icon>
-                    <p class="ma-0">{{ cycleExercise.duration }} seconds</p>
-                  </div>
-                </div>
-                <v-spacer />
-                <div class="d-flex">
-                  <v-btn class="mr-4">
-                    Edit
-                  </v-btn>
-                  <v-btn color="red">
-                    Delete
-                  </v-btn>
-                </div>
-              </div>
+              <v-container>
+                <v-row>
+                  <v-col class="d-flex align-center">
+                    <h3>{{ cycleExercise.exercise.name }}</h3>
+                  </v-col>
+                  <v-col class="d-flex justify-center">
+                    <div class="d-flex align-center mr-2">
+                      <v-icon>mdi-sync</v-icon>
+                      <p class="ml-1 my-0">{{ cycleExercise.repetitions }} repetitions</p>
+                    </div>
+                    <div class="d-flex align-center ml-2">
+                      <v-icon>mdi-clock</v-icon>
+                      <p class="ml-1 my-0">{{ cycleExercise.duration }} seconds</p>
+                    </div>
+                  </v-col>
+                  <v-col class="d-flex justify-end">
+                    <v-btn class="mr-4">
+                      Edit
+                    </v-btn>
+                    <v-btn color="red">
+                      Delete
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-list-item-content>
           </v-list-item>
         </v-card>
