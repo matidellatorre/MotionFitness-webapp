@@ -134,12 +134,10 @@ export default {
       this.$setSelectedCycleId(0);
     }
   },
-  // async created() {
-  //   if(this.canInitialize()){
-  //     this.$setSelectedCycleId(0);
-  //     console.log(this.$selectedCycleId);
-  //   }
-  // }
+  created() {
+    if(this.$selectedCycleId)
+      this.getAllCycleExercises(this.$selectedCycleId);
+  }
 }
 
 </script>
