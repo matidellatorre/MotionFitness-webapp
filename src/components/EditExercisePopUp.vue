@@ -35,7 +35,7 @@ export default {
     return {
       dialog: this.show,
       exercise: new Exercise(null, "exercise"),
-      cycleExercise: new CycleExercise(this.editingCycleExercise.order, this.editingCycleExercise.duration, this.editingCycleExercise.repetitions),
+      cycleExercise: new CycleExercise(null, 5, 8),
       selectedExercise: '',
     }
   },
@@ -67,6 +67,11 @@ export default {
     show: function() {
       this.dialog = this.show
     },
+    editingCycleExercise: function() {
+      this.cycleExercise.order = this.editingCycleExercise.order;
+      this.cycleExercise.duration = this.editingCycleExercise.duration;
+      this.cycleExercise.repetitions = this.editingCycleExercise.repetitions;
+    }
   },
   created() {
     console.log("Estoy aca");
