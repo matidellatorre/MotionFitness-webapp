@@ -63,41 +63,52 @@
                   <v-card-text class="mt-12">
                     <h1 class="text-center secondary--text">Create Account</h1>
                     <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
-                    <v-form>
+                    <v-form ref="form"
+                            v-model="valid">
                       <v-text-field
                           label="Name"
                           name="Name"
                           prepend-icon="mdi-account"
                           type="text"
                           v-model.trim="newUser.firstName"
-                          color="secondary"/>
+                          color="secondary"
+                          :rules="nameRules"
+                          required/>
                       <v-text-field
                           label="Username"
                           name="Username"
                           prepend-icon="mdi-account"
                           type="text"
                           v-model.trim="newUser.username"
-                          color="secondary"/>
+                          color="secondary"
+                          :rules="usernameRules"
+                          required/>
                       <v-text-field
                           label="Email"
                           name="Email"
                           prepend-icon="mdi-email"
                           type="text"
                           v-model.trim="newUser.email"
-                          color="secondary"/>
+                          color="secondary"
+                          :rules="emailRules"
+                          required/>
                       <v-text-field
                           label="Password"
                           name="Password"
                           prepend-icon="mdi-lock"
                           type="password"
                           v-model.trim="newUser.password"
-                          color="secondary"/>
+                          color="secondary"
+                          :rules="passwordRules"
+                          required/>
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
 <!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
-                    <v-btn rounded color="secondary mb-12" @click="createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
-                    <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false" />
+                    <div class="mb-6 mt-3">
+                      <v-btn :disabled="!valid" rounded color="secondary" @click="validate(); createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
+                    </div>
+                    <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" />
                   </div>
                 </v-col>
               </v-row>
@@ -131,7 +142,23 @@ export default {
       controller: null,
       rememberMe: false,
       showVerificationPopUp: false,
-      newUser: new User,
+      newUser: new User(null,null,null,null),
+      valid: false,
+      nameRules: [
+        v => !!v || 'Name is required',
+      ],
+      usernameRules: [
+        v => !!v || 'Username is required',
+        v => (v && v.length <= 20) || 'Username must be less than 20 characters',
+      ],
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v) || 'Password must contain 8 characters, including one letter and one number',
+      ]
     }
   },
   methods: {
@@ -178,7 +205,11 @@ export default {
     createAccount() {
       //Validacion de los campos antes de llamar a crear usuario
       UserApi.create(this.newUser,this.controller)
-    }
+    },
+    validate () {
+      console.log('Create account!')
+      this.$refs.form.validate()
+    },
   },
   computed: {
     ...mapState(useSecurityStore, {
