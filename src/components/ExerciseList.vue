@@ -8,26 +8,30 @@
       <div v-for="cycleExercise in result.content" :key="cycleExercise.order">
         <v-card class="ma-1 elevation-2">
           <v-list-item>
-            <v-list-item-content class="d-inline-block">
-              <div class="d-flex align-center">
-                <h3>{{ cycleExercise.exercise.name }}</h3>
+            <v-list-item-content>
+              <div class="d-flex">
+                <div class="d-flex align-center">
+                  <h3>{{ cycleExercise.exercise.name }}</h3>
+                </div>
+                <div class="d-flex">
+                  <div class="d-flex align-center">
+                    <v-icon>mdi-sync</v-icon>
+                    <p class="ma-0">{{ cycleExercise.repetitions }} repetitions</p>
+                  </div>
+                  <div class="d-flex align-center">
+                    <v-icon>mdi-clock</v-icon>
+                    <p class="ma-0">{{ cycleExercise.duration }} seconds</p>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <v-btn class="mr-4">
+                    Edit
+                  </v-btn>
+                  <v-btn color="red">
+                    Delete
+                  </v-btn>
+                </div>
               </div>
-              <v-spacer/>
-              <div class="d-flex d-inline-block align-center">
-                <v-icon>mdi-sync</v-icon>
-                <p class="ma-0">{{ cycleExercise.repetitions }} repetitions</p>
-              </div>
-              <div class="d-flex d-inline-block align-center">
-                <v-icon>mdi-clock</v-icon>
-                <p class="ma-0">{{ cycleExercise.duration }} seconds</p>
-              </div>
-              <v-spacer/>
-              <v-btn class="mr-4">
-                Edit
-              </v-btn>
-              <v-btn color="red">
-                Delete
-              </v-btn>
             </v-list-item-content>
           </v-list-item>
         </v-card>
