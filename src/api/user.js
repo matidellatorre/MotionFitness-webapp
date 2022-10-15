@@ -29,6 +29,10 @@ class UserApi {
         //Chequear si deberia ser await
     }
 
+    static async modify(user, controller) {
+        return await Api.post(UserApi.getUrl(''),true, user, controller);
+    }
+
 }
 
 class Credentials {
@@ -43,7 +47,7 @@ class User {
         this.username = username;
         this.password = password;
         this.firstName = name;
-        this.lastName = "a";
+        this.lastName = "";
         this.gender = "male";
         this.birthdate = 0;
         this.email = email;

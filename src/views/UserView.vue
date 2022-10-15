@@ -31,7 +31,7 @@
             disabled
         />
         <div class="d-flex justify-center my-3">
-          <v-btn rounded @click="dialog = false" color="secondary" class="mr-5 rounded-xl" :disabled="wasEdited==false">Save</v-btn>
+          <v-btn rounded @click="saveCurrentUser()" color="secondary" class="mr-5 rounded-xl" :disabled="wasEdited==false">Save</v-btn>
           <v-btn outlined dark color="red" @click="logout(); $router.push('/')" class="ml-5 rounded-xl">Log out</v-btn>
         </div>
       </v-card>
@@ -74,6 +74,7 @@ export default {
       $getCurrentUser: 'getCurrentUser',
       $login: 'login',
       $logout: 'logout',
+      $modifyCurrentUser: 'modifyCurrentUser'
     }),
     setResult(result){
       this.result = JSON.stringify(result, null, 2)
@@ -88,6 +89,9 @@ export default {
     async getCurrentUser() {
       await this.$getCurrentUser()
       this.setResult(this.$user)
+    },
+    async saveCurrentUser() {
+      this.setResult(await this.$modifyCurrentUser())
     },
     abort() {
       this.controller.abort()
