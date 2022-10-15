@@ -55,10 +55,5 @@ export const useSecurityStore = defineStore("security", {
             const result = await UserApi.get();
             this.setUser(result);
         },
-        async modifyCurrentUser(name, avatarUrl) {
-            const user = new User(name,null,null,)
-            const result = await UserApi.modify(partialUser);
-            return result
-        },
     },
 });
