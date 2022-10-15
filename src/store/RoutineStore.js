@@ -31,8 +31,15 @@ export const useRoutineStore = defineStore("routine", {
         async modify(routine) {
             const result = await RoutineApi.modify(routine);
             const index = this.findIndex(result);
-            if (index >= 0)
+            console.log(index)
+            console.log(result)
+            if (index >= 0){
+                console.log('Entro!!!')
+                console.log(this.items[index].name)
                 this.replace(index, result);
+                console.log(this.items[index].name)
+            }
+
             return result;
         },
         async delete(routine) {
