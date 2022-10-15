@@ -7,9 +7,6 @@
       <v-card class="pa-10 rounded-xl justify-center">
         <h1 class="text-center secondary--text mb-5">Edit Exercise</h1>
         <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
-        <div>
-          <v-text-field v-model="selectedExercise" label = "Name"/>
-        </div>
           <v-text-field type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
           <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
         <div class="d-flex justify-center my-3">
@@ -36,7 +33,6 @@ export default {
       dialog: this.show,
       exercise: new Exercise(null, "exercise"),
       cycleExercise: new CycleExercise(null, 5, 8),
-      selectedExercise: '',
     }
   },
   props: {
@@ -72,6 +68,7 @@ export default {
     },
     editingCycleExercise: function() {
       this.cycleExercise = this.editingCycleExercise;
+      this.exercise = this.editingCycleExercise.exercise;
     }
   },
 };
