@@ -84,16 +84,6 @@ export default {
         this.setResult(e)
       }
     },
-    async deleteSport() {
-      //IDEM
-      try {
-        await this.$deleteSport(this.sport);
-        this.sport = null
-        this.clearResult()
-      } catch(e) {
-        this.setResult(e)
-      }
-    },
     async getCurrentUser() {
       await this.$getCurrentUser()
       this.setResult(this.$user)

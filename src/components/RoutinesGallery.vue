@@ -3,10 +3,7 @@
     <v-row justify="start">
       <v-col cols="4" xl="3" v-for="routine in filteredRoutines" :key="routine.id">
           <RoutineCard
-              img-src="@/assets/workout_placeholder.png"
-              :routine-name=routine.name
-              :description=routine.detail
-              :id="routine.id"
+              :routine=routine
           />
       </v-col>
     </v-row>

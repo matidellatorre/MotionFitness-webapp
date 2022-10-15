@@ -32,7 +32,7 @@ export default {
       dialog: this.show,
       mail: String,
       code: String,
-      routine: new Routine,
+      routine: new Routine(null,""),
     }
   },
   props: {
