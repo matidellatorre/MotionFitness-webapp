@@ -10,22 +10,29 @@
                   <v-card-text class="mt-12 px-8 pt-4 pb-0" >
                     <h1 class="text-center secondary--text mb-10">Sign in to Motion Fitness</h1>
                     <h4 class="text-center mlt-4">Please enter your username and password</h4>
-                    <v-form>
+                    <v-form
+                        v-model="validLogin">
                       <v-text-field
                         label="Username"
                         v-model.trim="credentials.username"
                         name="Username"
                         prepend-icon="mdi-account"
                         type="text"
-                        color="secondary"/>
+                        color="secondary"
+                        :rules="usernameRules"
+                        required/>
                       <v-text-field
                           id="password"
                           label="Password"
                           v-model.trim="credentials.password"
                           name="Password"
-                          type="password"
                           prepend-icon="mdi-lock"
                           color="secondary"
+                          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                          :type="show1 ? 'text' : 'password'"
+                          @click:append="show1 = !show1"
+                          :rules="loginPasswordRules"
+                          required
                       />
                       <div class="d-flex align-center mt-1">
                         <v-checkbox v-model="rememberMe" class="ma-0"/>
@@ -34,7 +41,7 @@
                     </v-form>
                   </v-card-text>
                   <div class="text-center mb-12">
-                    <v-btn rounded color="secondary" dark @click="sendcredentials()">LOG IN</v-btn>
+                    <v-btn :disabled="!validLogin" rounded color="secondary" @click="sendcredentials()">LOG IN</v-btn>
                   </div>
                 </v-col>
                 <v-col cols="12" md="4" class="secondary">
@@ -64,7 +71,7 @@
                     <h1 class="text-center secondary--text">Create Account</h1>
                     <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
                     <v-form ref="form"
-                            v-model="valid">
+                            v-model="validSignup">
                       <v-text-field
                           label="Name"
                           name="Name"
@@ -106,7 +113,7 @@
                   <div class="text-center mt-n5">
 <!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
                     <div class="mb-6 mt-3">
-                      <v-btn :disabled="!valid" rounded color="secondary" @click="validate(); createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
+                      <v-btn :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
                     </div>
                     <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" />
                   </div>
@@ -143,7 +150,9 @@ export default {
       rememberMe: false,
       showVerificationPopUp: false,
       newUser: new User(null,null,null,null),
-      valid: false,
+      validLogin: false,
+      validSignup: false,
+      show1: false,
       nameRules: [
         v => !!v || 'Name is required',
       ],
@@ -158,6 +167,9 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required',
         v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v) || 'Password must contain 8 characters, including one letter and one number',
+      ],
+      loginPasswordRules: [
+        v => !!v || 'Password is required',
       ]
     }
   },
