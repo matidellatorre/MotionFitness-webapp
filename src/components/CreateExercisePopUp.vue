@@ -77,7 +77,6 @@ export default {
       } else {
         this.exercise.name=this.selectedExercise;
         const newExercise = await this.$createExercise(this.exercise);
-        console.log("Paseeeee");
         this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
         //hacer el add Cycle exrcise
       }

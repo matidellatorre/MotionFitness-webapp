@@ -17,8 +17,8 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         replace(index, cycleExercise) {
             this.items[index] = cycleExercise;
         },
-        splice(index) {
-            this.items.splice(index, 1);
+        splice(index, cycleExercise) {
+            this.items.splice(index, 1, cycleExercise);
         },
         replaceAll(cycleExercises) {
             this.items = cycleExercises;
@@ -32,7 +32,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
             const result = await CycleExerciseApi.modify(cycleId, cycleExercise.exercise.id, cycleExercise);
             const index = this.findIndex(result);
             if (index >= 0)
-                this.replace(index, result);
+                this.splice(index, result);
             return result;
         },
         async delete(cycleId, cycleExercise) {

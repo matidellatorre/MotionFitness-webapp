@@ -72,18 +72,6 @@ export default {
     clearResult() {
       this.result = null
     },
-    async modifySport() {
-      //IDEM ANTERIOR
-      const index = Math.floor(Math.random() * (999 - 1) + 1)
-      this.sport.detail = `sport ${index}`;
-
-      try {
-        this.sport = await this.$modifySport(this.sport);
-        this.setResult(this.sport)
-      } catch(e) {
-        this.setResult(e)
-      }
-    },
     async getCurrentUser() {
       await this.$getCurrentUser()
       this.setResult(this.$user)
