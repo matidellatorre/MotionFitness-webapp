@@ -15,8 +15,8 @@
     <v-card-subtitle>
       {{ routine.detail }}
     </v-card-subtitle>
-    <v-card-actions class="justify-end">
-      <v-btn width="10" height="40" @click.stop.prevent="deleteR()">
+    <v-card-actions class="justify-end pa-0">
+      <v-btn outlined class="rounded-pill mb-4 mr-4" @click.stop.prevent="deleteR()">
         <v-icon color="red">mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
