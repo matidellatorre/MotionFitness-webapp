@@ -25,11 +25,11 @@
                     </div>
                   </v-col>
                   <v-col class="d-flex justify-end">
-                    <v-btn class="mr-4">
-                      Edit
+                    <v-btn outlined class="mr-4">
+                      <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn color="red">
-                      Delete
+                    <v-btn outlined color="red">
+                      <v-icon color="red">mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>

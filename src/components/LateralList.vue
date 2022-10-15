@@ -3,6 +3,7 @@
     <v-list-item-group
         v-model="selectedItem"
         color="secondary"
+        mandatory
     >
       <div
         v-for="(cycle, i) in cycles"
@@ -101,11 +102,11 @@ export default {
 .class1 {
   background-color: white;
   border-radius: 0px;
-  margin: 0px 0px;
+  margin: 0.5rem 0rem;
 }
 .class2 {
   background-color: rgba(168, 162, 157, 0.34);
   margin: 0.5rem 0.25rem;
-  border-radius: 25px;
+  border-radius: 15px;
 }
 </style>
