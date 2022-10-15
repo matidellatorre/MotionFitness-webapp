@@ -45,7 +45,10 @@ export default {
   },
   methods: {
     async edit() {
-        console.log("saved");
+        this.modifyCycleExercise();
+    },
+    async modifyCycleExercise(){
+      await this.$modifyCycleExercise(this.$cycleId, this.cycleExercise);
     },
     ...mapActions(useExerciseStore, {
       $getAllExercises: 'getAll',
@@ -68,14 +71,9 @@ export default {
       this.dialog = this.show
     },
     editingCycleExercise: function() {
-      this.cycleExercise.order = this.editingCycleExercise.order;
-      this.cycleExercise.duration = this.editingCycleExercise.duration;
-      this.cycleExercise.repetitions = this.editingCycleExercise.repetitions;
+      this.cycleExercise = this.editingCycleExercise;
     }
   },
-  created() {
-    console.log("Estoy aca");
-  }
 };
 </script>
 

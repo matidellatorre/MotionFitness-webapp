@@ -11,8 +11,8 @@ class CycleExerciseApi {
         return await Api.post(CycleExerciseApi.getUrl(cycleId, exerciseId), true, cycleExercise, controller);
     }
 
-    static async modify(cycleId, exerciseId, exercise, controller) {
-        return await Api.put(CycleExerciseApi.getUrl(cycleId, exerciseId), true, exercise, controller);
+    static async modify(cycleId, exerciseId, cycleExercise, controller) {
+        return await Api.put(CycleExerciseApi.getUrl(cycleId, exerciseId), true, cycleExercise, controller);
     }
 
     static async delete(cycleId, exerciseId, controller) {

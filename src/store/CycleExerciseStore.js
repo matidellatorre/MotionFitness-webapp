@@ -29,7 +29,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
             return result;
         },
         async modify(cycleId, cycleExercise) {
-            const result = await CycleExerciseApi.modify(cycleId, cycleExercise);
+            const result = await CycleExerciseApi.modify(cycleId, cycleExercise.exercise.id, cycleExercise);
             const index = this.findIndex(result);
             if (index >= 0)
                 this.replace(index, result);
