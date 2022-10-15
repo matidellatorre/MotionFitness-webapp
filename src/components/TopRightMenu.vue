@@ -9,11 +9,13 @@
       </template>
       <v-list class="pa-0">
         <v-list-item class="clickable" @click="$router.push('/user')">
-          <v-list-item-title>PROFILE</v-list-item-title>
+          <v-icon class="mr-2">mdi-account</v-icon>
+          <v-list-item-title>My profile</v-list-item-title>
         </v-list-item>
         <v-divider />
         <v-list-item class="clickable" @click="logout(); $router.push('/')">
-          <v-list-item-title class="red--text">LOG OUT</v-list-item-title>
+          <v-icon class="mr-2 red--text">mdi-logout</v-icon>
+          <v-list-item-title class="red--text">Log out</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
