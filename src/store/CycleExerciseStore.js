@@ -51,7 +51,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
         },
         async getAll(cycleId, controller) {
             const result = await CycleExerciseApi.getAll(cycleId, controller);
-            this.replaceAll(result);
+            this.replaceAll(result.content);
             return result;
         }
     },

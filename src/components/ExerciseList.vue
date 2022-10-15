@@ -89,21 +89,21 @@ export default {
     clearResult() {
       this.result = null
     },
-    canInitialize() {
-      return this.cycleExercises.length > 0;
-    },
+    // canInitialize() {
+    //   return this.cycleExercises.length > 0;
+    // },
     async getCurrentUser() {
       await this.$getCurrentUser()
       this.setResult(this.$user)
     },
-    async getCycleExercise(cycleId) {
-      try {
-        await this.$getCycleExercise(cycleId, this.cycle.id);
-        this.setResult(this.cycle)
-      } catch (e) {
-        this.setResult(e)
-      }
-    },
+    // async getCycleExercise(cycleId) {
+    //   try {
+    //     await this.$getCycleExercise(cycleId, this.cycle.id);
+    //     this.setResult(this.cycle)
+    //   } catch (e) {
+    //     this.setResult(e)
+    //   }
+    // },
     async getAllCycleExercises(cycleId) {
       try {
         this.controller = new AbortController()

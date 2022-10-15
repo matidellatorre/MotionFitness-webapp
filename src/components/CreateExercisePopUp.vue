@@ -11,7 +11,6 @@
           <v-btn width="100px" v-bind:color="isRest==false ? 'secondary' : 'white'" @click="isRest=false">Exercise</v-btn>
           <v-btn width="100px" v-bind:color="isRest==true ? 'secondary' : 'white'" @click="isRest=true">Rest</v-btn>
         </div>
-          <v-text-field type="text" label="Name" v-model="exercise.name"/>
           <v-text-field v-if="isRest==false" type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
           <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
           <div>
@@ -60,7 +59,7 @@ export default {
       dialog: this.show,
       isRest: false,
       exercise: new Exercise(null, this.isRest ? "rest" : "exercise"),
-      cycleExercise: new CycleExercise(4, 30, 10),
+      cycleExercise: new CycleExercise(8, 30, 10),
       selectedExercise: '',
       suggestions: false,
       filteredExercises: Array,
@@ -70,14 +69,15 @@ export default {
     show: Boolean,
   },
   methods: {
-    create() {
+    async create() {
       const res = this.filterResult(this.selectedExercise);
       if (res.length===1) {
-        console.log("el ejercicio esta creado");
         this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
       } else {
+        this.exercise.name=this.selectedExercise;
         console.log("creemos uno nuevo");
-        //crear un nuevo ejercicio
+        const newExercise = await this.$createExercise(this.exercise);
+        this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
         //hacer el add Cycle exrcise
       }
     },
