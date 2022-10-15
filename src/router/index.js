@@ -7,6 +7,7 @@ import LoginView from "@/views/LoginView";
 import RoutineDetails from "@/views/RoutineDetails";
 import UserView from "@/views/UserView";
 import FAQView from "@/views/FAQView";
+import NotFoundPageView from "@/views/NotFoundPageView";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,10 @@ const routes = [
     path: "/faq",
     name: "faq",
     component: FAQView,
+  },
+  {
+    path: "*",
+    component: NotFoundPageView,
   },
 ];
 
