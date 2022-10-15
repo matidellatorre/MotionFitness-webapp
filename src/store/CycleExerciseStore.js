@@ -6,7 +6,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
     getters: {
         findIndex() {
             return (cycleExercise) => {
-                return this.items.findIndex(item => item.id === cycleExercise.id)
+                return this.items.findIndex(item => item.exercise.id === cycleExercise.exercise.id)
             }
         },
     },
@@ -36,7 +36,7 @@ export const useCycleExerciseStore = defineStore("cycleExercise", {
             return result;
         },
         async delete(cycleId, cycleExercise) {
-            await CycleExerciseApi.delete(cycleId, cycleExercise.id);
+            await CycleExerciseApi.delete(cycleId, cycleExercise.exercise.id);
             const index = this.findIndex(cycleExercise);
             if (index >= 0)
                 this.splice(index);

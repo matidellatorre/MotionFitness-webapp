@@ -4,8 +4,8 @@
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-list v-if="result" class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
-      <div v-for="cycleExercise in result.content" :key="cycleExercise.order">
+    <v-list class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
+      <div v-for="cycleExercise in this.$cycleExercises" :key="cycleExercise.order">
         <v-card class="ma-1 elevation-2">
           <v-list-item>
             <v-list-item-content>
@@ -28,7 +28,7 @@
                     <v-btn outlined class="mr-4">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn outlined color="red">
+                    <v-btn @click="deleteExercise(cycleExercise)" outlined color="red">
                       <v-icon color="red">mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
@@ -74,6 +74,9 @@ export default {
       $selectedCycleId: 'selectedCycleId'
     }),
     ...mapState(useCycleStore, {
+      $cycle: state => state.items,
+    }),
+    ...mapState(useCycleExerciseStore, {
       $cycleExercises: state => state.items,
     }),
   },
@@ -97,9 +100,6 @@ export default {
     clearResult() {
       this.result = null
     },
-    // canInitialize() {
-    //   return this.cycleExercises.length > 0;
-    // },
     async getCurrentUser() {
       await this.$getCurrentUser()
       this.setResult(this.$user)
@@ -122,6 +122,16 @@ export default {
         this.setResult(e)
       }
     },
+    async deleteExercise(cycleExercise) {
+      try{
+        this.controller = new AbortController()
+        const cycleExercises = await this.$deleteCycleExercise(this.$selectedCycleId, cycleExercise, this.controller);
+        this.controller = null
+        this.setResult(cycleExercises)
+      } catch (e) {
+        this.setResult(e)
+      }
+    },
     abort() {
       this.controller.abort()
     }
@@ -130,7 +140,7 @@ export default {
     $selectedCycleId: function () {
       this.getAllCycleExercises(this.$selectedCycleId);
     },
-    $cycleExercises: function () {
+    $cycle: function () {
       this.$setSelectedCycleId(0);
     }
   },
