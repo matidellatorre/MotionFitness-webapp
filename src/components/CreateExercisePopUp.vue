@@ -95,6 +95,8 @@ export default {
       return null
     },
     getMaxOrder() {
+      if(this.$cycleExercises.length===0)
+        return 0;
       return Math.max(...this.$cycleExercises.map(item => item.order));
     },
     ...mapActions(useExerciseStore, {
