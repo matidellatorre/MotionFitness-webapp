@@ -33,12 +33,12 @@ export const useCycleStore = defineStore("cycle", {
             this.items = cycles;
         },
         async create(routineId, cycle) {
-            const result = await CycleApi.add(routineId, cycle);
+            const result = await CycleApi.add(routineId, cycle.id, cycle);
             this.push(result);
             return result;
         },
         async modify(routineId, cycle) {
-            const result = await CycleApi.modify(routineId, cycle);
+            const result = await CycleApi.modify(routineId, cycle.id, cycle);
             const index = this.findIndex(result);
             if (index >= 0)
                 this.replace(index, result);

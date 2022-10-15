@@ -27,7 +27,8 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item @click="modifyC()">
+                <v-list-item-group v-model="selectedContextItem">
+                <v-list-item @click="showEditPopUp=true">
                   <v-icon class="mr-2">mdi-pencil</v-icon>
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item>
@@ -35,6 +36,7 @@
                   <v-icon class="mr-2 red--text">mdi-delete</v-icon>
                   <v-list-item-title class="red--text">Delete</v-list-item-title>
                 </v-list-item>
+                </v-list-item-group>
               </v-list>
             </v-menu>
             <v-list-item-title v-text="cycle.name"></v-list-item-title>
@@ -48,6 +50,7 @@
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <CreateCyclePopUp v-if="cycles" :show="showCyclePopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" @popUpClosed="showCyclePopUp=false"/>
+    <EditCyclePopUp :show="showEditPopUp" :routine-id="this.routineId" :cycle-count="this.cycles.length" :cycle-to-edit="this.cycles[selectedItem]" @popUpClosed="showCyclePopUp=false; showEditPopUp=false"/>
   </v-list>
 </template>
 
@@ -56,16 +59,19 @@
 import {mapActions, mapState} from "pinia";
 import {useCycleStore} from "@/store/CycleStore";
 import CreateCyclePopUp from "@/components/CreateCyclePopUp";
+import EditCyclePopUp from "@/components/EditCyclePopUp";
 
 export default {
-  components: {CreateCyclePopUp},
+  components: {EditCyclePopUp, CreateCyclePopUp},
   data: () => ({
     selectedItem: 0,
+    selectedContextItem: null,
     result: null,
     cycle: null,
     controller: null,
     showCyclePopUp: false,
     cycles: Array,
+    showEditPopUp: false
   }),
   computed: {
     ...mapState(useCycleStore, {
@@ -90,9 +96,6 @@ export default {
     }),
     deleteC() {
       this.deleteCycle(this.routineId, this.$items[this.selectedItem])
-    },
-    modifyC() {
-      //Modify cycle
     },
     setResult(result) {
       this.result = result
