@@ -13,6 +13,7 @@
                 <div class="d-flex align-center">
                   <h3>{{ cycleExercise.exercise.name }}</h3>
                 </div>
+                <v-spacer />
                 <div class="d-flex">
                   <div class="d-flex align-center">
                     <v-icon>mdi-sync</v-icon>
@@ -23,6 +24,7 @@
                     <p class="ma-0">{{ cycleExercise.duration }} seconds</p>
                   </div>
                 </div>
+                <v-spacer />
                 <div class="d-flex">
                   <v-btn class="mr-4">
                     Edit
