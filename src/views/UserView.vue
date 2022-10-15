@@ -4,7 +4,7 @@
       <v-card width="30%" class="d-flex flex-column px-10 pb-10 pt-7 text-center rounded-xl elevation-2" max-width="500" max-height="550" >
       <h1 class="secondary--text">My profile</h1>
         <div class="text-center mt-5">
-          <img src="@/assets/avatar.png" width="150" height="150">
+          <img class="rounded-circle elevation-3" src="@/assets/avatar.png" width="150" height="150">
         </div>
         <v-text-field
             @keydown="wasEdited=true"
