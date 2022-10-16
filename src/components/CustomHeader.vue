@@ -31,7 +31,7 @@
       </div>
     </v-toolbar>
   </nav>
-    <AlertPopUp :show="showAlertPopUp" :message="currentErrorMessage?this.currentErrorMessage:null" @popUpClosed="showAlertPopUp=false" />
+    <AlertPopUp :show="showAlertPopUp" @popUpClosed="showAlertPopUp=false" />
   </div>
 </template>
 
@@ -78,7 +78,6 @@ export default {
       } catch(e) {
         if (e.code) {
           this.showAlertPopUp=true
-          this.currentErrorMessage=e.description
         }
       }
     },
