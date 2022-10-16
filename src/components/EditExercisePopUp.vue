@@ -7,7 +7,7 @@
       <v-card class="pa-10 rounded-xl justify-center">
         <h1 class="text-center secondary--text mb-5">Edit Exercise</h1>
         <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
-          <v-text-field type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
+          <v-text-field v-if="editingCycleExercise.exercise.type==='exercise'" type="number" label="Reps" v-model.number="cycleExercise.repetitions" />
           <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" />
         <div class="d-flex justify-center my-3">
           <v-btn @click="$emit('popUpClosed'); edit()" class="mr-5 rounded-xl" color="secondary">Save</v-btn>

@@ -6,8 +6,8 @@
     </v-btn>
     <v-list v-if="this.$cycleExercises.length!=0" class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
       <div v-for="cycleExercise in this.$cycleExercises" :key="cycleExercise.order">
-        <v-card class="ma-1 elevation-2">
-          <v-list-item>
+        <v-card v-bind:color="cycleExercise.exercise.type==='exercise'?'white':'blue'" class="ma-1 elevation-2">
+          <v-list-item v-bind:class="{dense: cycleExercise.exercise.type==='rest'}">
             <v-list-item-content>
               <v-container>
                 <v-row>
@@ -15,7 +15,7 @@
                     <h3>{{ cycleExercise.exercise.name }}</h3>
                   </v-col>
                   <v-col class="d-flex justify-center">
-                    <div class="d-flex align-center mr-2">
+                    <div v-if="cycleExercise.exercise.type==='exercise'" class="d-flex align-center mr-2">
                       <v-icon>mdi-sync</v-icon>
                       <p class="ml-1 my-0">{{ cycleExercise.repetitions }} repetitions</p>
                     </div>
@@ -163,5 +163,8 @@ export default {
 }
 .onTop{
   z-index: 20;
+}
+.dense{
+  height: 50px;
 }
 </style>

@@ -72,10 +72,12 @@ export default {
     async create() {
       const res = this.filterResult(this.selectedExercise);
       this.cycleExercise.order=this.getMaxOrder()+1;
+
       if (res.length===1) {
         this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
       } else {
         this.exercise.name=this.selectedExercise;
+        this.exercise.type=this.isRest ? "rest" : "exercise";
         const newExercise = await this.$createExercise(this.exercise);
         this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
         //hacer el add Cycle exrcise
