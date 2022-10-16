@@ -1,6 +1,6 @@
 <template>
   <v-main id="main-content">
-    <div class="d-flex justify-center fill-height align-center"  >
+    <div v-if="this.$user" class="d-flex justify-center fill-height align-center"  >
       <v-card width="30%" class="d-flex flex-column px-10 pb-10 pt-7 text-center rounded-xl elevation-2" max-width="500" max-height="550" >
       <h1 class="secondary--text">My profile</h1>
         <div class="text-center mt-5">
@@ -45,7 +45,7 @@ import { useSecurityStore } from "@/store/SecurityStore";
 import { Credentials } from "@/api/user";
 
 export default {
-  name: 'LoginForm',
+  name: 'UserView',
   props: {
     source: String,
   },

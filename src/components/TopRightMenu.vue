@@ -1,10 +1,11 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" v-if="currentUser">
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <div class="d-flex align-center clickable" v-on="on">
-          <p v-if="currentUser" class="mb-0">{{ currentUser.firstName }}</p>
-          <img class = "rounded-circle elevation-5 ml-2" src="@/assets/avatar.png" width="30">
+          <p class="mb-0">{{ currentUser.firstName }}</p>
+          <img v-if="currentUser" class = "rounded-circle elevation-5 ml-2" v-bind:src="currentUser.avatarUrl" width="30">
+<!--          <img v-if="currentUser" class = "rounded-circle elevation-5 ml-2" src="@/assets/avatar.png" width="30">-->
         </div>
       </template>
       <v-list class="pa-0">

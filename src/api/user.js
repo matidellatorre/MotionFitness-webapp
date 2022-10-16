@@ -52,7 +52,7 @@ class User {
         this.birthdate = 0;
         this.email = email;
         this.phone = "0";
-        this.avatarUrl = "https://ibb.co/j53rrL4";
+        this.avatarUrl = "http://i.ibb.co/5k11H8c/avatar.png";
         this.metadata = null;
     }
 }
