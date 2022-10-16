@@ -18,7 +18,9 @@ export const useCycleStore = defineStore("cycle", {
             return this.selectedCycleId
         },
         setSelectedCycleId(index) {
-            this.selectedCycleId = this.items[index].id;
+            if (this.items[index]){
+                this.selectedCycleId = this.items[index].id;
+            }
         },
         push(cycle) {
             this.items.push(cycle);

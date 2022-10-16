@@ -66,7 +66,6 @@ export default {
       result: null,
       editCycleExercise: null,
       controller: null,
-      // cycleId: null,
       showPopUp: false,
       showEdit: false,
     }
@@ -110,14 +109,6 @@ export default {
       await this.$getCurrentUser()
       this.setResult(this.$user)
     },
-    // async getCycleExercise(cycleId) {
-    //   try {
-    //     await this.$getCycleExercise(cycleId, this.cycle.id);
-    //     this.setResult(this.cycle)
-    //   } catch (e) {
-    //     this.setResult(e)
-    //   }
-    // },
     async getAllCycleExercises(cycleId) {
       try {
         this.controller = new AbortController()
