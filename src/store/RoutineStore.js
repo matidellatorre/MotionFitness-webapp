@@ -61,6 +61,10 @@ export const useRoutineStore = defineStore("routine", {
                 this.replaceAll(result.content);
             }
             return result;
+        },
+        async getEveryones(controller) {
+            const result = await RoutineApi.getAll(null, controller);
+            return result;
         }
     },
 });

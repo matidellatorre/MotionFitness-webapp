@@ -24,16 +24,17 @@ class RoutineApi {
   }
 
   static async getAll(userId, controller) {
-    return await Api.get(RoutineApi.getUrl(null, `userId=${userId}&page=0&size=30&orderBy=date&direction=asc`), true, controller);
+    return await Api.get(RoutineApi.getUrl(null, `${userId?`userId=${userId}&` : ""}page=0&size=30&orderBy=date&direction=asc`), true, controller);
   }
 }
 
 class Routine {
-  constructor(name, detail, imageFile) {
+  constructor(name, detail, imageFile)
+  {
     this.name = name;
     this.detail = detail;
-    this.isPublic=true;
-    this.difficulty="rookie";
+    this.isPublic = true;
+    this.difficulty = "rookie";
     this.metadata = {
       image: imageFile
     }
