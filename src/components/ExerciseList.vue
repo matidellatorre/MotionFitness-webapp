@@ -1,7 +1,7 @@
 <template>
   <div id="div-container">
-    <v-btn large color="secondary" class="onTop" fixed right bottom rounded @click="showPopUp=true">
-      Add exercise
+    <v-btn v-if="allowEditing" large color="secondary" class="onTop" fixed right bottom rounded @click="showPopUp=true">
+      <span>Add exercise</span>
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-list v-if="this.$cycleExercises.length!=0" class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
@@ -24,7 +24,7 @@
                       <p class="ml-1 my-0">{{ cycleExercise.duration }} seconds</p>
                     </div>
                   </v-col>
-                  <v-col class="d-flex justify-end">
+                  <v-col v-if="allowEditing" class="d-flex justify-end">
                     <v-btn @click="editCycleExercise=cycleExercise; showEdit=true" outlined class="mr-4">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -40,8 +40,8 @@
       </div>
     </v-list>
     <EmptyState title="You have no exercises in this cycle" subtitle="To create an exercise or a rest, click on the ADD EXERCISE button" v-else />
-    <CreateExercisePopUp :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
-    <edit-exercise-pop-up :show="this.showEdit" :editing-cycle-exercise="editCycleExercise" @popUpClosed="showEdit=false"/>
+    <CreateExercisePopUp v-if="allowEditing" :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
+    <edit-exercise-pop-up v-if="allowEditing" :show="this.showEdit" :editing-cycle-exercise="editCycleExercise" @popUpClosed="showEdit=false"/>
   </div>
 </template>
 
@@ -57,6 +57,9 @@ import EmptyState from "@/components/EmptyState";
 export default {
   name: "ExerciseList",
   components: {EmptyState, EditExercisePopUp, CreateExercisePopUp},
+  props: {
+    allowEditing: Boolean,
+  },
   data() {
     return {
       cycleExercises: null,
@@ -76,10 +79,8 @@ export default {
       $isLoggedIn: 'isLoggedIn'
     }),
     ...mapState(useCycleStore, {
-      $selectedCycleId: 'selectedCycleId'
-    }),
-    ...mapState(useCycleStore, {
       $cycle: state => state.items,
+      $selectedCycleId: 'selectedCycleId',
     }),
     ...mapState(useCycleExerciseStore, {
       $cycleExercises: state => state.items,
