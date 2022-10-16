@@ -3,8 +3,9 @@
     <v-dialog
         v-model="dialog"
         width="500"
+        @click:outside="$emit('popUpClosed')"
     >
-      <v-card class="pa-10 rounded-xl justify-center">
+      <v-card class="pa-10 rounded-xl justify-center" @click="suggestions=false" :ripple="false" flat>
         <h1 class="text-center secondary--text mb-5">Create {{this.isRest?"Rest":"Exercise"}}</h1>
         <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
         <div class="d-flex flex-fill justify-center">
@@ -19,7 +20,6 @@
                 class="mx-auto"
                 max-width="300"
                 tile
-                @click="suggestions=false"
             >
               <v-list dense>
                 <v-list-item

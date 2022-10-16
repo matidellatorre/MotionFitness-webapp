@@ -108,10 +108,10 @@ export default {
       this.getAllRoutines(this.$user.id)
     },
   },
-  // async created() {
-  //   if(this.$user.id)
-  //     this.getAllRoutines(this.$user.id)
-  // }
+  async created() {
+    if(this.$user.id)
+      this.getAllRoutines(this.$user.id)
+  }
 };
 </script>
 
