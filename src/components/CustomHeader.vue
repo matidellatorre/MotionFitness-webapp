@@ -1,4 +1,5 @@
 <template>
+  <div>
   <nav>
     <v-toolbar flat dark color="primary">
       <router-link to="/">
@@ -30,6 +31,8 @@
       </div>
     </v-toolbar>
   </nav>
+    <AlertPopUp :show="showAlertPopUp" :message="currentErrorMessage?this.currentErrorMessage:null" @popUpClosed="showAlertPopUp=false" />
+  </div>
 </template>
 
 <script>
@@ -37,23 +40,47 @@ import TopLeftlogo from "@/components/TopLeftLogo";
 import { useSecurityStore } from "@/store/SecurityStore";
 import { mapActions, mapState } from "pinia";
 import TopRightMenu from "@/components/TopRightMenu";
+import AlertPopUp from "@/components/AlertPopUp";
 
 export default {
   name: "CustomHeader",
   components: {
+    AlertPopUp,
     TopRightMenu,
     TopLeftlogo,
-  },methods: {
+  },
+  data() {
+    return {
+      showAlertPopUp: false,
+      currentErrorMessage: null
+    }
+  },
+  methods: {
     ...mapActions(useSecurityStore, {
       $getCurrentUser: 'getCurrentUser',
       $login: 'login',
       $logout: 'logout',
     }),
     async logout() {
-      await this.$logout()
+      try {
+        await this.$logout()
+      } catch (e) {
+        if (e.code){
+          this.showAlertPopUp=true
+          this.currentErrorMessage = e.description
+        }
+      }
+
     },
     async getCurrentUser() {
-      await this.$getCurrentUser()
+      try {
+        await this.$getCurrentUser()
+      } catch(e) {
+        if (e.code) {
+          this.showAlertPopUp=true
+          this.currentErrorMessage=e.description
+        }
+      }
     },
     abort() {
       this.controller.abort()

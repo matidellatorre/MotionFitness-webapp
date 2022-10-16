@@ -2,9 +2,10 @@
   <v-main id="main-content">
     <SubHeaderSearch @searched="(val) => searchQuery=val"
     title="Explore"
-    subtitle="Top routines by the community"
+    subtitle="Routines created by other users"
     :has-search-bar=true />
-    <RoutinesGallery :routines="this.routines" :search-query="this.searchQuery" :allow-editing=false />
+    <RoutinesGallery v-if="this.routines" :routines="this.routines" :search-query="this.searchQuery" :allow-editing=false />
+    <AlertPopUp :show="showError" @popUpClosed="showError=false" />
   </v-main>
 </template>
 
@@ -14,15 +15,17 @@ import RoutinesGallery from "@/components/RoutinesGallery";
 import { mapActions, mapState } from "pinia";
 import { useRoutineStore } from "@/store/RoutineStore";
 import { useSecurityStore } from "@/store/SecurityStore";
+import AlertPopUp from "@/components/AlertPopUp";
 
 
 export default {
   name: "ExploreView",
-  components: {RoutinesGallery, SubHeaderSearch},
+  components: {AlertPopUp, RoutinesGallery, SubHeaderSearch},
   data() {
     return {
       searchQuery: '',
       routines: null,
+      showError: false
     }
   },
   computed: {
@@ -36,14 +39,26 @@ export default {
       $getEveryones: 'getEveryones',
     }),
     async getEveryones(){
-      return await this.$getEveryones();
+      try {
+        return await this.$getEveryones();
+      } catch (e) {
+        this.showError = true
+      }
+
     },
     async getIntersection() {
-      const everyonesRoutines = await this.getEveryones();
-      if(this.$isLoggedIn)
-        this.routines = everyonesRoutines.content.filter(routine => routine.user.id != this.$user.id);
-      else
-        this.routines = everyonesRoutines.content;
+      let everyonesRoutines = null
+      try {
+        everyonesRoutines = await this.getEveryones();
+      } catch (e) {
+        this.showError = true
+      }
+      if(everyonesRoutines){
+        if(this.$isLoggedIn)
+          this.routines = everyonesRoutines.content.filter(routine => routine.user.id != this.$user.id);
+        else
+          this.routines = everyonesRoutines.content;
+      }
     }
   },
   created() {

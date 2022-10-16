@@ -52,8 +52,11 @@ export const useSecurityStore = defineStore("security", {
         async getCurrentUser() {
             if (this.user)
                 return this.user;
-            const result = await UserApi.get();
-            this.setUser(result);
+            if (this.token) {
+                const result = await UserApi.get();
+                this.setUser(result);
+            }
+
         },
         async modifyCurrentUser(user) {
             const res = await UserApi.modify(user)
