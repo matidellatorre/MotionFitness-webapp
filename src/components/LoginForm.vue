@@ -10,7 +10,7 @@
                   <v-card-text class="mt-12 px-8 pt-4 pb-0" >
                     <h1 class="text-center secondary--text mb-10">Sign in to Motion Fitness</h1>
                     <h4 v-if="!credentialError" class="text-center mlt-4">Please enter your username and password</h4>
-                    <h4 v-if="credentialError" class="text-center red--text mlt-4">{{ this.msg }}, try again</h4>
+                    <h4 v-if="credentialError" class="text-center red--text mlt-4">{{ this.msg }}</h4>
                     <v-form
                         v-model="validLogin">
                       <v-text-field
@@ -52,7 +52,7 @@
                     <h5 class="text-center">Create an account now to start training with us!</h5>
                   </v-card-text>
                   <div class="text-center">
-                    <v-btn rounded outlined dark @click="step++">SIGN UP</v-btn>
+                    <v-btn rounded outlined dark @click="step++;creationError=false;credentialError=false">SIGN UP</v-btn>
                   </div>
                 </v-col>
               </v-row>
@@ -65,13 +65,14 @@
                     <h5 class="text-center">Please log in to continue training with us</h5>
                   </v-card-text>
                   <div class="text-center">
-                    <v-btn rounded outlined dark @click="step--">LOG IN</v-btn>
+                    <v-btn rounded outlined dark @click="step--;creationError=false;credentialError=false">LOG IN</v-btn>
                   </div>
                 </v-col>
                 <v-col cols="12" md="8">
                   <v-card-text class="mt-12">
-                    <h1 class="text-center secondary--text">Create Account</h1>
-                    <h4 class="text-center mt-4">Please enter your information to create a Motion Fitness account</h4>
+                    <h1 class="text-center secondary--text mb-10">Create Account</h1>
+                    <h4 v-if="!creationError" class="text-center mlt-4">Please enter your information to create a Motion Fitness account</h4>
+                    <h4 v-else class="text-center red--text mlt-4">{{ this.msg }}</h4>
                     <v-form ref="form"
                             v-model="validSignup">
                       <v-text-field
@@ -115,7 +116,7 @@
                   <div class="text-center mt-n5">
 <!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
                     <div class="mb-6 mt-3">
-                      <v-btn :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount(); showVerificationPopUp = true">CREATE ACCOUNT</v-btn>
+                      <v-btn :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount()">CREATE ACCOUNT</v-btn>
                     </div>
                     <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" />
                   </div>
@@ -156,6 +157,7 @@ export default {
       msg: '',
       validSignup: false,
       credentialError: false,
+      creationError: false,
       show1: false,
       nameRules: [
         v => !!v || 'Name is required',
@@ -208,9 +210,18 @@ export default {
     abort() {
       this.controller.abort()
     },
-    createAccount() {
-      //Validacion de los campos antes de llamar a crear usuario
-      UserApi.create(this.newUser,this.controller)
+    async createAccount() {
+      try {
+        await UserApi.create(this.newUser,this.controller)
+        this.showVerificationPopUp = true
+      } catch (e) {
+          if(e.code) {
+            if (e.code==2){
+              this.creationError=true;
+              this.msg='Email and/or user already taken. Please use another one.'
+            }
+          }
+      }
     },
     validate () {
       this.$refs.form.validate()
