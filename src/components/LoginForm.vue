@@ -1,5 +1,5 @@
 <template>
-  <v-container class="flex-fill justify-center">
+  <v-container class="flex-fill justify-center limit">
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="8">
         <v-card class="elevation-12 rounded-xl">
@@ -238,4 +238,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.limit{
+  max-width: 1100px;
+  max-height: 450px;
+}
+</style>

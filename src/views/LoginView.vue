@@ -1,6 +1,6 @@
 <template>
   <v-main id="main-content" class="d-flex align-start">
-    <LoginForm class="mt-8"/>
+    <LoginForm class="mt-8 mt-xl-16"/>
   </v-main>
 </template>
 

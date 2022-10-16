@@ -1,10 +1,10 @@
 <template>
   <v-main id="main-content">
-    <div v-if="currentUser" class="d-flex justify-center fill-height align-center"  >
-      <v-card width="30%" class="d-flex flex-column px-10 pb-10 pt-7 text-center rounded-xl elevation-2" max-width="500" max-height="550" >
+    <div v-if="currentUser" class="d-flex justify-center fill-height align-start"  >
+      <v-card width="30%" class="d-flex flex-column px-10 pb-lg-7 pb-xl-10 pt-xl-7 pt-lg-3 mt-8 mt-xl-16 text-center rounded-xl elevation-2" max-width="500px" max-height="550px" >
       <h1 class="secondary--text">My profile</h1>
-        <div class="text-center mt-5">
-          <img v-if="currentUser" class="rounded-circle elevation-3" v-bind:src="this.currentUser.avatarUrl" width="150" height="150">
+        <div class="text-center mt-xl-5 mt-lg-3">
+          <img v-if="currentUser" class="rounded-circle elevation-3" v-bind:src="this.currentUser.avatarUrl" width="150px" height="150px">
         </div>
         <v-text-field
             @keydown="wasEdited=true"
@@ -13,7 +13,7 @@
             type="text"
             v-model="currentUser.firstName"
             color="secondary"
-            class="mt-5" />
+            class="mt-xl-5 mt-lg-3" />
         <v-text-field
             @keydown="wasEdited=true"
             label="Username"
@@ -31,7 +31,7 @@
             color="secondary"
             disabled
         />
-        <div class="d-flex justify-center my-3">
+        <div class="d-flex justify-center my-xl-3 my-lg-0">
           <v-btn rounded @click="saveCurrentUser()" color="secondary" class="mr-5 rounded-xl" :disabled="wasEdited==false">Save</v-btn>
           <v-btn outlined dark color="red" @click="logout(); $router.push('/')" class="ml-5 rounded-xl">Log out</v-btn>
         </div>
