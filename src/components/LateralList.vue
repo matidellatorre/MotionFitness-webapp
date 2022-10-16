@@ -13,7 +13,6 @@
         <v-card flat v-bind:class="{ class1: i==selectedItem, class2: i!=selectedItem}">
           <v-list-item width="auto">
             <v-menu
-                v-if="allowEditing"
                 top
                 offset-y
             >
@@ -46,7 +45,7 @@
         </v-card>
       </div>
     </v-list-item-group>
-    <v-btn v-if="allowEditing" class="mt-3" color="secondary" rounded @click="showCyclePopUp=true">
+    <v-btn class="mt-3" color="secondary" rounded @click="showCyclePopUp=true">
       Add cycle
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -84,7 +83,6 @@ export default {
   },
   props: {
     routineId: Number,
-    allowEditing: Boolean,
   },
   methods: {
     ...mapActions(useCycleStore, {

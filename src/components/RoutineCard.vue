@@ -1,6 +1,6 @@
 <template>
   <div>
-  <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'details', params: { id: routine.id, routineName: routine.name, editable: allowEditing ? 'e':'n' }}">
+  <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'details', params: { id: routine.id, routineName: routine.name }}">
   <v-card  dark
       class="mx-auto rounded-xl ma-3"
       max-width="344"
