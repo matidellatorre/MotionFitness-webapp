@@ -40,7 +40,10 @@ export default {
     },
     async getIntersection() {
       const everyonesRoutines = await this.getEveryones();
-      this.routines = everyonesRoutines.content.filter(routine => routine.user.id != this.$user.id);
+      if(this.$isLoggedIn)
+        this.routines = everyonesRoutines.content.filter(routine => routine.user.id != this.$user.id);
+      else
+        this.routines = everyonesRoutines.content;
     }
   },
   created() {

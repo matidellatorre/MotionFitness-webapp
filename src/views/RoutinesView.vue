@@ -1,6 +1,6 @@
 <template >
   <v-main >
-    <v-btn class="onTop" @click="showCreationPopUp=true;" large color="secondary" fixed right bottom rounded>
+    <v-btn v-if="this.$isLoggedIn" class="onTop" @click="showCreationPopUp=true;" large color="secondary" fixed right bottom rounded>
       Add routine
       <v-icon>mdi-plus</v-icon>
     </v-btn>
