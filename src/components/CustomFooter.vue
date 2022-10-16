@@ -9,21 +9,8 @@
         class="primary text-center"
         width="100%"
     >
-      <v-card-text>
-        <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            class="mx-4 white--text"
-            icon
-        >
-          <v-icon size="24px">
-            {{ icon }}
-          </v-icon>
-        </v-btn>
-      </v-card-text>
-
-      <v-card-text class="white--text pt-0">
-         Your only training app
+      <v-card-text class="white--text mt-4">
+         Your only training App & Web
       </v-card-text>
       <v-btn text class="white--text pt-0 mb-2" @click="$router.push('/faq')">
         Have any questions? See our FAQ here

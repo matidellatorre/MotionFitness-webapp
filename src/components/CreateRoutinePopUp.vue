@@ -28,9 +28,11 @@ import { mapActions, mapState } from "pinia";
 import { useSecurityStore } from "@/store/SecurityStore";
 import { useRoutineStore } from "@/store/RoutineStore";
 import { Routine } from "@/api/routine";
+import AlertPopUp from "@/components/AlertPopUp";
 
 export default {
   name: "CreateRoutinePopUp",
+  components: {AlertPopUp},
   data() {
     return {
       dialog: this.show,

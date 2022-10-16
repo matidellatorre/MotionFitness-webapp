@@ -25,9 +25,11 @@
 
 import { useRoutineStore } from "@/store/RoutineStore";
 import {mapActions} from "pinia";
+import AlertPopUp from "@/components/AlertPopUp";
 
 export default {
   name: "EditRoutinePopUp",
+  components: {AlertPopUp},
   data() {
     return {
       dialog: this.show,
