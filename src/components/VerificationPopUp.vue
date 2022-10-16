@@ -4,7 +4,7 @@
       v-model="dialog"
       width="500"
     >
-      <v-card class="pa-10 rounded-xl">
+      <v-card v-if="mail" class="pa-10 rounded-xl">
         <h1 class="text-center secondary--text mb-5">Email verification</h1>
         <h4 class="text-center mlt-4 mb-8">Please enter the code sent to {{ mail }}</h4>
         <v-otp-input
@@ -17,19 +17,24 @@
         </div>
       </v-card>
     </v-dialog>
+    <AlertPopUp :show="showError" :message="msg" @popUpClosed="showError=false" />
   </div>
 </template>
 
 <script>
 import {UserApi, Verification} from "@/api/user";
+import AlertPopUp from "@/components/AlertPopUp";
 
 export default {
   name: "VerificationPopUp",
+  components: {AlertPopUp},
   data() {
     return {
       dialog: this.show,
       mail: String,
       code: String,
+      showError: false,
+      msg: null
     }
   },
   props: {
@@ -46,9 +51,22 @@ export default {
     }
   },
   methods: {
-    verifyUser(email, code, controller) {
+    async verifyUser(email, code, controller) {
       const ver = new Verification(email, code)
-      UserApi.verify(ver, controller)
+      try {
+        await UserApi.verify(ver, controller)
+      } catch (e) {
+        if (e.code){
+          if (e.code===8){
+            this.msg="The Motion verification code is invalid. Please try again."
+            this.showError=true
+          } else {
+            this.msg=null
+            this.showError=true
+          }
+        }
+      }
+
     }
   }
 };
