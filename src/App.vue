@@ -2,9 +2,7 @@
   <v-app id="app" >
     <CustomHeader />
     <v-main class="contenido">
-      <div v-if="onLine">
-        <router-view :key="$route.path" class="full"/>
-      </div>
+      <router-view v-if="onLine" :key="$route.path" class="full"/>
       <div v-else>
         <NoInternet />
       </div>
