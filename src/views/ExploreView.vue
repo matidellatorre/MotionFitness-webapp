@@ -4,15 +4,16 @@
     title="Explore"
     subtitle="Top routines by the community"
     :has-search-bar=true />
-    <RoutinesGallery :routines="this.routines" :search-query="this.searchQuery" />
+    <RoutinesGallery :routines="this.routines" :search-query="this.searchQuery" :allow-editing=false />
   </v-main>
 </template>
 
 <script>
 import SubHeaderSearch from "@/components/SubHeaderSearch";
 import RoutinesGallery from "@/components/RoutinesGallery";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useRoutineStore } from "@/store/RoutineStore";
+import { useSecurityStore } from "@/store/SecurityStore";
 
 
 export default {
@@ -24,17 +25,26 @@ export default {
       routines: null,
     }
   },
-  methods:{
+  computed: {
+    ...mapState(useSecurityStore, {
+      $user: state => state.user,
+      $isLoggedIn: 'isLoggedIn'
+    }),
+  },
+  methods: {
     ...mapActions(useRoutineStore, {
-      $getEveryones: 'getEveryones'
+      $getEveryones: 'getEveryones',
     }),
     async getEveryones(){
-      const result = await this.$getEveryones();
-      this.routines = result.content;
+      return await this.$getEveryones();
+    },
+    async getIntersection() {
+      const everyonesRoutines = await this.getEveryones();
+      this.routines = everyonesRoutines.content.filter(routine => routine.user.id != this.$user.id);
     }
   },
   created() {
-    this.getEveryones();
+    this.getIntersection();
   }
 };
 </script>
