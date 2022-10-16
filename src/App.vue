@@ -2,12 +2,7 @@
   <v-app id="app" >
     <CustomHeader />
     <v-main class="contenido">
-      <div v-if="onLine">
-        <router-view :key="$route.path" class="full"/>
-      </div>
-      <div v-else>
-        <NoInternet />
-      </div>
+      <router-view :key="$route.path" class="full"/>
     </v-main>
     <custom-footer />
   </v-app>
@@ -16,40 +11,12 @@
 import CustomHeader from "@/components/CustomHeader";
 import { useSecurityStore } from "@/store/SecurityStore";
 import CustomFooter from "@/components/CustomFooter";
-import NoInternet from "@/components/NoInternet";
 export default {
-  components: {NoInternet, CustomFooter, CustomHeader },
-  data() {
-    return {
-      onLine: true,
-    }
-  },
-  methods: {
-    updateOnlineStatus(e) {
-      const {
-        type
-      } = e;
-      this.onLine = type === 'online';
-    }
-  },
+  components: { CustomFooter, CustomHeader },
   async created() {
     const securityStore = useSecurityStore();
     await securityStore.initialize();
-  },
-  mounted() {
-    window.addEventListener('online', this.updateOnlineStatus);
-    window.addEventListener('offline', this.updateOnlineStatus);
-  },
-  watch: {
-    onLine(v) {
-      if (v) {
-        this.showBackOnline = true;
-        setTimeout(() => {
-          this.showBackOnline = false;
-        }, 1000);
-      }
-    }
-  },
+  }
 };
 </script>
 <style>
