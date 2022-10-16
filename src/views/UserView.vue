@@ -1,31 +1,32 @@
 <template>
   <v-main id="main-content">
-    <div v-if="this.$user" class="d-flex justify-center fill-height align-center"  >
+    <div v-if="currentUser" class="d-flex justify-center fill-height align-center"  >
       <v-card width="30%" class="d-flex flex-column px-10 pb-10 pt-7 text-center rounded-xl elevation-2" max-width="500" max-height="550" >
       <h1 class="secondary--text">My profile</h1>
         <div class="text-center mt-5">
-          <img v-if="this.$user" class="rounded-circle elevation-3" v-bind:src="this.$user.avatarUrl" width="150" height="150">
+          <img v-if="currentUser" class="rounded-circle elevation-3" v-bind:src="this.currentUser.avatarUrl" width="150" height="150">
         </div>
         <v-text-field
             @keydown="wasEdited=true"
             label="Name"
             name="Name"
-            :value="this.$user.firstName"
             type="text"
+            v-model="currentUser.firstName"
             color="secondary"
             class="mt-5" />
         <v-text-field
             @keydown="wasEdited=true"
             label="Username"
             name="Username"
-            :value="this.$user.username"
+            v-model="currentUser.username"
             type="text"
             color="secondary"
+            disabled
         />
         <v-text-field
             label="Email"
             name="Email"
-            :value="this.$user.email"
+            v-model="currentUser.email"
             type="text"
             color="secondary"
             disabled
@@ -56,7 +57,8 @@ export default {
       credentials: new Credentials,
       result: null,
       controller: null,
-      wasEdited: false
+      wasEdited: false,
+      currentUser: null
     }
   },
   methods: {
@@ -91,7 +93,9 @@ export default {
       this.setResult(this.$user)
     },
     async saveCurrentUser() {
-      this.setResult(await this.$modifyCurrentUser())
+      console.log('Saving user')
+      const res = await this.$modifyCurrentUser(this.currentUser)
+      this.setResult(res)
     },
     abort() {
       this.controller.abort()
@@ -105,6 +109,14 @@ export default {
       $isLoggedIn: 'isLoggedIn',
     }),
   },
+  watch: {
+    $user: function() {
+      this.currentUser = {...this.$user}
+    }
+  },
+  created() {
+    this.currentUser = this.$user
+  }
 };
 </script>
 
