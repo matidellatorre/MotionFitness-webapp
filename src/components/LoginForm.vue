@@ -182,7 +182,6 @@ export default {
   methods: {
     async sendcredentials() {
       this.login();
-      await this.getCurrentUser();
     },
     ...mapActions(useSecurityStore, {
       $getCurrentUser: 'getCurrentUser',
@@ -192,6 +191,7 @@ export default {
     async login() {
       try {
         await this.$login(this.credentials, this.rememberMe)
+        await this.getCurrentUser();
         this.$router.push('/routines')
       } catch (e) {
         if(e.code===4) {
