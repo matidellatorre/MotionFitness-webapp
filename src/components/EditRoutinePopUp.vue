@@ -7,14 +7,17 @@
       <v-card class="pa-10 rounded-xl">
         <h1 class="text-center secondary--text mb-5">Edit Routine</h1>
         <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
-        <v-text-field type="text" label="Routine Name" v-model="routine.name" />
-        <v-text-field type="text" label="Description" v-model="routine.detail" />
+        <v-form ref="form" v-model="validRoutine">
+          <v-text-field type="text" label="Routine Name" v-model="routine.name" :rules="nameRules" required />
+          <v-text-field type="text" label="Description" v-model="routine.detail" />
+        </v-form>
         <div class="d-flex justify-center my-3">
-          <v-btn @click="$emit('popUpClosed'); modifyRoutine()" class="mr-5 rounded-xl" color="secondary">Save</v-btn>
+          <v-btn :disabled="!validRoutine" @click="$emit('popUpClosed'); modifyRoutine()" class="mr-5 rounded-xl" color="secondary">Save</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
         </div>
       </v-card>
     </v-dialog>
+    <AlertPopUp :show="showError" @popUpClosed="showError=false" />
   </div>
 </template>
 
@@ -30,7 +33,12 @@ export default {
       dialog: this.show,
       mail: String,
       code: String,
-      routine: {...this.routineToEdit}
+      routine: {...this.routineToEdit},
+      validRoutine: false,
+      nameRules: [
+        v => !!v || 'Name is required',
+      ],
+      showError: false
     }
   },
   props: {
@@ -41,18 +49,11 @@ export default {
     ...mapActions(useRoutineStore, {
       $modifyRoutine: 'modify',
     }),
-    setResult(result){
-      this.result = result
-    },
-    clearResult() {
-      this.result = null
-    },
     async modifyRoutine() {
       try {
-        const response = await this.$modifyRoutine(this.routine);
-        this.setResult(response)
+        await this.$modifyRoutine(this.routine)
       } catch(e) {
-        this.setResult(e)
+        this.showError=true
       }
     },
     abort() {
