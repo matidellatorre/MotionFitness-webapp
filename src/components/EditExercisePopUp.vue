@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div v-if="editingCycleExercise" class="text-center">
     <v-dialog
         v-model="dialog"
         width="500"

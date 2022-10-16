@@ -21,12 +21,10 @@ class UserApi {
 
     static async create(user, controller) {
         return await Api.post(UserApi.getUrl(''),true, user, controller);
-        //Chequear si deberia ser await
     }
 
     static async verify(verification, controller) {
         return await Api.post(UserApi.getUrl('verify_email'),true, verification, controller);
-        //Chequear si deberia ser await
     }
 
     static async modify(user, controller) {

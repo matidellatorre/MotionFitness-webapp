@@ -17,7 +17,7 @@
       {{ routine.detail }}
     </v-card-subtitle>
     <v-card-actions v-if="allowEditing" class="justify-end pa-0">
-      <v-btn outlined class="rounded-pill mb-4 mr-4" @click.stop.prevent="showEditingPopUp=true">
+      <v-btn outlined class="rounded-pill mb-4 mr-1" @click.stop.prevent="showEditingPopUp=true">
         <v-icon color="white">mdi-pencil</v-icon>
       </v-btn>
       <v-btn outlined class="rounded-pill mb-4 mr-4" @click.stop.prevent="deleteR()">
