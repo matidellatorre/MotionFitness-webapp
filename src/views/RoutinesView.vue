@@ -9,10 +9,16 @@
       subtitle="This are your routines"
       :has-search-bar=true />
     <RoutinesGallery v-if="this.$routines.length!==0" :routines="this.$routines" :search-query="this.searchQuery" :allow-editing=true />
-    <v-sheet v-else id="fullheight">
-      <img id="emptyState" src="@/assets/dumbbell.png">
+    <v-sheet v-else-if="this.$isLoggedIn" class="fullheight">
+      <img class="emptyState" src="@/assets/dumbbell.png">
       <div>
-        <h3 id="emptymsg">You have no routines.<br>To create one, click on the ADD ROUTINE button</h3>
+        <h3 class="emptymsg">You have no routines.<br>To create one, click on the ADD ROUTINE button</h3>
+      </div>
+    </v-sheet>
+    <v-sheet v-else class="fullheight">
+      <img class="emptyState" src="@/assets/dumbbell.png">
+      <div>
+        <h3 class="emptymsg">Log in or sign up<br>to see and create routines</h3>
       </div>
     </v-sheet>
     <CreateRoutinePopUp :show="showCreationPopUp" @popUpClosed="showCreationPopUp=false" />
@@ -102,9 +108,10 @@ export default {
       this.getAllRoutines(this.$user.id)
     },
   },
-  async created() {
-    this.getAllRoutines(this.$user.id)
-  }
+  // async created() {
+  //   if(this.$user.id)
+  //     this.getAllRoutines(this.$user.id)
+  // }
 };
 </script>
 
@@ -112,17 +119,17 @@ export default {
 .onTop {
   z-index: 20;
 }
-#emptyState{
+.emptyState{
   width: 100px;
   margin-right: 0.5rem;
 }
-#fullheight{
+.fullheight{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80%
 }
-#emptymsg{
+.emptymsg{
   color: rgb(189,189,189);
 }
 </style>

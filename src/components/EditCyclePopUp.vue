@@ -22,6 +22,7 @@
 
 import { mapActions } from "pinia";
 import {useCycleStore} from "@/store/CycleStore";
+import { Cycle } from "@/api/cycle";
 
 export default {
   name: "EditCyclePopUp",
@@ -29,7 +30,7 @@ export default {
     return {
       dialog: this.show,
       count: this.cycleCount,
-      cycle: null
+      cycle: new Cycle('', 0, 0),
     }
   },
   props: {
@@ -54,27 +55,18 @@ export default {
       $getCycle: 'get',
       $getAllCycle: 'getAll'
     }),
-    setResult(result){
-      this.result = result
-    },
-    clearResult() {
-      this.result = null
-    },
     async modifyCycle() {
       try {
-        const res = await this.$modifyCycle(this.routineId, this.cycle);
-        this.setResult(res)
+        await this.$modifyCycle(this.routineId, this.cycle);
       } catch(e) {
-        this.setResult(e)
+        console.log(e);
       }
     },
     async createCycle() {
       try {
-        console.log(this.cycle)
-        const res = await this.$createCycle(this.routineId, this.cycle);
-        this.setResult(res)
+        await this.$createCycle(this.routineId, this.cycle);
       } catch(e) {
-        this.setResult(e)
+        console.log(e);
       }
     },
     abort() {

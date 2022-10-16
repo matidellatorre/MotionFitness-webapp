@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       dialog: this.show,
-      exercise: new Exercise(null, "exercise"),
-      cycleExercise: new CycleExercise(null, 5, 8),
+      exercise: new Exercise('', "exercise"),
+      cycleExercise: new CycleExercise(0, 5, 8),
     }
   },
   props: {
@@ -44,7 +44,11 @@ export default {
         this.modifyCycleExercise();
     },
     async modifyCycleExercise(){
-      await this.$modifyCycleExercise(this.$cycleId, this.cycleExercise);
+      try {
+        await this.$modifyCycleExercise(this.$cycleId, this.cycleExercise);
+      } catch (e) {
+        console.log(e);
+      }
     },
     ...mapActions(useExerciseStore, {
       $getAllExercises: 'getAll',

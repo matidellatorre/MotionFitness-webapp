@@ -56,27 +56,19 @@ export default {
     async deleteRoutine() {
       try {
         await this.$deleteRoutine(this.routine);
-        this.clearResult()
       } catch(e) {
-        this.setResult(e)
+        console.log(e);
       }
     },
     deleteR(){
       this.deleteRoutine()
     },
   },
-  setResult(result){
-    this.result = result
-  },
-  clearResult() {
-    this.result = null
-  },
   async deleteRoutine() {
     try {
       await this.$deleteRoutine(this.routine.id);
-      this.clearResult()
     } catch(e) {
-      this.setResult(e)
+      console.log(e);
     }
   },
 };
