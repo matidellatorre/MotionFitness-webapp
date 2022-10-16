@@ -9,7 +9,8 @@
                 <v-col cols="12" md="8">
                   <v-card-text class="mt-12 px-8 pt-4 pb-0" >
                     <h1 class="text-center secondary--text mb-10">Sign in to Motion Fitness</h1>
-                    <h4 class="text-center mlt-4">Please enter your username and password</h4>
+                    <h4 v-if="!credentialError" class="text-center mlt-4">Please enter your username and password</h4>
+                    <h4 v-if="credentialError" class="text-center red--text mlt-4">{{ this.msg }}, try again</h4>
                     <v-form
                         v-model="validLogin">
                       <v-text-field
@@ -43,6 +44,7 @@
                   <div class="text-center mb-12">
                     <v-btn :disabled="!validLogin" rounded color="secondary" @click="sendcredentials()">LOG IN</v-btn>
                   </div>
+<!--                  <error-pop-up :show="credentialError" :msg="msg" @popUpClosed="credentialError=false" />-->
                 </v-col>
                 <v-col cols="12" md="4" class="secondary">
                   <v-card-text class="white--text mt-12">
@@ -151,7 +153,9 @@ export default {
       showVerificationPopUp: false,
       newUser: new User(null,null,null,null),
       validLogin: false,
+      msg: '',
       validSignup: false,
+      credentialError: false,
       show1: false,
       nameRules: [
         v => !!v || 'Name is required',
@@ -175,32 +179,23 @@ export default {
   },
   methods: {
     async sendcredentials() {
-      await this.login();
+      this.login();
       await this.getCurrentUser();
-    },
-    async talogueado() {
-      await this.logout();
-      console.log(this.$isLoggedIn);
-      console.log(this.$user);
     },
     ...mapActions(useSecurityStore, {
       $getCurrentUser: 'getCurrentUser',
       $login: 'login',
       $logout: 'logout',
     }),
-    setResult(result){
-      //this.result = JSON.stringify(result, null, 2) No sirve pasarlo a string
-      this.result = result
-    },
-    clearResult() {
-      this.result = null
-    },
     async login() {
       try {
         await this.$login(this.credentials, this.rememberMe)
-        this.clearResult()
+        this.$router.push('/routines')
       } catch (e) {
-        this.setResult(e)
+        if(e.code===4) {
+          this.credentialError=true;
+          this.msg=e.description
+        }
       }
     },
     async logout() {
@@ -209,7 +204,6 @@ export default {
     },
     async getCurrentUser() {
       await this.$getCurrentUser()
-      this.setResult(this.$user)
     },
     abort() {
       this.controller.abort()
@@ -219,7 +213,6 @@ export default {
       UserApi.create(this.newUser,this.controller)
     },
     validate () {
-      console.log('Create account!')
       this.$refs.form.validate()
     },
   },

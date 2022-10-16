@@ -22,11 +22,11 @@
         elevation="10"
         rounded
         @click="$router.push('/login')"
-        v-if="this.$isLoggedIn == false"
+        v-if="!this.$isLoggedIn"
         >Sign Up / Log in</v-btn
       >
       <div class="d-flex align-center" v-else>
-        <top-right-menu />
+        <top-right-menu v-if="this.$isLoggedIn" />
       </div>
     </v-toolbar>
   </nav>
@@ -51,11 +51,9 @@ export default {
     }),
     async logout() {
       await this.$logout()
-      this.clearResult()
     },
     async getCurrentUser() {
       await this.$getCurrentUser()
-      this.setResult(this.$user)
     },
     abort() {
       this.controller.abort()
