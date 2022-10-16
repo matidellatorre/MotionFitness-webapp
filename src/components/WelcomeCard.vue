@@ -2,7 +2,7 @@
   <v-sheet
     color="white"
     width="35%"
-    height="80%"
+    height="70%"
     class="rounded-xl text-center pa-9 d-flex flex-column justify-space-around mb-6"
     id="sheet-container"
   >
