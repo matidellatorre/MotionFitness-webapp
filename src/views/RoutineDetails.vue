@@ -1,14 +1,10 @@
 <template>
   <v-main>
-    <v-btn large color="secondary" fixed right bottom rounded @click="showPopUp=true">
-      Add exercise
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
     <SubHeaderSearch :title=$router.currentRoute.params.routineName :has-search-bar=false />
     <ThirdHeader left-text="Cycles" right-text="Exercices"></ThirdHeader>
     <div class="d-flex flex-fill fill-height">
-      <LateralList :routine-id="parseInt($router.currentRoute.params.id)" />
-      <ExerciseList />
+      <LateralList :routine-id="parseInt($router.currentRoute.params.id)" :allow-editing="allowEditing" />
+      <ExerciseList :allow-editing="allowEditing" />
     </div>
   </v-main>
 </template>
@@ -22,6 +18,11 @@ import ExerciseList from "@/components/ExerciseList";
 export default {
   name: "RoutinesView",
   components: {ExerciseList, LateralList, ThirdHeader, SubHeaderSearch },
+  data() {
+    return {
+      allowEditing: this.$router.currentRoute.params.editable==='e',
+    }
+  }
 };
 </script>
 

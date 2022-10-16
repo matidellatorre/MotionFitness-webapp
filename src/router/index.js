@@ -33,7 +33,7 @@ const routes = [
     component: RoutinesView,
   },
   {
-    path: "/routines/:id-:routineName",
+    path: "/routines/:id-:routineName-:editable",
     name: "details",
     component: RoutineDetails,
   },
