@@ -18,7 +18,7 @@
         </div>
       </v-card>
     </v-dialog>
-    <AlertPopUp :show="showError" :message="msg" @popUpClosed="showError=false" />
+    <AlertPopUp :show="showError" @popUpClosed="showError=false" />
   </div>
 </template>
 
