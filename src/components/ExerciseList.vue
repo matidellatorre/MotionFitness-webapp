@@ -4,7 +4,7 @@
       Add exercise
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-list class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
+    <v-list v-if="this.$cycleExercises.length!=0" class="justify-center text-center align-center py-1 pr-2 pl-4" color="white" width="100%">
       <div v-for="cycleExercise in this.$cycleExercises" :key="cycleExercise.order">
         <v-card class="ma-1 elevation-2">
           <v-list-item>
@@ -39,6 +39,7 @@
         </v-card>
       </div>
     </v-list>
+    <EmptyState title="You have no exercises in this cycle" subtitle="To create an exercise or a rest, click on the ADD EXERCISE button" v-else />
     <CreateExercisePopUp :show="this.showPopUp" @popUpClosed="showPopUp=false"/>
     <edit-exercise-pop-up :show="this.showEdit" :editing-cycle-exercise="editCycleExercise" @popUpClosed="showEdit=false"/>
   </div>
@@ -51,10 +52,11 @@ import {useCycleStore} from "@/store/CycleStore";
 import {useCycleExerciseStore} from "@/store/CycleExerciseStore";
 import CreateExercisePopUp from "@/components/CreateExercisePopUp";
 import EditExercisePopUp from "@/components/EditExercisePopUp";
+import EmptyState from "@/components/EmptyState";
 
 export default {
   name: "ExerciseList",
-  components: { EditExercisePopUp, CreateExercisePopUp},
+  components: {EmptyState, EditExercisePopUp, CreateExercisePopUp},
   data() {
     return {
       cycleExercises: null,
