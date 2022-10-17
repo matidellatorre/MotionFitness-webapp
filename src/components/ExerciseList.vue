@@ -15,11 +15,11 @@
                     <h3>{{ cycleExercise.exercise.name }}</h3>
                   </v-col>
                   <v-col class="d-flex justify-center">
-                    <div v-if="cycleExercise.exercise.type==='exercise'" class="d-flex align-center mr-2">
+                    <div v-if="cycleExercise.exercise.type==='exercise' && cycleExercise.repetitions !== 0" class="d-flex align-center mr-2">
                       <v-icon>mdi-sync</v-icon>
                       <p class="ml-1 my-0">{{ cycleExercise.repetitions }} repetitions</p>
                     </div>
-                    <div class="d-flex align-center ml-2">
+                    <div v-if="cycleExercise.duration !== 0" class="d-flex align-center ml-2">
                       <v-icon>mdi-clock</v-icon>
                       <p class="ml-1 my-0">{{ cycleExercise.duration }} seconds</p>
                     </div>
