@@ -116,7 +116,7 @@
                   <div class="text-center mt-n5">
 <!--                    <v-btn rounded color="secondary mb-12" @click="createAccount();this.showPopup = true;console.log(newUser.email)">CREATE ACCOUNT</v-btn>-->
                     <div class="mb-6 mt-3">
-                      <v-btn :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount()">CREATE ACCOUNT</v-btn>
+                      <v-btn :loading="loading" :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount()">CREATE ACCOUNT</v-btn>
                     </div>
                     <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" />
                   </div>
@@ -159,6 +159,7 @@ export default {
       credentialError: false,
       creationError: false,
       show1: false,
+      loading: false,
       nameRules: [
         v => !!v || 'Name is required',
       ],
@@ -212,16 +213,18 @@ export default {
     },
     async createAccount() {
       try {
+        this.loading=true;
         await UserApi.create(this.newUser,this.controller)
         this.showVerificationPopUp = true
       } catch (e) {
-          if(e.code) {
-            if (e.code==2){
-              this.creationError=true;
-              this.msg='Email and/or user already taken. Please use another one.'
-            }
+        if(e.code) {
+          if (e.code===2){
+            this.creationError=true;
+            this.msg='Email and/or user already taken. Please use another one.'
           }
+        }
       }
+      this.loading=false;
     },
     validate () {
       this.$refs.form.validate()
