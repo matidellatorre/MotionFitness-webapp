@@ -70,7 +70,7 @@ export default {
       dialog: this.show,
       isRest: false,
       exercise: new Exercise(null, this.isRest ? "rest" : "exercise"),
-      cycleExercise: new CycleExercise,
+      cycleExercise: new CycleExercise(null, 30, 10),
       selectedExercise: '',
       suggestions: false,
       filteredExercises: Array,
