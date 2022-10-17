@@ -42,7 +42,8 @@ export default {
   props: {
     show: Boolean,
     email: String,
-    controller: Object
+    controller: Object,
+    newUser: Object,
   },
   watch: {
     show: function() {
@@ -65,8 +66,6 @@ export default {
       const ver = new Verification(email, code)
       try {
         await UserApi.verify(ver, controller)
-        console.log("siuu")
-        console.log(this.newUser.username)
         await this.$login(new Credentials(this.newUser.username, this.newUser.password), true)
         await this.getCurrentUser();
         this.$router.push('/routines')

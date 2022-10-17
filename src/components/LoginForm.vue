@@ -118,7 +118,7 @@
                     <div class="mb-6 mt-3">
                       <v-btn :loading="loading" :disabled="!validSignup" rounded color="secondary" @click="validate(); createAccount()">CREATE ACCOUNT</v-btn>
                     </div>
-                    <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" />
+                    <verification-pop-up :show=showVerificationPopUp :email=newUser.email :controller=this.controller @popUpClosed="showVerificationPopUp=false;step=1" :new-user="newUser" />
                   </div>
                 </v-col>
               </v-row>
