@@ -22,8 +22,10 @@
 </template>
 
 <script>
-import {UserApi, Verification} from "@/api/user";
+import { Credentials, UserApi, Verification } from "@/api/user";
 import AlertPopUp from "@/components/AlertPopUp";
+import { mapActions } from "pinia";
+import { useSecurityStore } from "@/store/SecurityStore";
 
 export default {
   name: "VerificationPopUp",
@@ -51,10 +53,23 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useSecurityStore, {
+      $getCurrentUser: 'getCurrentUser',
+      $login: 'login',
+      $logout: 'logout',
+    }),
+    async getCurrentUser() {
+      await this.$getCurrentUser()
+    },
     async verifyUser(email, code, controller) {
       const ver = new Verification(email, code)
       try {
         await UserApi.verify(ver, controller)
+        console.log("siuu")
+        console.log(this.newUser.username)
+        await this.$login(new Credentials(this.newUser.username, this.newUser.password), true)
+        await this.getCurrentUser();
+        this.$router.push('/routines')
       } catch (e) {
         if (e.code){
           if (e.code===8){
