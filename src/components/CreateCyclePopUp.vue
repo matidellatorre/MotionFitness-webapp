@@ -9,7 +9,7 @@
         <h4 class="text-center mlt-4 mb-8">Please complete the fields below</h4>
         <v-form ref="form" v-model="validCycle">
           <v-text-field type="text" label="Cycle Name" v-model="cycle.name" :rules="nameRules" required />
-          <v-text-field type="number" label="Reps" v-model.number="cycle.repetitions" />
+          <v-text-field type="number" label="Reps" v-model.number="cycle.repetitions" :rules="numberRules" />
         </v-form>
         <div class="d-flex justify-center my-3">
           <v-btn :disabled="!validCycle" @click="$emit('popUpClosed'); createCycle()" class="mr-5 rounded-xl" color="secondary">Create Cycle</v-btn>
@@ -41,6 +41,9 @@ export default {
       showError: false,
       nameRules: [
         v => !!v || 'Name is required',
+      ],
+      numberRules: [
+        num => num > 0 || 'The number must be grater than zero',
       ],
     }
   },
