@@ -22,7 +22,7 @@ export default {
 
 <style scoped>
 #main-content {
-  background: url("@/assets/bg2.jpg");
+  background: url("@/assets/gym.jpg");
   background-size: cover;
   align-items: center;
 }
