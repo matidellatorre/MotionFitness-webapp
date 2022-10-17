@@ -34,11 +34,17 @@
               </v-list>
             </v-card>
           </div>
-          <v-text-field v-if="isRest==false" type="number" label="Reps" v-model.number="cycleExercise.repetitions" :rules="numberRules" />
-          <v-text-field type="number" label="Duration" v-model.number="cycleExercise.duration" :rules="numberRules" />
+          <v-row>
+            <v-checkbox v-model="hasReps"/>
+            <v-text-field v-if="isRest==false" :disabled="!hasReps" type="number" label="Reps" v-model.number="cycleExercise.repetitions" :rules="numberRules" />
+          </v-row>
+          <v-row>
+            <v-checkbox v-model="hasDuration"/>
+            <v-text-field type="number" :disabled="!hasDuration" label="Duration" v-model.number="cycleExercise.duration" :rules="numberRules" />
+          </v-row>
         </v-form>
         <div class="d-flex justify-center my-3">
-          <v-btn :disabled="!validRoutine" @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create {{ isRest?'Rest' : 'Exercise' }}</v-btn>
+          <v-btn :disabled="!validRoutine || (!hasReps && !hasDuration)" @click="$emit('popUpClosed'); create()" class="mr-5 rounded-xl" color="secondary">Create {{ isRest?'Rest' : 'Exercise' }}</v-btn>
           <v-btn outlined dark color="red" @click="$emit('popUpClosed')" class="ml-5 rounded-xl">Cancel</v-btn>
         </div>
       </v-card>
@@ -75,7 +81,9 @@ export default {
       numberRules: [
         num => num > 0 || 'The number must be grater than zero',
       ],
-      showError: false
+      showError: false,
+      hasReps: true,
+      hasDuration: false
     }
   },
   props: {
@@ -85,7 +93,12 @@ export default {
     async create() {
       const res = this.filterResult(this.selectedExercise);
       this.cycleExercise.order=this.getMaxOrder()+1;
-
+      if (!this.hasReps){
+        this.cycleExercise.repetitions = 0
+      }
+      if (!this.hasDuration){
+        this.cycleExercise.duration = 0
+      }
       if (res.length===1) {
         try {
           this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
