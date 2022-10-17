@@ -23,6 +23,7 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
+                    class="mr-2"
                 >
                   <v-icon color="black">mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -41,7 +42,7 @@
               </v-list>
             </v-menu>
             <v-list-item-title v-text="cycle.name"></v-list-item-title>
-            <v-chip color="blue" dark >{{ cycle.repetitions }}</v-chip>
+            <v-chip class="ml-4" color="blue" dark >{{ cycle.repetitions }}</v-chip>
           </v-list-item>
         </v-card>
       </div>
