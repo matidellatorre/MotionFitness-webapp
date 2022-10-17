@@ -43,6 +43,7 @@
         </div>
       </v-card>
     </v-dialog>
+    <AlertPopUp :show="showError" />
   </div>
 </template>
 
@@ -53,9 +54,11 @@ import { mapActions, mapState } from "pinia";
 import { useExerciseStore } from "@/store/ExerciseStore";
 import { useCycleExerciseStore } from "@/store/CycleExerciseStore";
 import { useCycleStore } from "@/store/CycleStore";
+import AlertPopUp from "@/components/AlertPopUp";
 
 export default {
   name: "CreateExercisePopUp",
+  components: {AlertPopUp},
   data() {
     return {
       dialog: this.show,
@@ -72,6 +75,7 @@ export default {
       numberRules: [
         num => num > 0 || 'The number must be grater than zero',
       ],
+      showError: false
     }
   },
   props: {
@@ -83,13 +87,20 @@ export default {
       this.cycleExercise.order=this.getMaxOrder()+1;
 
       if (res.length===1) {
-        this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
+        try {
+          this.$createCycleExercise(this.$cycleId, res[0].id, this.cycleExercise);
+        } catch (e) {
+          this.showError = true
+        }
       } else {
         this.exercise.name=this.selectedExercise;
         this.exercise.type=this.isRest ? "rest" : "exercise";
         const newExercise = await this.$createExercise(this.exercise);
-        this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
-        //hacer el add Cycle exrcise
+        try {
+          this.$createCycleExercise(this.$cycleId, newExercise.id, this.cycleExercise);
+        } catch (e) {
+          this.showError = true
+        }
       }
     },
     filterExercises() {
